@@ -331,6 +331,12 @@ RECAPTCHA_PRIVATE_KEY = os.getenv(
 RECAPTCHA_SITE_KEY = os.environ.get(
     "RECAPTCHA_SITE_KEY")
 
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+        'fontNames': ['Lato', 'Roboto'],
+        'fontNamesIgnoreCheck': ['Lato', 'Roboto'],
+    },
+}
 
 # Configure Whitenoise to handle static files
 # this is for Django versions olderthan 4.2
