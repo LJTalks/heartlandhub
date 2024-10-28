@@ -27,10 +27,16 @@
                         <div class="card-body">
                             <a href="{% url 'post_detail' post.slug %}" class="post-link">
                                 <h2 class="card-title">{{ post.title }}</h2>
-                                <p class="card-text">{{ post.excerpt }}</p>
+                                <p class="card-text">
+                                    {% if post.excerpt %}
+                                        {{ post.excerpt | safe }}
+                                    {% else %} 
+                                        {{ post.content|truncatechars_html:150 | safe }}
+                                    {% endif %}
+                                </p>
                             </a>
                             <hr />
-                            <p class="card-text text-muted h6">{{ post.created_on }}</p>
+                            <p class="card-text text-muted h6">{{ post.publish_date }}</p>
                         </div>
                     </div>
                 </div>
@@ -51,13 +57,13 @@
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="page-link btn">&laquo; PREV</a>
                 </li>
                 {% endif %}
                 
                 {% if page_obj.has_next %}
                 <li class="page-item">
-                    <a href="?page={{ page_obj.next_page_number }}" class="page-link">NEXT &raquo;</a>
+                    <a href="?page={{ page_obj.next_page_number }}" class="page-link page-link-btn">NEXT &raquo;</a>
                 </li>
                 {% endif %}
             </ul>

@@ -3,9 +3,9 @@
 {% load static %}
 
 <!-- Meta tags for the blog index page -->
-{% block excerpt %}
-<meta name="description" content="{{ post.excerpt }}">
-{% endblock excerpt %}
+{% block meta_description %}
+<meta name="description" content="{{ post.meta_description|default:post.content|truncatechars:160 }}">
+{% endblock meta_description %}
 
 {% block seo_tags %}
 <meta name="keywords" content="{{ post.seo_tags }}">
@@ -13,7 +13,7 @@
 
 {% block content %}
 <!-- Post Details -->
-<div class="container-fluid masthead my-3">
+<div class="container-fluid masthead my-3 col-12">
     <div class="row g-0">
         <!-- Post title and date -->
         <div class="col-md-6">
@@ -23,11 +23,14 @@
 
         <!-- Post Masthead Image -->
         <div class="col-md-6 d-none d-md-block">
-            {% if "placeholder" in post.featured_image.url %}
-            <img src="{% static 'images/default.jpg' %}" class="img-fluid rounded w-100" alt="placeholder" style="object-fit: cover; height: 250px;">
-            {% else %}
-            <img src="{{ post.featured_image.url }}" class="img-fluid rounded" alt="{{ post.title }}" style="object-fit: cover; height: 250px;">
-            {% endif %}
+            <div class="image-container">
+                {% if "placeholder" in post.featured_image.url %}
+                <img src="{% static 'images/default.jpg' %}" class="img-fluid rounded w-100" alt="placeholder" style="object-fit: cover; height: 250px;">
+                {% else %}
+                <img src="{{ post.featured_image.url }}" class="img-fluid rounded" alt="{{ post.alt_text | default:post.title }}" style="object-fit: cover; height: 250px;">
+                <small class="text-muted img-credit">{{ post.image_credit }}</small>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
@@ -40,9 +43,11 @@
         </strong>
     </div>
     <div class="col-6 text-right text-end">
-        <strong class="text-secondary">
-            <i class="far fa-comments"></i> {{ blog_comment_count }} Comments
-        </strong>
+        <a href="#comments-section" class="text-secondary">
+            <strong class="text-secondary">
+                <i class="far fa-comments"></i> {{ blog_comment_count }} Comments
+            </strong>
+        </a>
     </div>
     <div class="col-12">
         <hr />
@@ -61,7 +66,7 @@
 </div>
 
 <!-- Displaying Comments -->
-<div class="container col-md-12">
+<div class="container col-md-12" id="comments-section">
     <div class="row">
         <div class="col-md-8 card mb-4 mt-3">
             <h3>Comments:</h3>
@@ -69,7 +74,12 @@
             <div class="card-body">
                 {% for blog_comment in blog_comments %}
                 <div class="p-2 comments {% if blog_comment.status == 0 and blog_comment.author == user %} faded{% elif blog_comment.status == 0 %} d-none{% endif %}">
-                    <p class="font-weight-bold">{{ blog_comment.author }}
+                    <p class="font-weight-bold">
+                        {% if blog_comment.author %}
+                            {{ blog_comment.author.username }}
+                        {% else %}
+                            Deleted User
+                        {% endif %}
                         <span class="font-weight-normal"> {{ blog_comment.created_on }} </span> wrote:
                     </p>
                     <div id="blog_comment{{ blog_comment.id }}">
@@ -103,8 +113,8 @@
                 </form>
                 {% else %}
                 <p>You must log in to leave a comment</p>
-                <a href="{% url 'account_login' %}" class="btn btn-primary btn-sm me-2">Sign In</a>
-                <a href="{% url 'account_signup' %}" class="btn btn-secondary btn-sm me-2">Register</a>
+                <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-primary btn-sm me-2">Log In</a>
+                <a href="{% url 'account_signup' %}?next={{ request.path }}" class="btn btn-secondary btn-sm me-2">Register</a>
                 {% endif %}
             </div>
         </div>

@@ -1,11 +1,18 @@
-import datetime
-from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    reverse,
+    redirect,
+    HttpResponseRedirect
+)
+from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
-from .models import Post, BlogComment
+from .models import Post, BlogComment, ViewRecord
 from django.http import HttpResponseRedirect
 from .forms import BlogCommentForm
 from django.contrib.auth.models import User
+import datetime
 
 
 # Unsubscribe view, maybe not the best app for it?
@@ -26,7 +33,7 @@ def about_me(request):
 
 
 class PostList(generic.ListView):
-    queryset = Post.objects.filter(status=1).order_by("-created_on")
+    queryset = Post.objects.filter(status=1).order_by("-publish_date")
     template_name = "blog/post_list.html"
     paginate_by = 6
 
@@ -36,39 +43,28 @@ def post_detail(request, slug):
     # Get the current post
     post = get_object_or_404(queryset, slug=slug)
     
-    # View count logic
+    # Track Total no of page views (using sessions to avoid dupes)
     session_key = f"viewed_post_{post.id}"
-    now = datetime.datetime.now()
-    timeout_hours = 2  # Time limit for session based counting
-    
-    # Retrieve last viewed time from the session
-    last_viewed = request.session.get(session_key)
-    
-    # Check if last_viewed value is valid (datetime), if not reset it
-    if last_viewed:
-        try:
-            last_viewed = datetime.datetime.fromisoformat(last_viewed)
-        except (ValueError, TypeError):
-            last_viewed = None
-            
-    # If last viewed in None or timeoout has passed, increment view count
-    if (
-        not last_viewed or
-        (now - last_viewed).total_seconds() / 3600 >= timeout_hours
-    ):
+    if not request.session.get(session_key, False):
         post.views += 1
         post.save()
-        # Store the currenttime in the session
-        request.session[session_key] = now.isoformat()
+        request.session[session_key] = True
+   
+    # Track views for logged-in users (for recommendations)
+    if request.user.is_authenticated:
+        # Check ifthe logged in user has already viewed this post
+        if not post.viewed_by.filter(id=request.user.id).exists():
+            post.viewed_by.add(request.user)
     
     # Get the previous post    
     previous_post = Post.objects.filter(
-        created_on__lt=post.created_on, status=1).order_by(
-            '-created_on').first()
+        publish_date__lt=post.publish_date, status=1).order_by(
+            '-publish_date').first()
+
     # Get the next post
     next_post = Post.objects.filter(
-        created_on__gt=post.created_on, status=1).order_by(
-            'created_on').first()
+        publish_date__gt=post.publish_date, status=1).order_by(
+            'publish_date').first()
 
     # Get comments
     blog_comments = post.blog_comments.all().order_by("-created_on")
@@ -103,6 +99,7 @@ def post_detail(request, slug):
             "blog_comment_form": blog_comment_form,
         },
     )
+    # return render(request, 'blog/post_detail.html', {'post': post})
 
 
 def blog_comment_edit(request, slug, blog_comment_id):
