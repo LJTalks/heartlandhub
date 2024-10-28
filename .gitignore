@@ -13,4 +13,3 @@ backup_db.sh
 .env.production
 sqlbackups/
 ljblogs-backup/
-
