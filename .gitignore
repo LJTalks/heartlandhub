@@ -11,3 +11,4 @@ blog/fixtures/
 backup_db.sh
 .env
 .env.production
+sqlbackups/
