@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-<!-- Overwrite the SEO tags for the blog index page if needed -->
 {% block seo_tags %}
 <!-- Add any custom meta tags here -->
 {% endblock seo_tags %}
@@ -8,10 +7,10 @@
 {% block content %}
 {% load static %}
 
-<!-- post_list.html content starts here -->
+<!-- post_list content -->
 <div class="container-fluid">
     <div class="row">
-        <!-- Blog Entries Column -->
+        <!-- Post Entries Column -->
         <div class="col-12 mt-3 left">
             <div class="row">
                 {% for post in post_list %}
@@ -40,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Add a row break every 3 posts -->
+                <!-- Row break every 3 posts -->
                 {% if forloop.counter|divisibleby:3 %}
             </div>
             <div class="row">

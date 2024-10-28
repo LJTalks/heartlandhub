@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-<!-- Meta tags for the blog index page -->
+<!-- Meta tags -->
 {% block meta_description %}
 <meta name="description" content="{{ post.meta_description|default:post.content|truncatechars:160 }}">
 {% endblock meta_description %}
@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<!-- Displaying count of post views and comments -->
+<!-- Displaying post views and comments count -->
 <div class="row">
     <div class="col-6">
         <strong class="text-secondary">

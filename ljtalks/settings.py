@@ -93,24 +93,8 @@ DATABASES = {
 }
 print(os.getenv("DATABASE_URL"))
 
-
-# Identify which database is connected for reference
-# DATABASE_NAME = "Development Database" if os.getenv(
-#     "DEV_DATABASE_URL") else "Production Database"
-# print(f"Connected to: {DATABASE_NAME}")
-
-
-# USE AS DEFAULT Automatic switch between remote and deployed
-# DATABASES = {
-#     'default': dj_database_url.parse(
-#         os.getenv("DEV_DATABASE_URL", os.getenv(
-#             "DATABASE_URL"))
-#     )
-# }
-
-
-# Banner display condition
-SHOW_DEV_BANNER = os.getenv("SHOW_DEV_BANNER", "False") == "True"
+# # Banner display condition
+# SHOW_DEV_BANNER = os.getenv("SHOW_DEV_BANNER", "False") == "True"
 
 # Application definition
 INSTALLED_APPS = [

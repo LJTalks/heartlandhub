@@ -10,10 +10,10 @@
                 <form method="POST" action="{% url 'email_signup' %}?next={{ request.GET.next|default_if_none:'' }}">
                     {% csrf_token %}
 
-                    <!-- Display email field differently based on user authentication -->
+                    <!-- Email field prefilled if user is authenticated -->
                     <div class="form-group mb-3">
                         {% if request.user.is_authenticated %}
-                            <p>Email: <strong>{{ form.email.value }}</strong></p>  <!-- Show the email as plain text for logged-in users -->
+                            <p>Email: <strong>{{ form.email.value }}</strong></p>  <!-- Email as plain text for logged-in users -->
                         {% else %}
                             <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
                             {{ form.email }}<br>  <!-- Allow unregistered users to edit their email -->

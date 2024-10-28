@@ -1,59 +1,52 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Script loaded");
-
-    const listTypeCheckboxes = document.querySelectorAll("input[name='list_type']");
-    const unsubscribeModal = new bootstrap.Modal(document.getElementById("unsubscribeModal"));
-    const confirmUnsubscribeButton = document.getElementById("confirmUnsubscribe");
-    const unsubscribedCheckbox = document.getElementById("unsubscribedCheckbox");
-    const form = document.querySelector("form");
-    let isUnsubscribing = false;  // To track whether the user confirmed unsubscribing
-
+    console.log("Script loaded")
+    const editButtons = document.getElementsByClassName("btn-edit");
+    const blogCommentText = document.getElementById("id_body");
+    const blogCommentForm = document.getElementById("blogCommentForm");
+    const submitButton = document.getElementById("submitButton");
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+    const deleteButtons = document.getElementsByClassName("btn-delete");
+    const deleteConfirm = document.getElementById("deleteConfirm");
     /**
-     * Function to check if all checkboxes are unchecked
+     * Initializes edit functionality for the provided edit buttons.
+     * 
+     * For each button in the `editButtons` collection:
+     * - Retrieves the associated comment's ID upon click.
+     * - Fetches the content of the corresponding comment.
+     * - Populates the `commentText` input/textarea with the comment's content for editing.
+     * - Updates the submit button's text to "Update".
+     * - Sets the form's action attribute to the `edit_comment/{commentId}` endpoint.
      */
-    function checkAllUnchecked() {
-        return Array.from(listTypeCheckboxes).every(checkbox => !checkbox.checked);
+    for (let button of editButtons) {
+        button.addEventListener("click", (e) => {
+            let blogCommentId = e.target.getAttribute("blog_comment_id");
+            let blogCommentContent = document.getElementById(
+                `blog_comment${blogCommentId}`).innerText;
+            // Populate the form's textarea with the comment content
+            blogCommentText.value = blogCommentContent;
+            // Change the submit button text to 'Update'
+            submitButton.innerText = "Update";
+            // Update the form's action URL to point to the edit view
+            blogCommentForm.setAttribute("action", `edit_blog_comment/${blog_commentId}`);
+        });
     }
-
     /**
-     * Event listener for the form submit event
-     * If all checkboxes are unchecked, trigger the confirmation modal.
+     * Initializes deletion functionality for the provided delete buttons.
+     * 
+     * For each button in the `deleteButtons` collection:
+     * - Retrieves the associated comment's ID upon click.
+     * - Updates the `deleteConfirm` link's href to point to the 
+     * deletion endpoint for the specific comment.
+     * - Displays a confirmation modal (`deleteModal`) to prompt 
+     * the user for confirmation before deletion.
      */
-    form.addEventListener("submit", function (e) {
-        if (checkAllUnchecked() && !isUnsubscribing) {
-            e.preventDefault();  // Prevent form submission
-            unsubscribeModal.show();  // Show the confirmation modal
-        }
-    });
-
-    /**
-     * Event listener for the unsubscribe confirmation button
-     * If confirmed, check the 'Unsubscribed' checkbox and allow form submission.
-     */
-    confirmUnsubscribeButton.addEventListener("click", function () {
-        isUnsubscribing = true;
-        console.log("Form submit triggered!");
-
-        // Add 'Unsubscribed' to the list if no other lists are selected
-        if (checkAllUnchecked()) {
-            console.log("No list selected. Adding 'Unsubscribed'.");
-            if (unsubscribedCheckbox) {
-                unsubscribedCheckbox.checked = true;
-            } else {
-                console.error("'Unsubscribed' checkbox not found.");
-            }
-        }
-
-        // Log form data just before submission for debugging purposes
-        const formData = new FormData(form);
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
-
-        console.log("Unsubscribing: submitting form...");
-        unsubscribeModal.hide();  // Hide the modal
-        form.submit();  // Submit the form
-
-        console.log("Form submit completed!");
-    });
+    for (let button of deleteButtons) {
+        button.addEventListener("click", (e) => {
+            let blogCommentId = e.target.getAttribute("blog_comment_id");
+            // Update the confirmation modal's link href to point to Delete view
+            deleteConfirm.href = `delete_blog_comment/${blogCommentId}`;
+            // Show the delete confirmation modal
+            deleteModal.show();
+        });
+    }
 });
