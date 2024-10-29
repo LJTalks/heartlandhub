@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+<!-- Meta tags -->
+{% block meta_description %}
+<meta name="description" content="Explore my portfolio of web development projects, showcasing expertise in Django, Python, JavaScript, and more. See how I've helped bring ideas to life with responsive, user-friendly designs and innovative features">
+{% endblock meta_description %}
+
+{% block seo_tags %}
+<meta name="keywords" content="web development portfolio, Django projects, Python developer, responsive web design, JavaScript projects, Heroku, GitHub Pages, full-stack developer, project showcase, web applications">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="My Web Development Portfolio">
+<meta property="og:description" content="Explore my portfolio of projects, built using Django, Python, JavaScript, and more. Featuring responsive designs and innovative features.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ljtalks.com/projects">
+<!-- <meta property="og:image" content="https://yoursite.com/static/images/portfolio_preview.jpg"> Replace with a relevant image URL -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="My Web Development Portfolio">
+<meta name="twitter:description" content="Check out my projects built with Django, Python, and JavaScript, showcasing modern design and development skills.">
+<!-- <meta name="twitter:image" content="https://yoursite.com/static/images/portfolio_preview.jpg"> Replace with a relevant image URL -->
+{% endblock seo_tags %}
+
+{% block content %}
+<!-- Projects Section -->
+<div class="container-fluid my-3 col-12">
+    <h2 class="text-center">Some of My Projects</h2>
+    <div class="row">
+        <!-- Project Card Template -->
+        {% for project in projects %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{% static project.image %}" class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                    <p class="card-text">{{ project.description }}</p>
+                    <a href="{{ project.link }}" class="btn btn-primary visit-site-button" target="_blank">Visit Site</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
+{% block extras %}
+{% endblock %}

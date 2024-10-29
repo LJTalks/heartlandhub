@@ -421,6 +421,17 @@ main {
     color: var(--approval-color);
 }
 
+/* Projects page */
+.visit-site-button {
+    background-color: #FF0077; /* Your preferred pink color */
+    border: none;
+}
+
+.visit-site-button:hover {
+    background-color: #FF66B2; /* Lighter pink for hover effect */
+}
+
+
 /*  custom styles for screens bigger than tablet size  */
 /* not sure this is helping! is it comment-form? comment_form? 
 The comment form needs to stay in 3/3 of large screens,

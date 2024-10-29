@@ -20,6 +20,32 @@ import logging
 import requests
 
 
+# View to showcase previous projects
+def projects(request):
+    projects = [
+        {
+            "title": "Love Running",
+            "description": "A Fictional Running/Social club advertising regular meets. Responsive HTML & CSS. A Code Institute Tutorial, for a social/running club. Hosted on GitHub Pages.",
+            "link": "https://ljtalks.github.io/love-running/",
+            "image": "images/projects_love-running.png",
+        },
+        {
+            "title": "Whiskey Store",
+            "description": "A Fictional Online Whiskey Subscription site. Responsive HTML, CSS and JavaScript. A Code Institute tutorial. Hosted on Github Pages.",
+            "link": "https://ljtalks.github.io/whiskey-store/",
+            "image": "images/projects_whiskey-drop.png",
+        },
+        {
+            "title": "Love Rosie; A Resume/CV site",
+            "description": "A Fictional Online Resume/CV. Responsive HTML, CSS, JavaScript, Bootstrap 4. A Code Institute tutorial. Hosted on Github Pages.",
+            "link": "https://ljtalks.github.io/UCD-Resume/",
+            "image": "images/projects_love-rosie.png",
+        },
+
+    ]
+    return render(request, 'projects.html', {"projects": projects})
+
+
 class CustomLoginView(LoginView):
     def form_valid(self, form):
         print("Custom login form_valid triggered")

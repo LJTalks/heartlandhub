@@ -37,6 +37,7 @@ urlpatterns = [
     path('emails/', include('emails.urls')),
     path('privacy/', TemplateView.as_view(
         template_name="ljtalks/privacy.html"), name='privacy_policy'),
+    path('projects/', views.projects, name='projects'),
     # path('services/', include('services.urls')),
     path('terms/', TemplateView.as_view(
         template_name="ljtalks/terms.html"), name='terms_conditions'),
