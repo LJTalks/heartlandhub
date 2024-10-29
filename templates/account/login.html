@@ -1,10 +1,17 @@
 {% extends "base.html" %}
+
 {% load i18n %}
-{% load account socialaccount %}
 
 {% block head_title %}{% trans "Log In" %}{% endblock %}
 
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 mt-5">
@@ -44,24 +51,16 @@
                     <!-- Submit button -->
                     <button class="btn btn-warning w-100" type="submit">{% trans "Log In" %}</button>
                 </form>
+<div>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        Invalid login credentials. Please try again.
+    </div>
+    {% endif %}
+</div>
             </div>
         </div>
     </div>
-
-    <!-- Optionally include social login options
-    {% get_providers as socialaccount_providers %}
-    {% if socialaccount_providers %}
-    <div class="row justify-content-center">
-        <div class="col-md-6 mt-4">
-            <div class="card p-4 shadow-sm">
-                <h3 class="text-center mb-3">{% trans "Or Log In with a Social Account" %}</h3>
-                <ul class="list-unstyled text-center">
-                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                </ul>
-            </div>
-        </div>
-    </div>
-    {% endif %} -->
 </div>
 
 <script>

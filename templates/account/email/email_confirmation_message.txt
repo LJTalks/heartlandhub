@@ -8,10 +8,6 @@
 {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
 Hello from LJTalks!
 
-Please confirm your email by visiting the following link:
-
-{{ activate_url }}
-
 You're receiving this email because user {{ user_display }} has given your email address to register an account on {{ site_domain }}.
 
 To confirm this is correct, go to {{ activate_url }}
@@ -22,7 +18,5 @@ If you did not sign up for this account, please ignore this email.
 {% endblock content %}
 
 ---
-
-For any questions, feel free to contact us at support@ljtalks.com.
 
 If you no longer wish to receive these emails, you can unsubscribe here: {{ unsubscribe_url }}

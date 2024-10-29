@@ -130,7 +130,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 # Site framework ID - required for django.contrib.sites
 # Django can handle multiple sites from one db
 SITE_ID = 1  # Production
-SITE_ID = 2  # Development/staging
+# SITE_ID = 2  # Development/staging
 
 LOGIN_REDIRECT_URL = '/'  # returns user to home page after login
 LOGOUT_REDIRECT_URL = '/'  # returns user to home page after logout
@@ -157,8 +157,11 @@ MIDDLEWARE = [
 #     EMAIL_BACKEND = 'django.core.backends.console.EmailBackend'
 # # For testing locally
 # else:
-#     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = '/tmp/emails'  # Change this path as needed
 
 # you can use Django’s console backend for development (this will print the
 # email content to the terminal instead of sending it)
@@ -189,6 +192,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # Chat GPT's idea
+                'django.template.context_processors.request',
                 # base nav to show additional options to different groups
                 'ljtalks.context_processors.add_is_tester',
                 'ljtalks.context_processors.recaptcha_site_key',
@@ -247,7 +251,7 @@ ACCOUNT_ADAPTER = 'ljtalks.adapters.CustomAccountAdapter'
 
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # We def want this
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_CONFIRMATION_EMAIL = True
+ACCOUNT_EMAIL_CONFIRMATION_HTML_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'  # Login with email/username
 # (again CHATGPT down below)
 ACCOUNT_USERNAME_REQUIRED = True  # We want usernames

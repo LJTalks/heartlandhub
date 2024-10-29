@@ -1,13 +1,19 @@
+<!-- Need to activate the unsubscribe option 
+This is the nice email to confirm registration and verify email request with the green button -->
+{% extends "account/email/base_message.txt" %}
+{% load account %}
 {% load i18n %}
 
 <div style="font-family: Arial, sans-serif; text-align: center;">
     <!-- Welcome and Username -->
+
+    <!-- <p>This is a custom email template for testing purposes.</p> -->
     <h1>Welcome to LJ Talks!</h1>
     <p>{% blocktrans %}Hello {{ user.username }},{% endblocktrans %}</p>
     
     <!-- Verify Email Button -->
     <p>{% blocktrans %}Thanks for signing up. Please click the button below to verify your email:{% endblocktrans %}</p>
-    <a href="{{ activate_url }}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none;">{% blocktrans %}Verify Email{% endblocktrans %}</a>
+    <a href="{{ activate_url }}" style="display: inline-block; padding: 10px 20px; background-color: #FF0077; color: white; border-radius: 5px; text-decoration: none;">{% blocktrans %}Verify Email{% endblocktrans %}</a>
 
     <!-- Sign-up notice -->
     <p>{% blocktrans %}If you did not sign up for this account, please ignore this email.{% endblocktrans %}</p>

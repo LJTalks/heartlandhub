@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 # from django.shortcuts import render
-from . import views
 from django.views.generic import TemplateView
+from . import views
+from .views import CustomLoginView
+
 
 # Function to render the maintenance view (if needed)
 # def maintenance_view(request):
@@ -11,6 +13,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     # Authentication (allauth)
     path('accounts/', include("allauth.urls")),
+    path('accounts/login/', CustomLoginView.as_view(), name='account_login'),
     # Admin
     path('admin/', admin.site.urls),
     # Restricted to members
@@ -20,7 +23,7 @@ urlpatterns = [
     # Beta Contact URL (Checks if user is in "testers" group)
     path(
         'beta-contact/', views.beta_contact_view, name='beta_contact'
-        ),  # form submit
+    ),  # form submit
     # Beta Features (for testers)
     path('beta_features/',
          views.beta_features_view,
@@ -41,7 +44,5 @@ urlpatterns = [
     # path('info/', views.youtube_info_view, name='youtube-data-checker'),
     path('summernote/', include('django_summernote.urls')),
     path("", include("blog.urls"), name="blog-urls"),
-    # Think we replaced this with the restricted tester only api path above
-    # Public or other features (different to the api path, not sure how!)
     # path('youtube/', include('ytapi.urls'), name="youtube-data-checker")
 ]

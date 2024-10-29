@@ -1,20 +1,53 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+# from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.mail import EmailMessage, send_mail
+from django.core.validators import EmailValidator
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-# from django.contrib.auth.models import Group
-import logging
-import requests
-from django.core.mail import EmailMessage, send_mail
-from django.conf import settings
-from django.contrib import messages
-from .forms import ContactForm
-from django.contrib.auth.models import User
-from .models import UserProfile
 from django.views.decorators.cache import never_cache
 from django_ratelimit.decorators import ratelimit
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from .forms import ContactForm
+from .models import UserProfile
+from allauth.account.views import LoginView
+import logging
+import requests
+
+
+class CustomLoginView(LoginView):
+    def form_valid(self, form):
+        print("Custom login form_valid triggered")
+
+        login_input = form.cleaned_data.get('login')
+        validator = EmailValidator()
+        try:
+            validator(login_input)
+            is_email = True
+        except ValidationError:
+            is_email = False
+
+        if is_email:
+            user_exists = User.objects.filter(email=login_input).exists()
+        else:
+            user_exists = User.objects.filter(username=login_input).exists()
+
+        if not user_exists:
+            messages.error(self.request, "Account not found. Please sign up.")
+            return redirect('account_signup')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print("Custom login form_invalid triggered")
+        # Display error message
+        messages.error(
+            self.request, "Login failed. Please check your credentials.")
+        return super().form_invalid(form)
 
 
 # Password reset, auto log in
@@ -43,8 +76,8 @@ def register_user(request):
         return HttpResponse(
             "You've made too many requests. Please try again later.",
             status=429
-            )
-    
+        )
+
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -60,9 +93,9 @@ def register_user(request):
             profile.source = source
             profile.registration_ip = ip_address
             profile.save()
-            
+
             return redirect(request.META.get('HTTP_REFERER', 'home'))
-        
+
     return HttpResponse("Too many requests", status=429)
 
 
@@ -89,9 +122,9 @@ def contact_submit(request):
         if not result['success']:
             messages.error(request, 'Invalid reCAPTCHA. Please try again.')
             return redirect('contact')
-        
+
         form = ContactForm(request.POST)
-        
+
         if form.is_valid():
             # Check the honeypot field
             if form.cleaned_data['honeytrap']:
@@ -103,7 +136,7 @@ def contact_submit(request):
                 name = form.cleaned_data['name']
                 email = form.cleaned_data['email']
                 message = form.cleaned_data['message']
-                
+
                 # Prepare the email content
                 subject = f"LJTalks Contact Form from {name}"
                 content = (
@@ -119,10 +152,10 @@ def contact_submit(request):
                 # Set X_Priority to flag the email as important
                 email_message.extra_headers = {'X-Priority': '1'}
                 email_message.send()
-                
+
                 # Show a success message
                 messages.success(request, 'Your message has been sent!')
-                
+
                 # Get the next parameter from form and redirect back
                 next_url = request.POST.get('next') or 'home'
                 return redirect(next_url)
@@ -136,7 +169,7 @@ def contact_submit(request):
 
 
 # View to handle the "Tester/Beta Access" Form
-# We include is_tester validation but after authentication is checked 
+# We include is_tester validation but after authentication is checked
 # to avoid errors for non logged in users
 # renamed from "contact"
 @login_required
@@ -154,23 +187,24 @@ def apply_for_beta_access(request):
     if request.method == 'POST':
         # Process form submission (email me and store response in db)
         reason = request.POST.get('why')
-        
+
         # Send an email to notify the admin of the application
         subject = f"{request.user} applied for Beta Access",
         content = (
             f"User {request.user.username} applied for beta access.Reason:\n\n{reason}")
-        
+
         send_mail(
             subject,
             content,
             settings.DEFAULT_FROM_EMAIL,
             [settings.DEFAULT_FROM_EMAIL]  # Admin email
         )
-        
+
         # Thank the user and redirect
-        messages.success(request, 'Thank you for applying for Beta Access. You will be notified when your application is reviewed.')
+        messages.success(
+            request, 'Thank you for applying for Beta Access. You will be notified when your application is reviewed.')
         return HttpResponseRedirect(reverse('beta_features'))
-    
+
         # Redirect to beta features page after form submission
         # For now, we'll assume manual approval through the admin panel
         # Redirect after applying
@@ -199,7 +233,7 @@ def is_in_group(user, group_name):
 @login_required
 def beta_features_view(request):
     logger.info("Beta Features View Called")
-    
+
     # Debug Check view is called
     # print("Beta Features View called")
     # Check if user is in the testers group
@@ -215,7 +249,7 @@ def beta_features_view(request):
 def youtube_checker_view(request):
     if not request.user.is_authenticated:
         return redirect('account_login')
-    
+
     # Check if user is in the testers group
     is_tester = is_in_group(request.user, 'testers')
     if not is_tester:
@@ -224,5 +258,5 @@ def youtube_checker_view(request):
         # or home page (or back to where they were) if not
         messages.error(request, "You don't have access to this feature.")
         return redirect('home')
-    
+
     return render(request, 'youtube_checker.html', {'is_tester': is_tester})

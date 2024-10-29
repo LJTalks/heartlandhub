@@ -57,6 +57,12 @@ p {
 }
 
 /* Hover Effect for Navbar Links */
+.navbar-text {
+    color: #FF0077;
+    cursor: pointer;
+}
+
+/* doesn't seem to work */
 .navbar-text .lead:hover {
     color: #FF0077;
     cursor: pointer;

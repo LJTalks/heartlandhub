@@ -17,3 +17,6 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         if not result['success']:
             raise forms.ValidationError("Invalid reCAPTCHA. Please try again.")
         return super().login(request, *args, **kwargs)
+
+    def get_email_confirmation_subject(self, confirmation):
+        return "LJ Talks: Please Confirm Your Email Address"
