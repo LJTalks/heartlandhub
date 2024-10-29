@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect
 from .forms import BlogCommentForm
 from django.contrib.auth.models import User
 import datetime
+from django.db.models import Q  # allows for complex queries
 
 
 # Unsubscribe view, maybe not the best app for it?
@@ -33,30 +34,40 @@ def about_me(request):
 
 
 class PostList(generic.ListView):
-    queryset = Post.objects.filter(status=1).order_by("-publish_date")
+    model = Post
     template_name = "blog/post_list.html"
     paginate_by = 6
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(
+            status=1).order_by("publish_date")
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(
+                Q(title_icontains=query) | Q(content_icontains=query)
+            )
+        return queryset
 
 
 def post_detail(request, slug):
     queryset = Post.objects.filter(status=1)
     # Get the current post
     post = get_object_or_404(queryset, slug=slug)
-    
+
     # Track Total no of page views (using sessions to avoid dupes)
     session_key = f"viewed_post_{post.id}"
     if not request.session.get(session_key, False):
         post.views += 1
         post.save()
         request.session[session_key] = True
-   
+
     # Track views for logged-in users (for recommendations)
     if request.user.is_authenticated:
         # Check ifthe logged in user has already viewed this post
         if not post.viewed_by.filter(id=request.user.id).exists():
             post.viewed_by.add(request.user)
-    
-    # Get the previous post    
+
+    # Get the previous post
     previous_post = Post.objects.filter(
         publish_date__lt=post.publish_date, status=1).order_by(
             '-publish_date').first()
@@ -83,7 +94,7 @@ def post_detail(request, slug):
             )
         # Redirect after successful POST to avoid resubmit
         return HttpResponseRedirect(reverse('post_detail', args=[slug]))
-    
+
     else:
         blog_comment_form = BlogCommentForm()
         # print("about to render template")  # Debug
@@ -106,15 +117,15 @@ def blog_comment_edit(request, slug, blog_comment_id):
     """
     view to edit blog_comments
     """
-   
+
     if request.method == "POST":
-       
+
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slug)
         blog_comment = get_object_or_404(BlogComment, pk=blog_comment_id)
         blog_comment_form = BlogCommentForm(
             data=request.POST, instance=blog_comment)
-       
+
         if blog_comment_form.is_valid() and (
             blog_comment.author == request.user
         ):
@@ -126,7 +137,7 @@ def blog_comment_edit(request, slug, blog_comment_id):
         else:
             messages.add_message(
                 request, messages.ERROR, 'Error updating comment!')
-            
+
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
 
 
@@ -137,13 +148,12 @@ def blog_comment_delete(request, slug, blog_comment_id):
     queryset = Post.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
     blog_comment = get_object_or_404(BlogComment, pk=blog_comment_id)
-    
+
     if blog_comment.author == request.user:
         blog_comment.delete()
         messages.add_message(request, messages.SUCCESS, 'Comment deleted!')
     else:
         messages.add_message(
             request, messages.ERROR, 'You can only delete your own comments!')
-        
+
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
-                 

@@ -41,6 +41,13 @@ def projects(request):
             "link": "https://ljtalks.github.io/UCD-Resume/",
             "image": "images/projects_love-rosie.png",
         },
+        {
+            "title": "Codestar Blog; A Full Stack Web App",
+            "description": "Full stack web application using Django, PostgreSQL, Python, Responsive HTML, CSS, JavaScript, Bootstrap 4. A Code Institute tutorial. Hosted on Heroku.",
+            "link": "https://ljtalks-django-blog-5fbe7cf2584e.herokuapp.com/",
+            "image": "images/projects_love-rosie.png",
+        },
+
 
     ]
     return render(request, 'projects.html', {"projects": projects})
