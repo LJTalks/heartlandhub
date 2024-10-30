@@ -10,11 +10,18 @@
 
 <!-- about_me.html content starts here -->
 <div class="container mt-5">
-
+    <!-- GitHub Streak Banner -->
+    <div class="row">
+        <div class="col-12">
+            <div id="github-calendar" class="text-center">
+                <img src="https://ghchart.rshah.org/FF0077/ljtalks" alt="GitHub Contributions" class="img-fluid"  style="width: 100%; max-width: none;">
+            </div>
+        </div>
+    </div>
     <!-- About Me Section -->
     <div class="row mt-1 justify-content-center">
         <!-- Profile Image -->
-        <div class="col-md-4 text-center mb-4">
+        <div class="col-md-4 text-center mb-6">
             <img src="{% static 'images/mtb_laura.png' %}" 
                  class="img-fluid rounded-circle shadow" 
                  alt="Laura's Profile Image" >
@@ -31,12 +38,12 @@
             <p>
                 Things were tough, and for a while I struggled to do much at all. But I knew the only one who could really change things was me. 
             </p>
+        </div>
+        <div class="col-md-12">
             <p>    
                 A few years ago, I taught myself video editing as a hobby, and even started a YouTube channel (It's still around, just a bit quiet at the moment). 
                 Through that, I found a wonderful community and made lasting friendships. But when my childcare career ended, I needed work that could be flexible around my family. 
             </p>
-        </div>
-        <div class="col-md-12">
             <p>I'd noticed lots of opportunites to make money online. I tried a few different things, some successful and some not so much, but the more I learned, the more I started to see patterns in what worked and what didn’t.
                 I discovered some amazing creators who have walked the walk, and offer valuable knowledge. They helped me to see that building an online business is definitely possible, simple even! Just not always easy. Building from nothing requires real effort, sacrifices and time. 
             </p>
@@ -50,17 +57,9 @@
             </p>
         </div>
         <div class="text-center">
-            <a href="{% url 'contact' %}?next={{ request.path }}" id="contact" class="btn btn-primary">Get in touch</a>
-        </div>
-        <!-- GitHub Streak Banner -->
-        <div class="row">
-            <div class="col-12 text-center">
-                <img src="{% static 'images/githubstreak2024-10-24.png' %}" class="img-fluid" alt="GitHub Streak Banner" style="max-width: 100%; height: auto;">
-            </div>
+            <a href="{% url 'contact' %}?next={{ request.path }}" id="contact" class="btn-contact">Get in touch</a>
         </div>
     </div>
 </div>
 {% endblock %}
-        <!-- <div id="github-calendar" style="width: 100%; margin: auto;">
-            <img src="https://ghchart.rshah.org/FF0077/ljtalks" alt="GitHub Contributions">
-        </div> -->
+

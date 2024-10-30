@@ -349,6 +349,7 @@ main {
 }
 
 /* Pink Button Style */
+.btn-contact,
 .btn-search,
 .btn-delete,
 .btn-comment,
@@ -370,6 +371,7 @@ main {
 }
 
 /* Pink Button Hover Effect */
+.btn-contact:hover,
 .btn-search:hover,
 .btn-delete:hover,
 .btn-comment:hover,
