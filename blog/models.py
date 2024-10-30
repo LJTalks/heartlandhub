@@ -26,7 +26,7 @@ class Post(models.Model):
     )
     featured_image = CloudinaryField(
         'image', null=True, blank=True, default='placeholder'
-        )
+    )
     alt_text = models.CharField(
         max_length=255, blank=True, help_text="Alt text for image")
     image_credit = models.CharField(
@@ -48,7 +48,7 @@ class Post(models.Model):
         blank=True,
         help_text="Add short, relevant SEO meta description"
     )
-    
+
     @property
     def meta_description_with_fallback(self):
         # Return meta description if available, or fallback to post content
@@ -62,10 +62,9 @@ class Post(models.Model):
     # service = models.ForeignKey(
     #     'services.Service', on_delete=models.SET_NULL, null=True, blank=True,
     #     related_name="posts")
-    
 
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["-publish_date"]
 
     def __str__(self):
         return f"{self.title} | {self.author}"
@@ -86,7 +85,7 @@ class BlogComment(models.Model):
         related_name="blog_comments_author"
     )
     body = models.TextField(max_length=500)
-    status = models.IntegerField(choices=BLOG_COMMENT_STATUS, default=0) 
+    status = models.IntegerField(choices=BLOG_COMMENT_STATUS, default=0)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

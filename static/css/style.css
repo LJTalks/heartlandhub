@@ -16,9 +16,19 @@
 }
 
 /* for summernote */
-.note-editable {
+.post-content,
+.card-body .note-editable {
     font-family: 'Lato', sans-serif;
-    font-size: 16px; /* Adjust font size if needed */
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* post-detail card body overflow issue */
+.card-body {
+    max-width: 100% !important;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+
 }
 
 input[name="honeytrap"] {
@@ -418,7 +428,8 @@ main {
 
 /* Post Title and Subtitle */
 .post-title {
-    margin-top: 10%;
+    font-size: clamp(1.5rem, 2vw + 1rem, 3rem);
+    margin-top: 0%;
     margin-left: 5%;
 }
 
