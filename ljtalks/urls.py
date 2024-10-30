@@ -12,6 +12,7 @@ from .views import CustomLoginView
 
 urlpatterns = [
     # Authentication (allauth)
+    path('about_me/', views.about_me_view, name='about_me'),
     path('accounts/', include("allauth.urls")),
     path('accounts/login/', CustomLoginView.as_view(), name='account_login'),
     # Admin

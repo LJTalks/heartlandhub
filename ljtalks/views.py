@@ -18,9 +18,21 @@ from .models import UserProfile
 from allauth.account.views import LoginView
 import logging
 import requests
+from datetime import date
 
+# How Many Days of Coding count
+
+
+def about_me_view(request):
+    start_date = date(2024, 6, 24)
+    current_date = date.today()
+    days_coding = (current_date - start_date).days
+    print("Days coding:", days_coding)  # Temporary debug line
+    return render(request, 'about_me.html', {'days_coding': days_coding})
 
 # View to showcase previous projects
+
+
 def projects(request):
     projects = [
         {
