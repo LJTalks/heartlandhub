@@ -40,7 +40,7 @@ class PostList(generic.ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(
-            status=1).order_by("publish_date")
+            status=1).order_by("-publish_date")
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(

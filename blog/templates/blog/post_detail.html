@@ -109,12 +109,12 @@
                 <form id="blogCommentForm" method="post">
                     {{ blog_comment_form | crispy }}
                     {% csrf_token %}
-                    <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
+                    <button id="submitButton" type="submit" class="btn btn-comment">Submit</button>
                 </form>
                 {% else %}
                 <p>You must log in to leave a comment</p>
-                <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-primary btn-sm me-2">Log In</a>
-                <a href="{% url 'account_signup' %}?next={{ request.path }}" class="btn btn-secondary btn-sm me-2">Register</a>
+                <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-login">Log In</a>
+                <a href="{% url 'account_signup' %}?next={{ request.path }}" class="btn btn-register">Register</a>
                 {% endif %}
             </div>
         </div>
@@ -147,12 +147,12 @@
             <ul class="pagination justify-content-center">
                 {% if previous_post %}
                 <li class="page-item">
-                    <a class="page-link" href="{% url 'post_detail' previous_post.slug %}">&laquo; Prev Post</a>
+                    <a class="page-link-btn" href="{% url 'post_detail' previous_post.slug %}">&laquo; Prev Post</a>
                 </li>
                 {% endif %}
                 {% if next_post %}
                 <li class="page-item">
-                    <a class="page-link" href="{% url 'post_detail' next_post.slug %}">Next Post &raquo;</a>
+                    <a class="page-link-btn" href="{% url 'post_detail' next_post.slug %}">Next Post &raquo;</a>
                 </li>
                 {% endif %}
             </ul>

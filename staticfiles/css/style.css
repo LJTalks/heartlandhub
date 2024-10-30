@@ -5,6 +5,7 @@
     --bg-color-dark: #445261;
     --brand-color: #4A4A4F;
     --accent-color: #FF0077; /* Signature Pink */
+    --accent-hover-shadow: rgba(255, 0, 119, 0.7);
     --secondary-color: #FFC107; /* Muted Yellow-Gold */
     --link-hover-color: #FF4FA6; /* A lighter pink for hover effects */
     --text-muted-color: rgb(172, 175, 175);

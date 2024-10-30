@@ -24,7 +24,7 @@
 {% block content %}
 <!-- Projects Section -->
 <div class="container-fluid my-3 col-12">
-    <h2 class="text-center">Some of My Projects</h2>
+    <h2 class="text-center">My Projects</h2>
     <div class="row">
         <!-- Project Card Template -->
         {% for project in projects %}
@@ -34,7 +34,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ project.title }}</h5>
                     <p class="card-text">{{ project.description }}</p>
-                    <a href="{{ project.link }}" class="btn btn-primary visit-site-button" target="_blank">Visit Site</a>
+                    <a href="{{ project.link }}" class="btn visit-site-button" target="_blank">Visit Site</a>
                 </div>
             </div>
         </div>

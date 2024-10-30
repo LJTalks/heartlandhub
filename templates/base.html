@@ -45,10 +45,6 @@
         <!-- Custom CSS Always after Bootstrap -->
         <link rel="stylesheet" type="text/css" href=" {% static '/css/style.css' %} ">
 
-        <!-- Recaptcha Centralised (this was already commented out)
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
-
-
     </head>
 
     <body class="d-flex flex-column h-100 main-bg container-fluid px-3">
@@ -86,14 +82,13 @@
                             href="{% url 'account_logout' %}?next={{ request.path }}">Logout</a>
                         </li>
                             {% if is_tester %}
-                                <!-- Display Beta Features link if user is tester -->
-                                <!-- We've replaced the YouTube Channel Checker Menu item but will need to re-add You Tube Data Checker  -->
+                                <!-- Display Beta Features link if authorised tester -->
                                 <li class="nav-item">
                                     <a class="nav-link {% if request.path == beta_features_url %}active{% endif %}" aria-current="page"
                                     href="{% url 'beta_features' %}">Beta Features</a>
                                 </li>
                             {% else %}
-                                <!-- Logged in but not tester: Invite to apply for access -->
+                                <!-- Logged in Invite; apply for access -->
                                 <li class="nav-item">
                                 <a class="nav-link {% if request.path == apply_for_beta_access_url %}active{% endif %}" aria-current="page"
                                 href="{% url 'apply_for_beta_access' %}">Apply for Beta Access</a>
