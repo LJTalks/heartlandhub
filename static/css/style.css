@@ -31,6 +31,26 @@
 
 }
 
+
+/* post search preview  */
+search-input {
+    background-color: var(--bg-color-light) !important;
+    border-color: var(--bg-color-dark) !important;
+}
+
+.post-search-results h2 {
+    font-size: 1.2rem;
+}
+
+.excerpt-preview {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Adjust this number to show more or fewer lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* honeytrap */
 input[name="honeytrap"] {
     display: none;
 }
@@ -204,14 +224,6 @@ p {
     }
 }
 
-Large screens
-@media (min-width: 1200px) {
-    .masthead-image {
-        height: 500px;
-    }
-}
-
-
 /* Base Styling */
 body {
     /* CHECKING CSS IS CONNECTED */
@@ -350,7 +362,8 @@ main {
     padding: 10px 20px!important;
     margin-right: 10px!important;
     margin-left: 10px!important;
-    font-size: 16px!important;
+    margin-bottom: 10px !important;
+    font-size: 16px!;
     text-decoration: none!important;
     border-radius: 5px!important;
     transition: all 0.3s ease-in-out!important;
@@ -368,6 +381,18 @@ main {
     background-color: var(--accent-color) !important; /* Keep the background consistent on hover */
     color: var(--accent-color-text) !important; /* Ensure the text remains white */
     text-decoration: none !important; /* Ensure no underline */
+}
+
+.read-more-link {
+    display: inline-block !important;
+    margin-top: -8px !important; /* Adjust as needed */
+    color: var(--accent-color) !important;
+    text-decoration: none !important;
+}
+
+.read-more-link:hover {
+    background-color: var(--bg-color-light);
+    border-radius: 4px; 
 }
 
 /* Yellow Buttons */

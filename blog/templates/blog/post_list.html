@@ -9,25 +9,27 @@
 
 
 <!-- Search -->
-<form method="GET" action="{{ request.path }}">
-    <input type="text" name="q" placeholder="Search blog posts..."  value="{{ request.GET.q }}">
-    <button type="submit" class="btn-search">Search</button>
-    {% if request.GET.q %}
-        <a href="{{ request.path }}" class="btn btn-clear-search">Clear Search</a>
-    {% endif %}
+<form id="search-form">
+    <input type="text" name="q" id="search-input" class="form-control" placeholder="Search blog posts..." value="{{ request.GET.q }}">
+    <button type="button" id="search-button" class="btn-sm btn-search mt-3">Search</button>
+    <button type="button" id="clear-button" class="btn-sm btn-clear-search mt-3">Clear Search</button>
 </form>
 
 <!-- Search results -->
-{% if posts.exists %}
+<div id="search-results" class="post-search-results mb4">
     {% for post in posts %}
+    <a href="{% url 'post_detail' post.slug %}" class="read-more-link">
         <div class="post">
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.content|truncatewords:30 }}</p> <!-- Search results preview -->
-            <a href="{% url 'post_detail' post.slug %}">Read more</a>
+            <h2 class="search-results">{{ post.title }}</h2>
+            <p class="excerpt-preview">{{ post.excerpt|safe }}</p>
         </div>
+    </a>
     {% endfor %}
-{% endif %}
+</div>
 
+<div id="message-area"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- post_list content -->
 <div class="container-fluid">
@@ -94,6 +96,37 @@
 </div>
 
 <!-- post_list.html content ends here -->
+<script>
+    $(document).ready(function() {
+        // Handle search button click
+        $('#search-button').click(function() {
+            let query = $('#search-input').val();
+            
+            // Perform AJAX request to fetch search results
+            $.ajax({
+                url: '{% url "home" %}', // Replace "home" with your view's URL name
+                data: { q: query },
+                success: function(response) {
+                    // Replace search results with new data
+                    $('#search-results').html(response.posts_html);
+                    
+                    // Update message area
+                    $('#message-area').html(response.message);
+                },
+                error: function() {
+                    $('#message-area').html('<p>There was an error processing your search. Please try again.</p>');
+                }
+            });
+        });
+    
+        // Clear search results
+        $('#clear-button').click(function() {
+            $('#search-input').val('');
+            $('#search-results').html('');
+            $('#message-area').html('');
+        });
+    });
+</script>
 {% endblock %}
 
 {% block copyright %}

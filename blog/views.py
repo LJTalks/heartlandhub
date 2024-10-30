@@ -5,18 +5,20 @@ from django.shortcuts import (
     redirect,
     HttpResponseRedirect
 )
-from django.urls import reverse
 from django.views import generic
 from django.contrib import messages
 from .models import Post, BlogComment, ViewRecord
-from django.http import HttpResponseRedirect
 from .forms import BlogCommentForm
 from django.contrib.auth.models import User
 import datetime
 from django.db.models import Q  # allows for complex queries
-
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.views.generic import ListView
 
 # Unsubscribe view, maybe not the best app for it?
+
+
 def unsubscribe(request, user_id):
     try:
         user = User.objects.get(pk=user_id)
@@ -48,9 +50,23 @@ class PostList(generic.ListView):
                 Q(content__icontains=query) |
                 Q(seo_tags__icontains=query)
             )
-            if not queryset.exists():
-                messages.info(self.request, f'No results found for "{query}"')
         return queryset
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            query = self.request.GET.get("q", "")
+
+            posts = context['object_list']
+            posts_html = render_to_string(
+                'blog/partials/search_post_list.html', {'posts': posts})
+            if posts.exists():
+                message = ""
+            else:
+                message = f'No results found for "{query}"'
+
+            return JsonResponse({'posts_html': posts_html, 'message': message})
+
+        return super().render_to_response(context, **response_kwargs)
 
 
 def post_detail(request, slug):

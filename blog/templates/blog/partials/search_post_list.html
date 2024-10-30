@@ -1,0 +1,12 @@
+<!-- New template to hold search results temporarily -->
+
+{% for post in posts %}
+    <div class="post">
+        <a href="{% url 'post_detail' post.slug %}">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.excerpt|safe }}</p>
+        </a>
+    </div>
+{% empty %}
+    <p>No posts available.</p>
+{% endfor %}
