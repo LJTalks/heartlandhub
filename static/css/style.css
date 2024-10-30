@@ -337,6 +337,7 @@ main {
 }
 
 /* Pink Button Style */
+.btn-search,
 .btn-delete,
 .btn-comment,
 .btn-login,
@@ -356,6 +357,7 @@ main {
 }
 
 /* Pink Button Hover Effect */
+.btn-search:hover,
 .btn-delete:hover,
 .btn-comment:hover,
 .btn-login:hover,
@@ -369,6 +371,7 @@ main {
 }
 
 /* Yellow Buttons */
+.btn-clear-search,
 .btn-journey,
 .btn-signup,
 .btn-edit {
@@ -384,6 +387,7 @@ main {
     transition: all 0.3s ease-in-out!important;
 }
 
+.btn-clear-search:hover,
 .btn-journey:hover,
 .btn-signup:hover,
 .btn-edit:hover,

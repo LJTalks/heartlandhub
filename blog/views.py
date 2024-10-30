@@ -44,8 +44,12 @@ class PostList(generic.ListView):
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(
-                Q(title_icontains=query) | Q(content_icontains=query)
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(seo_tags__icontains=query)
             )
+            if not queryset.exists():
+                messages.info(self.request, f'No results found for "{query}"')
         return queryset
 
 

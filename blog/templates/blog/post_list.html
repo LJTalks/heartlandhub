@@ -9,22 +9,23 @@
 
 
 <!-- Search -->
-<form method="GET" action="{% url 'home' %}">
+<form method="GET" action="{{ request.path }}">
     <input type="text" name="q" placeholder="Search blog posts..."  value="{{ request.GET.q }}">
-    <button type="submit">Search</button>
+    <button type="submit" class="btn-search">Search</button>
+    {% if request.GET.q %}
+        <a href="{{ request.path }}" class="btn btn-clear-search">Clear Search</a>
+    {% endif %}
 </form>
 
 <!-- Search results -->
-{% if posts %}
-{% for post in posts %}
-    <div class="post">
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.content|truncatewords:30 }}</p> <!-- Search results preview -->
-        <a href="{% url 'post_detail' post.slug %}">Read more</a>
-    </div>
-{% endfor %}
-{% else %}
-<p>No results found for "{{ request.GET.q }}"</p>
+{% if posts.exists %}
+    {% for post in posts %}
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content|truncatewords:30 }}</p> <!-- Search results preview -->
+            <a href="{% url 'post_detail' post.slug %}">Read more</a>
+        </div>
+    {% endfor %}
 {% endif %}
 
 
