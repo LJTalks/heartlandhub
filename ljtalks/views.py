@@ -21,6 +21,43 @@ import requests
 from datetime import date
 
 
+logger = logging.getLogger(__name__)
+
+
+# Limit to 5 requests per minute per IP
+@ratelimit(key='ip', rate='5/m', method='POST', block=True)
+def register_user(request):
+    # Check if user was rate-limited
+    was_limited = getattr(request, 'limits', False)
+    if was_limited:
+        # Custom response for rate-limited requests
+        return HttpResponse(
+            "You've made too many requests. Please try again later.",
+            status=429
+        )
+
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            # Create the user
+            user = form.save()
+            # Capture the source and IP address, inc behind proxies
+            ip_address = get_client_ip(request)
+            logger.info(f"Captured IP: {ip_address}")
+
+            source = request.META.get('HTTP_REFERER', '')
+
+            # Update the UserProfile with source and IP
+            profile, created = UserProfile.objects.get_or_create(user=user)
+            profile.source = source
+            profile.registration_ip = ip_address
+            profile.save()
+
+            return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+    return HttpResponse("Too many requests", status=429)
+
+
 # IP tracking botwatch
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -128,39 +165,6 @@ def password_reset(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change_password.html', {'form': form})
-
-
-# Limit to 5 requests per minute per IP
-@ratelimit(key='ip', rate='5/m', method='POST', block=True)
-def register_user(request):
-    # Check if user was rate-limited
-    was_limited = getattr(request, 'limits', False)
-    if was_limited:
-        # Custom response for rate-limited requests
-        return HttpResponse(
-            "You've made too many requests. Please try again later.",
-            status=429
-        )
-
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            # Create the user
-            user = form.save()
-            # Capture the source and IP address, inc behind proxies
-            ip_address = get_client_ip(request)
-            print("Captured IP:", ip_address)  # Should show only one IP
-            source = request.META.get('HTTP_REFERER', '')
-
-            # Update the UserProfile with source and IP
-            profile, created = UserProfile.objects.get_or_create(user=user)
-            profile.source = source
-            profile.registration_ip = ip_address
-            profile.save()
-
-            return redirect(request.META.get('HTTP_REFERER', 'home'))
-
-    return HttpResponse("Too many requests", status=429)
 
 
 logger = logging.getLogger(__name__)
