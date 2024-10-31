@@ -54,13 +54,17 @@ def projects(request):
             "image": "images/projects_love-rosie.png",
         },
         {
+            "title": "Inspire Me Journal; My first JavaScript Project",
+            "description": "JavaScript web application. Responsive HTML, CSS, JavaScript. Personal project. Hosted on Github pages.",
+            "link": "https://ljtalks.github.io/my-new-journal/",
+            "image": "images/inspire_me_journal.png",
+        },
+        {
             "title": "Codestar Blog; A Full Stack Web App",
             "description": "Full stack web application using Django, PostgreSQL, Python, Responsive HTML, CSS, JavaScript, Bootstrap 4. A Code Institute tutorial. Hosted on Heroku.",
             "link": "https://ljtalks-django-blog-5fbe7cf2584e.herokuapp.com/",
             "image": "images/projects_love-rosie.png",
         },
-
-
     ]
     return render(request, 'projects.html', {"projects": projects})
 
