@@ -65,6 +65,12 @@ def projects(request):
             "link": "https://ljtalks-django-blog-5fbe7cf2584e.herokuapp.com/",
             "image": "images/projects_love-rosie.png",
         },
+        {
+            "title": "The Fallen; A Simple (free) Landing Page",
+            "description": "Simple one page landing page to promote a young author's new book.",
+            "link": "https://ltjones.carrd.co/",
+            "image": "images/projects_thefallen.png",
+        },
     ]
     return render(request, 'projects.html', {"projects": projects})
 
