@@ -149,7 +149,9 @@ def register_user(request):
             user = form.save()
             # Capture the source and IP address, inc behind proxies
             ip_address = get_client_ip(request)
+            print("Captured IP:", ip_address)  # Should show only one IP
             source = request.META.get('HTTP_REFERER', '')
+
             # Update the UserProfile with source and IP
             profile, created = UserProfile.objects.get_or_create(user=user)
             profile.source = source
