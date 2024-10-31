@@ -50,7 +50,6 @@ def register_user(request):
             # Update the UserProfile with source and IP
             profile, created = UserProfile.objects.get_or_create(user=user)
             profile.source = source
-            profile.registration_ip = ip_address
             profile.save()
 
             return redirect(request.META.get('HTTP_REFERER', 'home'))

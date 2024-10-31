@@ -10,12 +10,10 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_display = (
         'user',
         'source',
-        'registration_ip'
     )
     search_fields = (
         'user__username',
         'source',
-        'registration_ip'
     )
 
 
@@ -37,15 +35,11 @@ class CustomUserAdmin(UserAdmin):
         'is_superuser',      # Added field for superuser status
         'is_email_subscriber'
     )
-    
+
     def get_source(self, obj):
         return obj.userprofile.source
     get_source.short_description = 'Source'
-    
-    def get_ip(self, obj):
-        return obj.userprofile.registration_ip
-    get_ip.short_description = 'Registration IP'
-    
+
     def user_email(self, obj):
         return obj.email
     user_email.short_description = "User Email"
@@ -59,18 +53,18 @@ class CustomUserAdmin(UserAdmin):
             return 'Never logged in'
 
     previous_last_login.short_description = 'Previous Login'
-    
+
     # Display is tester
     def is_tester(self, obj):
         return obj.groups.filter(name='testers').exists()
-    
+
     # Add bolean indicator tothe admin list
     is_tester.boolean = True
     is_tester.short_description = "Tester Group"
-    
+
     # # Add is tester to list
     # list_display = UserAdmin.list_display + ("is_tester",)
-    
+
     # Method to check if user is subscribed to the email list
     def is_email_subscriber(self, obj):
         return EmailListSubscriber.objects.filter(

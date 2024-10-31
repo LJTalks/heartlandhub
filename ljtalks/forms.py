@@ -34,16 +34,12 @@ class CustomSignupForm(SignupForm):
 
         user = super(CustomSignupForm, self).save(request)
 
-        # Create a UserProfile and save the source and IP
+        # Capture the source
         source = request.META.get('HTTP_REFERER', '')
-        ip_address = request.META.get(
-            'HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', ''))
 
-        # After saving the user, update the profile or create a profile with
-        # the tracking info
+        # Update or create the profile with source
         user_profile, created = UserProfile.objects.get_or_create(user=user)
         user_profile.source = source
-        user_profile.registration_ip = ip_address
         user_profile.save()
 
         return user
