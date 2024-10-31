@@ -139,12 +139,9 @@ def register_user(request):
             # Create the user
             user = form.save()
             # Capture the source and IP address, inc behind proxies
-            ip_address = request.META.get(
-                'HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', ''))
-            # Capture the source
-            source = request.META.get('HTTP_REFERER', '')
+            ip_address = request.META.get('HTTP_REFERER', '')
             # Update the UserProfile with source and IP
-            profile = UserProfile.objects.get_or_create(user=user)[0]
+            profile, created = UserProfile.objects.get_or_create(user=user)
             profile.source = source
             profile.registration_ip = ip_address
             profile.save()
