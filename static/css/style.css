@@ -372,6 +372,7 @@ main {
 }
 
 /* Pink Button Hover Effect */
+.btn-primary:hover,
 .btn-contact:hover,
 .btn-search:hover,
 .btn-delete:hover,

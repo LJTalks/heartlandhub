@@ -48,10 +48,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Set debug based on env.py presence
 # DEBUG = os.getenv('DEBUG', 'False') == 'True'
-if os.path.isfile("env.py"):
-    DEBUG = True
-else:
-    DEBUG = False
+# if os.path.isfile("env.py"):
+#     DEBUG = True
+# else:
+#     DEBUG = False
+
+DEBUG = True
 
 # Development or Production Environment
 # # Switch to production manually for updates
