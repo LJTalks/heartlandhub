@@ -53,7 +53,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # else:
 #     DEBUG = False
 
-DEBUG = True
+DEBUG = False
 
 # Development or Production Environment
 # # Switch to production manually for updates
