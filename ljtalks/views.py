@@ -20,9 +20,18 @@ import logging
 import requests
 from datetime import date
 
+
+# IP tracking botwatch
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0].strip()  # Only the first IP
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 # How Many Days of Coding count
-
-
 def about_me_view(request):
     start_date = date(2024, 6, 24)
     current_date = date.today()
@@ -139,7 +148,8 @@ def register_user(request):
             # Create the user
             user = form.save()
             # Capture the source and IP address, inc behind proxies
-            ip_address = request.META.get('HTTP_REFERER', '')
+            ip_address = get_client_ip(request)
+            source = request.META.get('HTTP_REFERER', '')
             # Update the UserProfile with source and IP
             profile, created = UserProfile.objects.get_or_create(user=user)
             profile.source = source
