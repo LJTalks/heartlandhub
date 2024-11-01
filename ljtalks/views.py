@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from datetime import date
+from blog.models import Post
 from .forms import ContactForm
 from django.contrib import messages
 from django.conf import settings
@@ -12,8 +13,14 @@ def about_me_view(request):
     start_date = date(2024, 6, 24)
     current_date = date.today()
     days_coding = (current_date - start_date).days
-    print("Days coding:", days_coding)  # Temporary debug line
-    return render(request, 'about_me.html', {'days_coding': days_coding})
+
+    latest_post = Post.objects.filter(status=1).latest(
+        'publish_date')
+
+    return render(request, 'about_me.html', {
+        'days_coding': days_coding,
+        'latest_post': latest_post
+    })
 
 
 # General contact form (for anyone)

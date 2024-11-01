@@ -3,8 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    # My About Me page URL
-    path('about_me/', views.about_me, name='about_me'),
     # this is the blog home page that has all the blogs
     # The blog home page/list view
     # Not sure where this came from

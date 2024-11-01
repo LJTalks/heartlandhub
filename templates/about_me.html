@@ -55,6 +55,9 @@
             <p>
                 I’ve loved every bit of this journey so far, and now, as I focus on building this site, I’m excited to share what I’ve learned. Thanks for stopping by. This is just the beginning!
             </p>
+        <div class="text-center">
+            <a href="{% url 'post_detail' latest_post.slug %}" class="btn btn-latest mb-4">Latest Post</a>
+        </div>
         </div>
         <div class="text-center">
             <a href="{% url 'contact' %}?next={{ request.path }}" id="contact" class="btn-contact">Get in touch</a>

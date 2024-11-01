@@ -31,10 +31,6 @@ def unsubscribe(request, user_id):
     return redirect('homepage')
 
 
-def about_me(request):
-    return render(request, 'about_me.html')  # My About Me page
-
-
 class PostList(generic.ListView):
     model = Post
     template_name = "blog/post_list.html"

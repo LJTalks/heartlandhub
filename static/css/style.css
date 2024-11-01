@@ -400,6 +400,7 @@ main {
 }
 
 /* Yellow Buttons */
+.btn-latest,
 .btn-clear-search,
 .btn-journey,
 .btn-signup,
@@ -416,6 +417,7 @@ main {
     transition: all 0.3s ease-in-out!important;
 }
 
+.btn-latest:hover,
 .btn-clear-search:hover,
 .btn-journey:hover,
 .btn-signup:hover,
