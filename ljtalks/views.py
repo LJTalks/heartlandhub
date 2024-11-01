@@ -118,7 +118,8 @@ def projects(request):
         },
         {
             "title": "Codestar Blog; A Full Stack Web App",
-            "description": "Full stack web application using Django, PostgreSQL, Python, Responsive HTML, CSS, JavaScript, Bootstrap 4. A Code Institute tutorial. Hosted on Heroku.",
+            "description":
+                "Full stack web application using Django, PostgreSQL, Python, Responsive HTML, CSS, JavaScript, Bootstrap 4. A Code Institute tutorial. Hosted on Heroku.",
             "link": "https://ljtalks-django-blog-5fbe7cf2584e.herokuapp.com/",
             "image": "images/projects_love-rosie.png",
         },
@@ -129,4 +130,10 @@ def projects(request):
             "image": "images/projects_thefallen.png",
         },
     ]
-    return render(request, 'projects.html', {"projects": projects})
+    latest_post = Post.objects.filter(status=1).latest('publish_date')
+    return render(
+        request,
+        'projects.html',
+        {"projects": projects,
+         "latest_post": latest_post
+         })

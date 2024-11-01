@@ -42,6 +42,9 @@
         </div>
         {% endfor %}
     </div>
+    <div class="text-center">
+        <a href="{% url 'post_detail' latest_post.slug %}" class="btn btn-latest mb-4">Latest Post</a>
+    </div>
 </div>
 {% endblock content %}
 {% block extras %}
