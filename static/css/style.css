@@ -523,3 +523,11 @@ or near the top in momobile  */
     height: 300px; /* Adjust height based on how much space you want */
     border: none; /* No borders */
 }
+
+
+/* Post image container for smaller screens */
+@media (max-width: 576px) {  /* Adjusts only on small screens */
+    .post-image-container {
+        min-height: 200px;  /* Set a comfortable minimum height */
+    }
+}

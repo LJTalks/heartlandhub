@@ -23,11 +23,11 @@
 
         <!-- Post Masthead Image -->
         <div class="col-md-6">
-            <div class="ratio ratio-4x3">
+            <div class="ratio ratio-4x3 post-image-container">
                 {% if "placeholder" in post.featured_image.url %}
                     <img src="{% static 'images/default.jpg' %}" class="img-fluid rounded w-100" alt="placeholder" style="object-fit: cover;">
                 {% else %}
-                    <img src="{{ post.featured_image.url }}" class="img-fluid rounded" alt="{{ post.alt_text | default:post.title }}" style="object-fit: cover;">
+                    <img src="{{ post.featured_image.url }}" class="img-fluid rounded w-100" alt="{{ post.alt_text | default:post.title }}" style="object-fit: cover;">
                     <small class="text-muted img-credit">{{ post.image_credit }}</small>
                 {% endif %}
             </div>
