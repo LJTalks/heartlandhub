@@ -121,6 +121,7 @@ INSTALLED_APPS = [
     'blog',  # Custom apps after django then third-party apps
     'emails',
     'ljtalks',
+    'member.apps.MemberConfig',
     'ytapi',
     # 'services',
     # 'booking',
@@ -137,8 +138,9 @@ SITE_ID = 1  # Production
 LOGIN_REDIRECT_URL = '/'  # returns user to home page after login
 LOGOUT_REDIRECT_URL = '/'  # returns user to home page after logout
 # ACCOUNT_SIGNUP_REDIRECT_URL = '/'  # Unless redirected with Next
+
 ACCOUNT_FORMS = {
-    'signup': 'ljtalks.forms.CustomSignupForm',
+    'signup': 'member.forms.CustomSignupForm',
 }
 
 MIDDLEWARE = [

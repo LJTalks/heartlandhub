@@ -3,7 +3,12 @@ from django.urls import path, include
 # from django.shortcuts import render
 from django.views.generic import TemplateView
 from . import views
-from .views import CustomLoginView
+from member.views import (
+    CustomLoginView,
+    apply_for_beta_access,
+    beta_contact_view,
+    beta_features_view
+)
 
 
 # Function to render the maintenance view (if needed)
@@ -17,18 +22,11 @@ urlpatterns = [
     path('accounts/login/', CustomLoginView.as_view(), name='account_login'),
     # Admin
     path('admin/', admin.site.urls),
-    # Restricted to members
-    path('apply_for_beta_access/',
-         views.apply_for_beta_access,
+    path('apply_for_beta_access/', apply_for_beta_access,
          name='apply_for_beta_access'),
-    # Beta Contact URL (Checks if user is in "testers" group)
-    path(
-        'beta-contact/', views.beta_contact_view, name='beta_contact'
-    ),  # form submit
-    # Beta Features (for testers)
-    path('beta_features/',
-         views.beta_features_view,
-         name='beta_features'),
+    path('beta-contact/', beta_contact_view,
+         name='beta_contact'),  # Beta Contact URL
+    path('beta_features/', beta_features_view, name='beta_features'),
     # path('booking/', include('booking.urls')),
     # General Contact URL (for all)
     path('contact/', views.contact_submit, name='contact'),  # form
@@ -36,6 +34,7 @@ urlpatterns = [
     path('disclaimer/', TemplateView.as_view(
         template_name="ljtalks/disclaimer.html"), name='disclaimer'),
     path('emails/', include('emails.urls')),
+    path('member/', include('member.urls')),
     path('privacy/', TemplateView.as_view(
         template_name="ljtalks/privacy.html"), name='privacy_policy'),
     path('projects/', views.projects, name='projects'),
