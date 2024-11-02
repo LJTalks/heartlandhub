@@ -55,7 +55,8 @@ def contact_submit(request):
             else:
                 # Process the valid form submission from a real user
                 name = form.cleaned_data['name']
-                email = form.cleaned_data['email']
+                email = (
+                    request.user.email if request.user.is_authenticated else form.cleaned_data['email'])
                 message = form.cleaned_data['message']
 
                 # Prepare the email content
@@ -83,7 +84,10 @@ def contact_submit(request):
         else:
             messages.error(request, 'There was an error in the form.')
     else:
-        form = ContactForm()  # If GET request, just render the empty form
+        initial_data = {
+            'email': request.user.email} if request.user.is_authenticated else {}
+        # If GET request, just render the empty form
+        form = ContactForm(initial=initial_data)
 
     # For a GET request, just render the contact form
     return render(request, 'contact.html', {'form': form})
@@ -130,6 +134,7 @@ def projects(request):
             "image": "images/projects_thefallen.png",
         },
     ]
+
     latest_post = Post.objects.filter(status=1).latest('publish_date')
     return render(
         request,
