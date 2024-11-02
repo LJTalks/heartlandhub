@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import EmailMessage
 import requests
+from ljtalks.models import ContactSubmission
 
 
 # How Many Days I've been Coding count
@@ -56,10 +57,20 @@ def contact_submit(request):
                 # Process the valid form submission from a real user
                 name = form.cleaned_data['name']
                 email = (
-                    request.user.email if request.user.is_authenticated else form.cleaned_data['email'])
+                    request.user.email
+                    if request.user.is_authenticated
+                    else form.cleaned_data['email'])
                 message = form.cleaned_data['message']
 
-                # Prepare the email content
+                # Save to database
+                ContactSubmission.objects.create(
+                    user=request.user if request.user.is_authenticated else None,
+                    name=name,
+                    email=email,
+                    message=message
+                )
+
+                # Prepare and send the email
                 subject = f"LJTalks Contact Form from {name}"
                 content = (
                     f"New Message from: {name}\nEmail: {email}\n\n{message}\n")

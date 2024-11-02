@@ -2,6 +2,9 @@
 
 The blog app is the main hub of the site so far. Admin can log in and create blog posts.Blog posts are accesible to read for all users. Logged in users can CRUD their own comments. All users can see approved comments. Blogs have a view count which is limited in a session to avoid overcounting.
 
+**Search function**
+Users can search through blog posts. TODO can we record searches made by users and/or registered users for future ideas?
+
 # booking
 
 This is currently not wired in. Future uses will be to book discovery calls, book spaces on online masterclasses/lessons/events
@@ -79,6 +82,8 @@ there is a CustomAccountAdapter in here, not sure what it's for but looks email/
 This app looks after our user profiles. There will be an option to create a profile. Users can manage their comments in here, and can access their purchase history, and manage their newsletter/contact preferences.
 
 members can be assigned to groups for newsletter preferences and special access.
+
+Members could have access to contact form emails they have submitted (and maybe our response)
 
 # Services
 
