@@ -74,7 +74,7 @@ ALLOWED_HOSTS = [
     'ljtalksdev-61ea4d3e9223.herokuapp.com',
     'ljblogs-fcdcaa00fdda.herokuapp.com',
     'ljtalks.com',
-    'www.ljtalks.com'
+    'www.ljtalks.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
