@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 {% load static %}
-
+{% load crispy_forms_tags %}
+{% block title %}{{ post.title }} - LJ Talks{% endblock title %}
 <!-- Meta tags -->
+{% block robots %}
+<meta name="robots" content="index, follow">
+{% endblock robots %}
+
 {% block meta_description %}
 <meta name="description" content="{{ post.meta_description|default:post.content|truncatechars:160 }}">
 {% endblock meta_description %}
 
 {% block seo_tags %}
-<meta name="keywords" content="{{ post.seo_tags }}">
+<meta name="keywords" content="{{ post.seo_tags|default:"coding, development, tutorials" }}">
+<meta property="og:title" content="{{ post.title }}">
+<meta property="og:description" content="{{ post.excerpt|default:post.content|truncatechars:160 }}">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default_image.png' %}{% endif %}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ post.title }}">
+<meta name="twitter:description" content="{{ post.excerpt|default:post.content|truncatechars:160 }}">
+<meta name="twitter:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default_image.png' %}{% endif %}">
 {% endblock seo_tags %}
 
 {% block content %}
@@ -50,7 +62,7 @@
         </a>
     </div>
     <div class="col-12">
-        <hr />
+        <hr >
     </div>
 </div>
 
@@ -58,8 +70,8 @@
 <div class="container">
     <div class="row">
         <div class="col-12 card mb-4 mt-3">
-            <div class="card-body">
-                <p class="card-text">{{ post.content | safe }}</p>
+            <div class="card-body card-text">
+                {{ post.content | safe }}
             </div>
         </div>
     </div>
@@ -140,7 +152,7 @@
     </div>
 </div>
 
-<!-- Add navigation buttons -->
+<!-- Page navigation buttons -->
 <div class="row">
     <div class="col text-center">
         <nav aria-label="Post navigation">

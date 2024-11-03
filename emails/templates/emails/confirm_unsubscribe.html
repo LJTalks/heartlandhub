@@ -1,4 +1,10 @@
 # views.py
+# TODO 
+
+{% block robots %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock robots %}
+
 def confirm_unsubscribe(request):
     if request.method == 'POST':
         if request.user.is_authenticated:

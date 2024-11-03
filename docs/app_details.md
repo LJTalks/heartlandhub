@@ -1,4 +1,28 @@
+# Robots; Sensitive v Public Pages
+
+Public Pages (Home, About, Projects, Blog Post, etc.): Use
+
+```
+{% block robots %}
+<meta name="robots" content="index, follow">
+{% endblock robots %}
+```
+
+to encourage indexing.
+
+Non-Public/Sensitive Pages (Login, Registration, Profile Settings): Use
+
+```
+{% block robots %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock robots %}
+```
+
+to prevent indexing.
+
 # blog
+
+**Can we add an ai assistant into the blog admin to create the seo tags etc?**
 
 The blog app is the main hub of the site so far. Admin can log in and create blog posts.Blog posts are accesible to read for all users. Logged in users can CRUD their own comments. All users can see approved comments. Blogs have a view count which is limited in a session to avoid overcounting.
 

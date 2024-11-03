@@ -1,6 +1,10 @@
 {% extends "base.html" %}
-{% block content %}
 {% load static %}
+{% block robots %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock robots %}
+{% block content %}
+
 
 <h2>Are you sure you want to unsubscribe from all email lists?</h2>
 <form method="POST" action="{% url 'confirm_unsubscribe' %}?next={{ next_url }}">

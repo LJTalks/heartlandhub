@@ -3,9 +3,16 @@ from django import forms
 
 
 class ContactForm(forms.Form):
-    name = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(required=True)
-    message = forms.CharField(widget=forms.Textarea, required=True)
+    name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'id': 'name'}),
+        required=True)
+    email = forms.EmailField(
+        widget=forms.TextInput(attrs={'id': 'email'}),
+        required=True)
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={'id': 'message'}),
+        required=True)
     honeytrap = forms.CharField(required=False, widget=forms.HiddenInput)
 
     def __init__(self, *args, **kwargs):

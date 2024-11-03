@@ -2,25 +2,27 @@
 {% load static %}
 {% block title %}About Me - LJ Talks{% endblock %}
 
+{% block robots %}
+<meta name="robots" content="index, follow">
+{% endblock robots %}
+
 {% block meta_description %}
 <meta name="description" content="Learn more about Laura, the creator of LJ Talks. A personal journey through software development, coding, and building a full-stack website from scratch.">
 {% endblock meta_description %}
 
-{% block meta %}
-<meta name="keywords" content="About Laura, software developer, coding journey, web development, LJ Talks">
-{% endblock meta %}
-
 {% block seo_tags %}
-<meta property="og:title" content="About Laura - Full Stack Developer" />
-<meta property="og:description" content="Discover Laura's journey in software development, creating LJ Talks from scratch, and sharing knowledge through tutorials and blog posts." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="{% url 'about_me' %}" />
-<meta property="og:image" content="{% static 'images/mtb_laura.png' %}" />
+<meta name="keywords" content="About Laura, software developer, coding journey, web development, LJ Talks">
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="About Laura - Full Stack Developer" />
-<meta name="twitter:description" content="Discover Laura's journey in software development, creating LJ Talks from scratch, and sharing knowledge through tutorials and blog posts." />
-<meta name="twitter:image" content="{% static 'images/about_me_image.jpg' %}" />
+<meta property="og:title" content="About Laura - Full Stack Developer">
+<meta property="og:description" content="Discover Laura's journey in software development, creating LJ Talks from scratch, and sharing knowledge through tutorials and blog posts.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri|slice:':-1' }}{% url 'about_me' %}">
+<meta property="og:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/mtb_laura.png' %}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About Laura - Full Stack Developer">
+<meta name="twitter:description" content="Discover Laura's journey in software development, creating LJ Talks from scratch, and sharing knowledge through tutorials and blog posts.">
+<meta name="twitter:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/about_me_image.jpg' %}">
 
 {% endblock seo_tags %}
 
