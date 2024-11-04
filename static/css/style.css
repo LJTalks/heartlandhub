@@ -464,8 +464,6 @@ main {
 /* Post Title and Subtitle */
 .post-title {
     font-size: clamp(1.5rem, 2vw + 1rem, 3rem);
-    /* margin-top: 0%;
-    margin-left: 5%; */
 }
 
 .post-subtitle {

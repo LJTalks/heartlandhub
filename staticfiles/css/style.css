@@ -464,8 +464,6 @@ main {
 /* Post Title and Subtitle */
 .post-title {
     font-size: clamp(1.5rem, 2vw + 1rem, 3rem);
-    margin-top: 0%;
-    margin-left: 5%;
 }
 
 .post-subtitle {
@@ -525,9 +523,15 @@ or near the top in momobile  */
 }
 
 
-/* Post image container for smaller screens */
-@media (max-width: 576px) {  /* Adjusts only on small screens */
+@media (min-width: 379px) and (max-width: 767px) {
     .post-image-container {
-        min-height: 200px;  /* Set a comfortable minimum height */
+        height: 250px;  /* Set a height suitable for mid-sized screens */
+        overflow: hidden;
+    }
+
+    .post-image-container img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
     }
 }
