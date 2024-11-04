@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block robots %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock robots %}
 {% block content %}
 <div class="container text-center mt-5">
     <h1 class="display-4 text-danger">Whoops! My bad...</h1>
