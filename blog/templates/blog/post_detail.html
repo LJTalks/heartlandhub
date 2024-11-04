@@ -62,21 +62,21 @@
         </a>
     </div>
     <div class="col-12">
-        <hr >
+        <hr>
     </div>
 </div>
-<!-- Namecheap widget conditions -->
-{% block namecheap %}
-<!-- Conditionally display the Namecheap widget -->
-{% if "namecheap" in post.slug %}
-{% include 'blog/partials/namecheap.html' %}
-{% endif %}
-{% endblock namecheap %}
 
 <!-- Post content -->
 <div class="container">
     <div class="row">
         <div class="col-12 card mb-4 mt-3">
+            <!-- Namecheap widget conditions -->
+            {% block namecheap %}
+            <!-- Conditionally display the Namecheap widget -->
+            {% if "namecheap" in post.slug %}
+            {% include 'blog/partials/namecheap.html' %}
+            {% endif %}
+            {% endblock namecheap %}
             <div class="card-body card-text">
                 {{ post.content | safe }}
             </div>
