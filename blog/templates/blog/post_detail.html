@@ -72,17 +72,15 @@
 <!-- Post content -->
 <div class="container">
     <div class="row">
+        <!-- Conditionally display the Namecheap widget -->
+        {% if "namecheap" in post.slug %}
         <div class="col-12 card mb-4 mt-3">
             <div class="card-body card-text">
                 <!-- Namecheap widget conditions -->
-                {% block namecheap %}
-                <!-- Conditionally display the Namecheap widget -->
-                {% if "namecheap" in post.slug %}
                 {% include 'blog/partials/namecheap.html' %}
-                {% endif %}
-                {% endblock namecheap %}
             </div>
         </div>
+        {% endif %}
         <div class="col-12 card mb-4 mt-3">
             <div class="card-body card-text">
                 {{ post.content | safe }}
