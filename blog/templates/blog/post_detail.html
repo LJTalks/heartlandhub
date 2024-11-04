@@ -25,7 +25,7 @@
 
 {% block content %}
 <!-- Post Details -->
-<div class="container-fluid masthead my-3 col-12">
+<div class="container masthead my-3 col-12">
     <div class="row g-0">
         <!-- Post title and date -->
         <div class="col-md-6">
@@ -48,21 +48,24 @@
 </div>
 
 <!-- Displaying post views and comments count -->
-<div class="row">
-    <div class="col-6">
-        <strong class="text-secondary">
-            <i class="far fa-eye"></i> {{ post.views }} Views
-        </strong>
-    </div>
-    <div class="col-6 text-right text-end">
-        <a href="#comments-section" class="text-secondary">
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 text-left mb-4 mt-3">
             <strong class="text-secondary">
-                <i class="far fa-comments"></i> {{ blog_comment_count }} Comments
+                <i class="far fa-eye"></i> {{ post.views }} Views
             </strong>
-        </a>
-    </div>
-    <div class="col-12">
+        </div>
+        <div class="col-6 text-right text-end mb-4 mt-3">
+            <a href="#comments-section" class="text-secondary">
+                <strong class="text-secondary">
+                    <i class="far fa-comments"></i> {{ blog_comment_count }} Comments
+                </strong>
+            </a>
+        </div>
+        <div class="col-12">
         <hr>
+        </div>
     </div>
 </div>
 
