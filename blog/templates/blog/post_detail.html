@@ -65,6 +65,13 @@
         <hr >
     </div>
 </div>
+<!-- Namecheap widget conditions -->
+{% block namecheap %}
+<!-- Conditionally display the Namecheap widget -->
+{% if "namecheap" in post.slug %}
+{% include 'blog/partials/namecheap.html' %}
+{% endif %}
+{% endblock namecheap %}
 
 <!-- Post content -->
 <div class="container">

@@ -11,6 +11,7 @@ from .models import Post, BlogComment, ViewRecord
 from .forms import BlogCommentForm
 from django.contrib.auth.models import User
 import datetime
+import os
 from django.db.models import Q  # allows for complex queries
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -37,8 +38,14 @@ class PostList(generic.ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(
-            status=1).order_by("-publish_date")
+        queryset = super().get_queryset().order_by("-publish_date", "-created_on")
+
+        # Include drafts in development
+        if os.path.exists('env.py'):
+            queryset = queryset.filter(Q(status=1) | Q(status=0))
+        else:
+            queryset = queryset.filter(status=1)
+
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(
@@ -66,7 +73,11 @@ class PostList(generic.ListView):
 
 
 def post_detail(request, slug):
-    queryset = Post.objects.filter(status=1)
+    # Include drafts in development
+    if os.path.exists('env.py'):
+        queryset = Post.objects.filter(Q(status=1) | Q(status=0))
+    else:
+        queryset = Post.objects.filter(status=1)
     # Get the current post
     post = get_object_or_404(queryset, slug=slug)
 
