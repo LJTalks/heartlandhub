@@ -75,7 +75,6 @@ ALLOWED_HOSTS = [
     'ljblogs-fcdcaa00fdda.herokuapp.com',
     'ljtalks.com',
     'www.ljtalks.com',
-    '.ui.dev',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -84,7 +83,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://ljtalks.com",
     "https://www.ljtalks.com",
     "https://*.codeinstitute-ide.net",
-    "https://*.ui.dev",
 ]
 
 # # Database configuration (development v production)
