@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 # import sys
 # from django.contrib.messages import constants as messages
 import dj_database_url
@@ -137,8 +137,10 @@ SITE_ID = 1  # Production
 
 LOGIN_REDIRECT_URL = '/'  # returns user to home page after login
 LOGOUT_REDIRECT_URL = '/'  # returns user to home page after logout
-# ACCOUNT_SIGNUP_REDIRECT_URL = '/'  # Unless redirected with Next
+ACCOUNT_SIGNUP_REDIRECT_URL = '/'  # Unless redirected with Next
 
+
+# I think we could remove this now we're using cloudflare?
 ACCOUNT_FORMS = {
     'signup': 'member.forms.CustomSignupForm',
 }
@@ -156,30 +158,6 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-# Set up email configurations
-# if DEBUG:
-#     EMAIL_BACKEND = 'django.core.backends.console.EmailBackend'
-# # For testing locally
-# else:
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = '/tmp/emails'  # Change this path as needed
-
-# you can use Django’s console backend for development (this will print the
-# email content to the terminal instead of sending it)
-# Use console email backend for development
-# With this, emails will appear in your terminal instead of attempting
-# to send them, which avoids connection issues during development.
-EMAIL_HOST = 'smtp.privateemail.com'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
-
-
 ROOT_URLCONF = 'ljtalks.urls'
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
@@ -195,12 +173,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # Chat GPT's idea
-                'django.template.context_processors.request',
                 # base nav to show additional options to different groups
                 'ljtalks.context_processors.add_is_tester',
                 'ljtalks.context_processors.recaptcha_site_key',
                 # 'ljtalks.context_processors.database_context',
+                'ljtalks.context_processors.support_email'
             ],
         },
     },
@@ -253,22 +230,35 @@ AUTH_PASSWORD_VALIDATORS = [
 # For recaptcha
 ACCOUNT_ADAPTER = 'ljtalks.adapters.CustomAccountAdapter'
 
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # We def want this
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_CONFIRMATION_HTML_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'  # Login with email/username
-# (again CHATGPT down below)
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # We def want this
 ACCOUNT_USERNAME_REQUIRED = True  # We want usernames
+
+# (again CHATGPT down below)
+# think we can lose this now?
+# ACCOUNT_EMAIL_CONFIRMATION_HTML_EMAIL = True
 
 # Optional: Prevent login until email is verified
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 
 # Will this stop the emails coming from example@
+# it doesn't seem to work, test again
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "LJ Talks "  # Customize the prefix
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")  # Set the default email
 
+# Set up email configurations for dev and prod
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.privateemail.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
+SUPPORT_EMAIL = os.getenv('SUPPORT_EMAIL')
 
 # BEWARE ChatGpt asked me to add this when adding auth and email verification
+# Not sure thisi snecessary, we don't have it in ljmedia.co.uk
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -315,14 +305,26 @@ DATETIME_FORMAT = 'd/m/Y H:i'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Is this the line that broke it?
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic
+# STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic
 # This is previous. It didn't help yet so this may need reverting.
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Configure Whitenoise to handle static files
+# this is for Django versions olderthan 4.2
+# This works with ljmedia...
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage')
+# for Django 4.2+
+
+# This from whitenoise docs throws settings_ALLOWED_HOSTS error
+# STORAGES = {
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
 
 # Recaptcha and other API keys (default to Dev if available)
 # RECAPTCHA_PRIVATE_KEY = os.getenv(
@@ -346,21 +348,9 @@ SUMMERNOTE_CONFIG = {
     },
 }
 
-# Configure Whitenoise to handle static files
-# this is for Django versions olderthan 4.2
-# STATICFILES_STORAGE = (
-#   'whitenoise.storage.CompressedManifestStaticFilesStorage')
-# for Django 4.2+
-
-# This from whitenoise docs throws settings_ALLOWED_HOSTS error
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
-
-# Media file handling (Images and uploads)
-# MEDIA_URL = '/media/'
+# Media file handling (Images and uploads) - Why is this commented out?
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

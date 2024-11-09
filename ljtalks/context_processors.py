@@ -15,6 +15,12 @@ def recaptcha_site_key(request):
     }
 
 
+def support_email(request):
+    return {
+        'support_email': settings.SUPPORT_EMAIL
+    }
+
+
 # def database_context(request):
 #     return {
 #         'DATABASE_NAME': settings.DATABASE_NAME,

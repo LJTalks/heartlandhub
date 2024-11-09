@@ -8,6 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+# I think we could remove this now we're using cloudflare?
 class CustomSignupForm(SignupForm):
     honeypot = forms.CharField(required=False, widget=forms.HiddenInput)
 
