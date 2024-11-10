@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title %}{{ post.title }} - LJ Talks{% endblock title %}
+{% block title %}{{ post.title }} - Heartland Hub{% endblock title %}
 <!-- Meta tags -->
 {% block robots %}
 <meta name="robots" content="index, follow">
@@ -12,7 +12,8 @@
 {% endblock meta_description %}
 
 {% block seo_tags %}
-<meta name="keywords" content="{{ post.seo_tags|default:"coding, development, tutorials" }}">
+
+<meta name="keywords" content="{{ post.seo_tags|default:"local businesses, sustainable practices, community blog" }}">
 <meta property="og:title" content="{{ post.title | safe }}">
 <meta property="og:description"
     content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}">
@@ -79,15 +80,6 @@
 <!-- Post content -->
 <div class="container">
     <div class="row">
-        <!-- Conditionally display the Namecheap widget -->
-        {% if "namecheap" in post.slug %}
-        <div class="col-12 card mb-4 mt-3">
-            <div class="card-body card-text">
-                <!-- Namecheap widget conditions -->
-                {% include 'blog/partials/namecheap.html' %}
-            </div>
-        </div>
-        {% endif %}
         <div class="col-12 card mb-4 mt-3">
             <div class="card-body card-text">
                 {{ post.content | safe }}

@@ -1,28 +1,30 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Latest Blog Posts - LJ Talks {% endblock title %}
+{% block title %} Latest Blog Posts - Heartland Hub {% endblock title %}
 {% block robots %}
 <meta name="robots" content="index, follow">
 {% endblock robots %}
 
 {% block meta_description %}
 <meta name="description"
-    content="Check out the latest blog posts on coding, software development, and tutorials at LJ Talks.">
+    content="Explore the latest stories and insights on local, sustainable, and traditional businesses at Heartland Hub. Discover artisans, makers, and community-focused businesses near you.">
 {% endblock meta_description %}
 
 {% block seo_tags %}
-<meta name="keywords" content="coding blog, latest posts, software development tutorials, web development, LJ Talks">
-<meta property="og:title" content="Latest Blog Posts - LJ Talks">
+<meta name="keywords" content="local businesses, community blog, sustainable crafts, traditional trades, Heartland Hub">
+<meta property="og:title" content="Latest Blog Posts - Heartland Hub">
 <meta property="og:description"
-    content="Explore the newest insights and tutorials on coding and software development. Join the adventure at LJ Talks!">
+    content="Join Heartland Hub and explore our latest posts on supporting local craftsmanship, community, and sustainability. Discover businesses committed to authentic and traditional practices.">
+
 <meta property="og:url" content="{{ request.build_absolute_uri|slice:':-1' }}{% url 'home' %}">
-<meta property="og:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/mtb_laura.png' %}">
+<meta property="og:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/heartland_hub.png' %}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Latest Blog Posts - LJ Talks">
+<meta name="twitter:title" content="Latest Blog Posts - Heartland Hub">
 <meta name="twitter:description"
-    content="Explore the newest insights and tutorials on coding and software development. Join the adventure at LJ Talks!">
-<meta name="twitter:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/mtb_laura.png' %}">
+    content="Explore our blog at Heartland Hub, dedicated to supporting local and sustainable businesses. Join the community and find inspiration.">
+<meta name="twitter:image"
+    content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/heartland_hub.png' %}">
 {% endblock seo_tags %}
 
 {% block content %}
@@ -142,7 +144,7 @@
                 error: function () {
                     $('#message-area').html(
                         '<p>There was an error processing your search. Please try again.</p>'
-                        );
+                    );
                 }
             });
         });
@@ -156,7 +158,3 @@
     });
 </script>
 {% endblock %}
-
-{% block copyright %}
-2024 LJTalks
-{% endblock copyright %}
