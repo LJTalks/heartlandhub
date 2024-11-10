@@ -247,8 +247,8 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "LJ Talks "  # Customize the prefix
 
 # Set up email configurations for dev and prod
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.privateemail.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True

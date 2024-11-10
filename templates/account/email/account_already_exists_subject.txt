@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Account Already Exists{% endblocktrans %}
+{% blocktrans %} {{ current_site.name }} - Account Already Exists{% endblocktrans %}
 {% endautoescape %}

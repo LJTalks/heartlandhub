@@ -1,29 +1,24 @@
 <!-- Need to activate the unsubscribe option 
 This is the nice email to confirm registration and verify email request with the green button -->
-{% extends "account/email/base_message.txt" %}
+{% extends "account/email/base_message.html" %}
 {% load account %}
 {% load i18n %}
 
+{% block content %}
 <div style="font-family: Arial, sans-serif; text-align: center;">
-    <!-- Welcome and Username -->
-
     <!-- <p>This is a custom email template for testing purposes.</p> -->
-    <h1>Welcome to LJ Talks!</h1>
+
+    <h1>Welcome to {{ current_site.name }}!</h1>
     <p>{% blocktrans %}Hello {{ user.username }},{% endblocktrans %}</p>
-    
+
     <!-- Verify Email Button -->
     <p>{% blocktrans %}Thanks for signing up. Please click the button below to verify your email:{% endblocktrans %}</p>
-    <a href="{{ activate_url }}" style="display: inline-block; padding: 10px 20px; background-color: #FF0077; color: white; border-radius: 5px; text-decoration: none;">{% blocktrans %}Verify Email{% endblocktrans %}</a>
+    <a href="{{ activate_url }}"
+        style="display: inline-block; padding: 10px 20px; background-color: #FF0077; color: white; border-radius: 5px; text-decoration: none;">{% blocktrans %}Verify
+        Email{% endblocktrans %}</a>
 
     <!-- Sign-up notice -->
     <p>{% blocktrans %}If you did not sign up for this account, please ignore this email.{% endblocktrans %}</p>
 </div>
 
-<!-- Footer Section -->
-<hr style="border: 0; border-top: 1px solid #ddd;">
-<div style="font-family: Arial, sans-serif; text-align: center; font-size: 12px; color: #777;">
-    <p>If you have any questions, feel free to contact us at <a href="mailto:support@ljtalks.com" style="color: #2a2a2b;">support@ljtalks.com</a></p>
-    <p>You are receiving this email because you signed up to <a href="https://www.ljtalks.com" style="color: #2a2a2b;">LJ Talks</a>.</p>
-    <p>If you no longer wish to receive these emails, <a href="{{ unsubscribe_url }}" style="color: #007bff;">click here to unsubscribe</a>.</p>
-    <p>&copy; 2024 LJ Talks, All rights reserved.</p>
-</div>
+{% endblock content %}

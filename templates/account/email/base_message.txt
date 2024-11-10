@@ -1,21 +1,12 @@
-{% load i18n %}{% autoescape off %}
-{% blocktrans with site_name=current_site.name %}
-Hello from {{ site_name }}!{% endblocktrans %}
+{% load i18n %}
+{% autoescape off %}
+
+Hello from {{ current_site.name }}!
 
 {% block content %}{% endblock content %}
 
-{% blocktrans with site_name=current_site.name %}
-Thank you for visiting {{ site_name }}!
-{% endblocktrans %}
-
 {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
-Visit our website: {{ site_domain }}
+Thank you for using {{ site_name }}!
+{{ site_domain }}
 {% endblocktrans %}
-
-{% blocktrans with unsubscribe_url=unsubscribe_url %}
-If you no longer wish to receive these emails, please unsubscribe here: {{ unsubscribe_url }}
-{% endblocktrans %}
-
 {% endautoescape %}
-
-

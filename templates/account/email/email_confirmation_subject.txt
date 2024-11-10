@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Subject: [LJTalks] Please Confirm Your Email Address{% endblocktrans %}
+{% blocktrans %} {{ current_site.name }} - Please Confirm Your Email Address{% endblocktrans %}
 {% endautoescape %}
