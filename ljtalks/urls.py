@@ -17,7 +17,7 @@ from member.views import (
 
 urlpatterns = [
     # Authentication (allauth)
-    path('about_me/', views.about_me_view, name='about_me'),
+    path('about_us/', views.about_us_view, name='about_us'),
     path('accounts/', include("allauth.urls")),
     path('accounts/login/', CustomLoginView.as_view(), name='account_login'),
     # Admin

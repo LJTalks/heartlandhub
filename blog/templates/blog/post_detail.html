@@ -14,13 +14,17 @@
 {% block seo_tags %}
 <meta name="keywords" content="{{ post.seo_tags|default:"coding, development, tutorials" }}">
 <meta property="og:title" content="{{ post.title | safe }}">
-<meta property="og:description" content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}">
+<meta property="og:description"
+    content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
-<meta property="og:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default_image.png' %}{% endif %}">
+<meta property="og:image"
+    content="{{ request.build_absolute_uri|slice:':-1' }}{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default_image.png' %}{% endif %}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ post.title | safe }}">
-<meta name="twitter:description" content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}">
-<meta name="twitter:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default_image.png' %}{% endif %}">
+<meta name="twitter:description"
+    content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}">
+<meta name="twitter:image"
+    content="{{ request.build_absolute_uri|slice:':-1' }}{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default_image.png' %}{% endif %}">
 {% endblock seo_tags %}
 
 {% block content %}
@@ -37,10 +41,13 @@
         <div class="col-md-6">
             <div class="post-image-container">
                 {% if "placeholder" in post.featured_image.url %}
-                    <img src="{% static 'images/default.jpg' %}" class="img-fluid rounded w-100" alt="placeholder">
+                <img src="{% static 'images/default.jpg' %}" class="img-fluid rounded w-100"
+                    alt="Seedling by Akil Mazumder">
+                <small class="text-muted img-credit">Akil Mazumder</small>
                 {% else %}
-                    <img src="{{ post.featured_image.url }}" class="img-fluid rounded w-100" alt="{{ post.alt_text | default:post.title }}">
-                    <small class="text-muted img-credit">{{ post.image_credit }}</small>
+                <img src="{{ post.featured_image.url }}" class="img-fluid rounded w-100"
+                    alt="{{ post.alt_text | default:post.title }}">
+                <small class="text-muted img-credit">{{ post.image_credit }}</small>
                 {% endif %}
             </div>
         </div>
@@ -64,7 +71,7 @@
             </a>
         </div>
         <div class="col-12">
-        <hr>
+            <hr>
         </div>
     </div>
 </div>
@@ -97,12 +104,13 @@
             {% if blog_comments %}
             <div class="card-body">
                 {% for blog_comment in blog_comments %}
-                <div class="p-2 comments {% if blog_comment.status == 0 and blog_comment.author == user %} faded{% elif blog_comment.status == 0 %} d-none{% endif %}">
+                <div
+                    class="p-2 comments {% if blog_comment.status == 0 and blog_comment.author == user %} faded{% elif blog_comment.status == 0 %} d-none{% endif %}">
                     <p class="font-weight-bold">
                         {% if blog_comment.author %}
-                            {{ blog_comment.author.username }}
+                        {{ blog_comment.author.username }}
                         {% else %}
-                            Deleted User
+                        Deleted User
                         {% endif %}
                         <span class="font-weight-normal"> {{ blog_comment.created_on }} </span> wrote:
                     </p>

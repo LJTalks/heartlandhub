@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About Us - Heartland Hub{% endblock %}
+
+{% block robots %}
+<meta name="robots" content="index, follow">
+{% endblock robots %}
+
+{% block meta_description %}
+<meta name="description"
+    content="Discover Heartland Hub - a community-centered platform connecting you with local, sustainable, and traditional businesses. Learn about our mission to celebrate craft, community, and authentic local connections.">
+{% endblock meta_description %}
+
+{% block seo_tags %}
+<meta name="keywords" content="Heartland Hub, local business, community hub, sustainable crafts, traditional trades">
+
+<meta property="og:title" content="About Us - Heartland Hub">
+<meta property="og:description"
+    content="Heartland Hub is dedicated to showcasing local businesses, connecting you with authentic artisans and sustainable practices. Join us in supporting community and craft.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri|slice:':-1' }}{% url 'about_us' %}">
+<meta property="og:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/heartland_hub.png' %}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About Laura - Full Stack Developer">
+<meta name="twitter:description"
+    content="Discover Heartland Hub's mission to celebrate local craftsmanship, community, and sustainable living. Connect with businesses that value authenticity and tradition.">
+<meta name="twitter:image"
+    content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/heartland_hub.png' %}">
+
+{% endblock seo_tags %}
+
+{% block content %}
+
+<!-- about us -->
+<div class="container mt-5">
+    <!-- About Me Section -->
+    <div class="row mt-1 justify-content-center">
+        <!-- Profile Image -->
+        <div class="col-md-4 text-center mb-6">
+            <img src="{% static 'images/heartland_hub.png' %}" class="img-fluid rounded-circle shadow"
+                alt="Heartland Hub's Logo">
+        </div>
+
+        <!-- About Us Text -->
+        <div class="col-md-8 mt-1">
+            <h1>About Us</h1>
+            <h3>Celebrating Local Craft, Tradition & Community Connections</h3>
+            <p class="lead">
+                Heartland Hub is a digital community space dedicated to showcasing local, home-based, and traditional
+                businesses with a focus on authenticity, sustainability, and craftsmanship.</p>
+        </div>
+        <div class="col-md-12">
+            <p>It's designed to connect people with small, independent creators, artisans, and service providers—like
+                weavers, bakers, holistic practitioners, and farmers—who are committed to quality and community over
+                corporate influence.</p>
+            <p>The site offers each business its own profile page, complete with links to their personal websites,
+                allowing users to explore their stories and offerings in more depth.</p>
+            <p>Visitors can search for businesses by location and category, making it easy to discover and support local
+                talent and sustainable practices.</p>
+            <p>Heartland Hub is driven by a vision of reconnecting communities with the skills, traditions, and trades
+                that sustain a more thoughtful and connected way of living.</p>
+            <div class="text-center">
+                <a href="{% url 'post_detail' latest_post.slug %}" class="btn btn-latest mb-4">Latest Post</a>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="{% url 'contact' %}?next={{ request.path }}" id="contact" class="btn-contact">Get in touch</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

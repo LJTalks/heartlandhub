@@ -7,18 +7,21 @@
 {% endblock robots %}
 
 {% block meta_description %}
-<meta name="description" content="Check out the latest blog posts on coding, software development, and tutorials at LJ Talks.">
+<meta name="description"
+    content="Check out the latest blog posts on coding, software development, and tutorials at LJ Talks.">
 {% endblock meta_description %}
 
 {% block seo_tags %}
 <meta name="keywords" content="coding blog, latest posts, software development tutorials, web development, LJ Talks">
 <meta property="og:title" content="Latest Blog Posts - LJ Talks">
-<meta property="og:description" content="Explore the newest insights and tutorials on coding and software development. Join the adventure at LJ Talks!">
+<meta property="og:description"
+    content="Explore the newest insights and tutorials on coding and software development. Join the adventure at LJ Talks!">
 <meta property="og:url" content="{{ request.build_absolute_uri|slice:':-1' }}{% url 'home' %}">
 <meta property="og:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/mtb_laura.png' %}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Latest Blog Posts - LJ Talks">
-<meta name="twitter:description" content="Explore the newest insights and tutorials on coding and software development. Join the adventure at LJ Talks!">
+<meta name="twitter:description"
+    content="Explore the newest insights and tutorials on coding and software development. Join the adventure at LJ Talks!">
 <meta name="twitter:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/mtb_laura.png' %}">
 {% endblock seo_tags %}
 
@@ -26,7 +29,8 @@
 
 <!-- Search -->
 <form id="search-form">
-    <input type="text" name="q" id="search-input" class="form-control" placeholder="Search blog posts..." value="{{ request.GET.q }}">
+    <input type="text" name="q" id="search-input" class="form-control" placeholder="Search blog posts..."
+        value="{{ request.GET.q }}">
     <button type="button" id="search-button" class="btn-sm btn-search mt-3">Search</button>
     <button type="button" id="clear-button" class="btn-sm btn-clear-search mt-3">Clear Search</button>
 </form>
@@ -58,9 +62,11 @@
                     <div class="card mb-4 shadow-sm">
                         <div class="image-container">
                             {% if "placeholder" in post.featured_image.url %}
-                                <img class="card-img-top img-fluid" src="{% static 'images/default.jpg' %}" alt="placeholder image" style="height: 200px; object-fit: cover;">
+                            <img class="card-img-top img-fluid" src="{% static 'images/default.jpg' %}"
+                                alt="Seedling by Akil Mazumder" style="height: 200px; object-fit: cover;">
                             {% else %}
-                                <img class="card-img-top img-fluid" src="{{ post.featured_image.url }}" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                            <img class="card-img-top img-fluid" src="{{ post.featured_image.url }}"
+                                alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
                             {% endif %}
                         </div>
                         <div class="card-body">
@@ -68,9 +74,9 @@
                                 <h2 class="card-title">{{ post.title }}</h2>
                                 <p class="card-text">
                                     {% if post.excerpt %}
-                                        {{ post.excerpt | safe }}
-                                    {% else %} 
-                                        {{ post.content|truncatechars_html:150 | safe }}
+                                    {{ post.excerpt | safe }}
+                                    {% else %}
+                                    {{ post.content|truncatechars_html:150 | safe }}
                                     {% endif %}
                                 </p>
                             </a>
@@ -96,13 +102,15 @@
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.previous_page_number }}" class="page-link-btn">&laquo; PREV</a>
+                    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                        class="page-link-btn">&laquo; PREV</a>
                 </li>
                 {% endif %}
-                
+
                 {% if page_obj.has_next %}
                 <li class="page-item">
-                    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.next_page_number }}" class="page-link-btn">NEXT &raquo;</a>
+                    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.next_page_number }}"
+                        class="page-link-btn">NEXT &raquo;</a>
                 </li>
                 {% endif %}
             </ul>
@@ -113,30 +121,34 @@
 
 <!-- post_list.html content ends here -->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Handle search button click
-        $('#search-button').click(function() {
+        $('#search-button').click(function () {
             let query = $('#search-input').val();
-            
+
             // Perform AJAX request to fetch search results
             $.ajax({
                 url: '{% url "home" %}', // Replace "home" with your view's URL name
-                data: { q: query },
-                success: function(response) {
+                data: {
+                    q: query
+                },
+                success: function (response) {
                     // Replace search results with new data
                     $('#search-results').html(response.posts_html);
-                    
+
                     // Update message area
                     $('#message-area').html(response.message);
                 },
-                error: function() {
-                    $('#message-area').html('<p>There was an error processing your search. Please try again.</p>');
+                error: function () {
+                    $('#message-area').html(
+                        '<p>There was an error processing your search. Please try again.</p>'
+                        );
                 }
             });
         });
-    
+
         // Clear search results
-        $('#clear-button').click(function() {
+        $('#clear-button').click(function () {
             $('#search-input').val('');
             $('#search-results').html('');
             $('#message-area').html('');

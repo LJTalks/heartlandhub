@@ -10,7 +10,7 @@ from ljtalks.models import ContactSubmission
 
 
 # How Many Days I've been Coding count
-def about_me_view(request):
+def about_us_view(request):
     start_date = date(2024, 6, 24)
     current_date = date.today()
     days_coding = (current_date - start_date).days
@@ -18,7 +18,7 @@ def about_me_view(request):
     latest_post = Post.objects.filter(status=1).latest(
         'publish_date')
 
-    return render(request, 'about_me.html', {
+    return render(request, 'about_us.html', {
         'days_coding': days_coding,
         'latest_post': latest_post
     })
