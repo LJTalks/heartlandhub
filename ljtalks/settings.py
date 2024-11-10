@@ -73,7 +73,7 @@ ALLOWED_HOSTS = [
     '.codeinstitute-ide.net',
     "heartlandhub.co.uk",
     "heartlandhub-5c6540d63b23.herokuapp.com",
-
+    ".herokuapp.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -241,7 +241,7 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 
 # Will this stop the emails coming from example@
 # it doesn't seem to work, test again
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "LJ Talks "  # Customize the prefix
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "Heartland Hub "  # Customize the prefix
 
 # Set up email configurations for dev and prod
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -302,7 +302,7 @@ DATETIME_FORMAT = 'd/m/Y H:i'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Is this the line that broke it?
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic

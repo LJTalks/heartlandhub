@@ -1,1 +1,1 @@
-web: gunicorn heartlandhub.wsgi
+web: gunicorn ljtalks.wsgi
