@@ -312,8 +312,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic
 # Configure Whitenoise to handle static files
 # this is for Django versions olderthan 4.2
 # This works with ljmedia...
-STATICFILES_STORAGE = (
-    'whitenoise.storage.CompressedManifestStaticFilesStorage')
+
+# STATICFILES_STORAGE = (
+# 'whitenoise.storage.CompressedManifestStaticFilesStorage')
+
 # for Django 4.2+
 
 # This from whitenoise docs throws settings_ALLOWED_HOSTS error
