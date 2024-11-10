@@ -71,13 +71,15 @@ else:
 
 ALLOWED_HOSTS = [
     '.codeinstitute-ide.net',
-    "heartlandhub.co.uk",
+    'heartlandhub.co.uk',
+    'www.heartlandhub.co.uk',
     "heartlandhub-5c6540d63b23.herokuapp.com",
     ".herokuapp.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://heartlandhub.co.uk",
+    'https://www.heartlandhub.co.uk',
     "https://heartlandhub-5c6540d63b23.herokuapp.com",
     "https://*.codeinstitute-ide.net",
 ]
@@ -116,6 +118,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'blog',  # Custom apps after django then third-party apps
+    'business',
     'emails',
     'ljtalks',
     'member.apps.MemberConfig',
@@ -244,8 +247,8 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "Heartland Hub "  # Customize the prefix
 
 # Set up email configurations for dev and prod
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.privateemail.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True

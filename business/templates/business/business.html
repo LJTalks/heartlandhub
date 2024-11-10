@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ business.business_name }} - Heartland Hub{% endblock title %}
+
+<!-- Meta tags -->
+
+{% block robots %}
+<meta name="robots" content="index, follow">
+{% endblock robots %}
+
+{% block meta_description %}
+<meta name="description" content="{{ business.business_description|truncatechars:160 }}">
+{% endblock meta_description %}
+
+{% block seo_tags %}
+<meta name="keywords"
+    content="local business, {{ business.business_name }}, sustainable practices, community directory">
+<meta property="og:title" content="{{ business.business_name | safe }}">
+<meta property="og:description" content="{{ business.business_description|striptags|truncatechars:160 }}">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:image"
+    content="{{ business.business_image.url if business.business_image else static 'images/default_image.png' }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ business.business_name | safe }}">
+<meta name="twitter:description" content="{{ business.business_description|striptags|truncatechars:160 }}">
+<meta name="twitter:image"
+    content="{{ business.business_image.url if business.business_image else static 'images/default_image.png' }}">
+{% endblock seo_tags %}
+
+{% block content %}
+<div class="container masthead my-3 col-12">
+    <div class="row g-0">
+        <!-- Business name and category -->
+        <div class="col-md-6">
+            <h1 class="business-title">{{ business.business_name }}</h1>
+            <p class="business-category">
+                {{ business.business_category.name if business.business_category else "General" }}</p>
+        </div>
+        <!-- Business image -->
+        <div class="col-md-6">
+            <div class="business-image-container">
+                {% if business.business_image %}
+                <img src="{{ business.business_image.url }}" class="img-fluid rounded w-100"
+                    alt="{{ business.business_name }}">
+                {% else %}
+                <img src="{% static 'images/default_image.png' %}" class="img-fluid rounded w-100"
+                    alt="Seedling by Akil Mazumder">
+                <small class="text-muted img-credit">Akil Mazumder</small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Displaying post views and comments count -->
+<!-- <div class="container">
+    <div class="row">
+        <div class="col-6 text-left mb-4 mt-3">
+            <strong class="text-secondary">
+                <i class="far fa-eye"></i> {{ post.views }} Views
+            </strong>
+        </div>
+        <div class="col-6 text-right text-end mb-4 mt-3">
+            <a href="#comments-section" class="text-secondary">
+                <strong class="text-secondary">
+                    <i class="far fa-comments"></i> {{ blog_comment_count }} Comments
+                </strong>
+            </a>
+        </div>
+        <div class="col-12">
+            <hr>
+        </div>
+    </div>
+</div> -->
+
+<!-- Business Details -->
+<div class="container">
+    <div class="row">
+        <div class="col-12 card mb-4 mt-3">
+            <div class="card-body card-text">
+                <h2>About {{ business.business_name }}</h2>
+                <p>{{ business.business_description }}</p>
+                <hr>
+                <h4>Contact Information</h4>
+                <p>Email: <a href="mailto:{{ business.contact_email }}">{{ business.contact_email }}</a></p>
+                <p>Phone: {{ business.contact_phone }}</p>
+                <p>Website: <a href="{{ business.website }}" target="_blank">{{ business.website }}</a></p>
+                <hr>
+                <h4>Location</h4>
+                <p>{{ business.location }}{% if business.custom_location %} - {{ business.custom_location }}{% endif %}
+                </p>
+                <h4>Service Area</h4>
+                <p>{{ business.service_area }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Comments (Implement Comments/Review/Recommendation section) -->
+<!-- Comments Section (if you want to enable comments for businesses) -->
+<div class="container col-md-12" id="comments-section">
+    <div class="row">
+        <div class="col-md-8 card mb-4 mt-3">
+            <h3>Comments:</h3>
+            {% if business_comments %}
+            <div class="card-body">
+                {% for comment in business_comments %}
+                <div
+                    class="p-2 comments {% if comment.status == 0 and comment.author == user %} faded{% elif comment.status == 0 %} d-none{% endif %}">
+                    <p><strong>{{ comment.author.username }}</strong> <span
+                            class="text-muted">{{ comment.created_on }}</span> wrote:</p>
+                    <div id="comment{{ comment.id }}">{{ comment.body | linebreaks }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No comments yet. Be the first to comment!</p>
+            {% endif %}
+        </div>
+
+        <!-- Comment form for authenticated users -->
+        <div class="col-md-4 card mb-4 mt-3">
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                <h3>Leave a Comment:</h3>
+                <form id="businessCommentForm" method="post">
+                    {{ comment_form | crispy }}
+                    {% csrf_token %}
+                    <button id="submitButton" type="submit" class="btn btn-comment">Submit</button>
+                </form>
+                {% else %}
+                <p>Please log in to leave a comment.</p>
+                <a href="{% url 'account_login' %}?next={{ request.path }}" class="btn btn-login">Log In</a>
+                <a href="{% url 'account_signup' %}?next={{ request.path }}" class="btn btn-register">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page navigation buttons -->
+<div class="row">
+    <div class="col text-center">
+        <nav aria-label="Post navigation">
+            <ul class="pagination justify-content-center">
+                {% if previous_post %}
+                <li class="page-item">
+                    <a class="page-link-btn" href="{% url 'post_detail' previous_post.slug %}">&laquo; Prev Post</a>
+                </li>
+                {% endif %}
+                {% if next_post %}
+                <li class="page-item">
+                    <a class="page-link-btn" href="{% url 'post_detail' next_post.slug %}">Next Post &raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock content %}
+{% block extras %}
+{% endblock %}

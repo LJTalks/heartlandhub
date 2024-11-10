@@ -100,10 +100,10 @@
                         <a class="nav-link {% if request.path == 'about_us_url' %}active{% endif %}" aria-current="page"
                             href="{% url 'about_us' %}">About Us</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link {% if request.path == 'projects_url' %}active{% endif %}" aria-current="page"
-                            href="{% url 'projects' %}">Projects</a>
-                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/directory/' %}active{% endif %}" aria-current="page"
+                            href="{% url 'directory' %}">Directory</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == contact_url %}active{% endif %}" aria-current="page"
                             href="{% url 'contact' %}?next={{ request.path }}">Contact Us</a>
@@ -128,7 +128,7 @@
                 </ul>
                 <div class="navbar-text nav-link">
                     <a href="{% url 'email_signup' %}?next={{ request.path }}">
-                        <span class="lead">Celebrating Local Craft, Tradition & Community Connections</span></a>
+                        <span class="lead">Local Craft, Tradition & Community</span></a>
                 </div>
             </div>
         </div>

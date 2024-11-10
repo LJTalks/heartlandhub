@@ -71,7 +71,7 @@ def contact_submit(request):
                 )
 
                 # Prepare and send the email
-                subject = f"LJTalks Contact Form from {name}"
+                subject = f"Hearland Hub Contact Form from {name}"
                 content = (
                     f"New Message from: {name}\nEmail: {email}\n\n{message}\n")
                 # Send the email

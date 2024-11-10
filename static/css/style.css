@@ -14,11 +14,11 @@
     /* White, to ensure readability on accent color */
     --accent-hover-shadow: rgba(224, 122, 95, 0.7);
     /* Terracotta with transparency */
-    --secondary-color: #8B4513;
+    --secondary-color: #556b2f;
     /* Sienna Brown, a muted natural shade */
     --secondary-text: #FFFFFF;
     /* White, for readability on darker secondary color */
-    --secondary-hover-shadow: rgba(139, 69, 19, 0.7);
+    --secondary-hover-shadow: rgba(85, 107, 47, 0.7);
     /* Brown with transparency for hover effect */
     --link-hover-color: #6B8E23;
     /* Olive Drab, for a soft green hover effect */

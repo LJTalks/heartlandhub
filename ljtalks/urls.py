@@ -30,6 +30,8 @@ urlpatterns = [
     # path('booking/', include('booking.urls')),
     # General Contact URL (for all)
     path('contact/', views.contact_submit, name='contact'),  # form
+    # Updated to point to business app
+    path('directory/', include('business.urls')),
     # Include the URLs from the services app
     path('disclaimer/', TemplateView.as_view(
         template_name="ljtalks/disclaimer.html"), name='disclaimer'),
