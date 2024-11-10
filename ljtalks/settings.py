@@ -71,17 +71,14 @@ else:
 
 ALLOWED_HOSTS = [
     '.codeinstitute-ide.net',
-    'ljtalksdev-61ea4d3e9223.herokuapp.com',
-    'ljblogs-fcdcaa00fdda.herokuapp.com',
-    'ljtalks.com',
-    'www.ljtalks.com',
+    "heartlandhub.co.uk",
+    "heartlandhub-5c6540d63b23.herokuapp.com",
+
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://ljtalksdev-61ea4d3e9223.herokuapp.com",
-    "https://ljblogs-fcdcaa00fdda.herokuapp.com",
-    "https://ljtalks.com",
-    "https://www.ljtalks.com",
+    "https://heartlandhub.co.uk",
+    "https://heartlandhub-5c6540d63b23.herokuapp.com",
     "https://*.codeinstitute-ide.net",
 ]
 
