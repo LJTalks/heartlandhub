@@ -24,15 +24,19 @@ class Location(models.Model):
 
 
 # Business Details
+
+STATUS = ((0, "Draft"), (1, "Published"))
+
+
 class Business(models.Model):
     # Business Details
-    business_name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=200, unique=True, blank=True)
+    business_name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
     business_description = models.TextField(blank=True, null=True)
     business_image = CloudinaryField(
         'image', blank=True, null=True, default='static/default_business_image.jpg')
 
-    # Owwner/Adder Info
+    # Owner/Adder Info
     business_owner = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True, related_name="owned_businesses")
     added_by = models.ForeignKey(
@@ -64,6 +68,7 @@ class Business(models.Model):
     # To track if a business is claimed by the owner, and approval status
     is_claimed = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
+    status = models.IntegerField(choices=STATUS, default=0)
 
     # Timestamps
     date_added = models.DateTimeField(auto_now_add=True)
@@ -77,7 +82,7 @@ class Business(models.Model):
             num = 1
             # Ensure the slug is unique
             while Business.objects.filter(slug=slug).exists():
-                sluf = f"{base_slug}-{num}"
+                slug = f"{base_slug}-{num}"
                 num += 1
             self.slug = slug
         super().save(*args, **kwargs)

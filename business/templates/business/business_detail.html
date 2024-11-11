@@ -15,18 +15,23 @@
 {% endblock meta_description %}
 
 {% block seo_tags %}
-<meta name="keywords"
-    content="local business, {{ business.business_name }}, sustainable practices, community directory">
+<meta name="keywords" content="local business, {{ business.business_name }}, community directory">
 <meta property="og:title" content="{{ business.business_name | safe }}">
 <meta property="og:description" content="{{ business.business_description|striptags|truncatechars:160 }}">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
-<meta property="og:image"
-    content="{{ business.business_image.url if business.business_image else static 'images/default_image.png' }}">
+{% if business.business_image %}
+<meta property="og:image" content="{{ business.business_image.url }}">
+{% else %}
+<meta property="og:image" content="{% static 'images/default_business_image.jpg' %}">
+{% endif %}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ business.business_name | safe }}">
 <meta name="twitter:description" content="{{ business.business_description|striptags|truncatechars:160 }}">
-<meta name="twitter:image"
-    content="{{ business.business_image.url if business.business_image else static 'images/default_image.png' }}">
+{% if business.business_image %}
+<meta name="twitter:image" content="{{ business.business_image.url }}">
+{% else %}
+<meta name="twitter:image" content="{% static 'images/default_business_image.jpg' %}">
+{% endif %}
 {% endblock seo_tags %}
 
 {% block content %}
@@ -36,7 +41,12 @@
         <div class="col-md-6">
             <h1 class="business-title">{{ business.business_name }}</h1>
             <p class="business-category">
-                {{ business.business_category.name if business.business_category else "General" }}</p>
+                {% if business.business_category %}
+                {{ business.business_category.name }}
+                {% else %}
+                General
+                {% endif %}
+            </p>
         </div>
         <!-- Business image -->
         <div class="col-md-6">
@@ -45,7 +55,7 @@
                 <img src="{{ business.business_image.url }}" class="img-fluid rounded w-100"
                     alt="{{ business.business_name }}">
                 {% else %}
-                <img src="{% static 'images/default_image.png' %}" class="img-fluid rounded w-100"
+                <img src="{% static 'images/default_business_image.jpg' %}" class="img-fluid rounded w-100"
                     alt="Seedling by Akil Mazumder">
                 <small class="text-muted img-credit">Akil Mazumder</small>
                 {% endif %}
@@ -53,26 +63,6 @@
         </div>
     </div>
 </div>
-<!-- Displaying post views and comments count -->
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-6 text-left mb-4 mt-3">
-            <strong class="text-secondary">
-                <i class="far fa-eye"></i> {{ post.views }} Views
-            </strong>
-        </div>
-        <div class="col-6 text-right text-end mb-4 mt-3">
-            <a href="#comments-section" class="text-secondary">
-                <strong class="text-secondary">
-                    <i class="far fa-comments"></i> {{ blog_comment_count }} Comments
-                </strong>
-            </a>
-        </div>
-        <div class="col-12">
-            <hr>
-        </div>
-    </div>
-</div> -->
 
 <!-- Business Details -->
 <div class="container">
@@ -83,12 +73,24 @@
                 <p>{{ business.business_description }}</p>
                 <hr>
                 <h4>Contact Information</h4>
-                <p>Email: <a href="mailto:{{ business.contact_email }}">{{ business.contact_email }}</a></p>
-                <p>Phone: {{ business.contact_phone }}</p>
-                <p>Website: <a href="{{ business.website }}" target="_blank">{{ business.website }}</a></p>
+                <p>Email: {% if business.contact_email %}
+                    <a href="mailto:{{ business.contact_email }}">{{ business.contact_email }}</a>
+                    {% else %}
+                    Not available
+                    {% endif %}
+                </p>
+                <p>Phone: {{ business.contact_phone|default:"Not available" }}</p>
+                <p>Website: {% if business.website %}
+                    <a href="{{ business.website }}" target="_blank">{{ business.website }}</a>
+                    {% else %}
+                    Not available
+                    {% endif %}
+                </p>
                 <hr>
                 <h4>Location</h4>
-                <p>{{ business.location }}{% if business.custom_location %} - {{ business.custom_location }}{% endif %}
+                <p>{{ business.location }}
+                    {% if business.custom_location %} - {{ business.custom_location }}
+                    {% endif %}
                 </p>
                 <h4>Service Area</h4>
                 <p>{{ business.service_area }}</p>
@@ -96,9 +98,10 @@
         </div>
     </div>
 </div>
-
+{% endblock content %}
+{% block extras %}
+{% endblock extras %}
 <!-- Comments (Implement Comments/Review/Recommendation section) -->
-<!-- Comments Section (if you want to enable comments for businesses) -->
 <div class="container col-md-12" id="comments-section">
     <div class="row">
         <div class="col-md-8 card mb-4 mt-3">
@@ -139,8 +142,10 @@
     </div>
 </div>
 
-<!-- Page navigation buttons -->
-<div class="row">
+
+
+<!-- TODO Page navigation buttons -->
+<!-- <div class="row">
     <div class="col text-center">
         <nav aria-label="Post navigation">
             <ul class="pagination justify-content-center">
@@ -157,8 +162,4 @@
             </ul>
         </nav>
     </div>
-</div>
-
-{% endblock content %}
-{% block extras %}
-{% endblock %}
+</div> -->

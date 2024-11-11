@@ -2,12 +2,21 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from .forms import BusinessSubmissionForm
 from .models import Business
+import os
+from django.db.models import Q  # allows for complex queries
 
 
 # Main business detail view
 def business_detail(request, slug):
-    business = get_object_or_404(Business, slug=slug)
-    return render(request, 'business_detail.html', {'business': business})
+    # Include drafts in development
+    if os.path.exists('env.py'):
+        queryset = Business.objects.filter(Q(status=1) | Q(status=0))
+    else:
+        queryset = Business.objects.filter(status=1)
+    business = get_object_or_404(queryset, slug=slug)
+
+    return render(
+        request, 'business/business_detail.html', {'business': business})
 
 
 # For initial business submission form, to be automated later

@@ -32,6 +32,9 @@
 {% endblock seo_tags %}
 
 {% block content %}
+
+
+<!-- Listings -->
 <div class="container-fluid my-3 col-12">
     <h2 class="text-center">Business Directory</h2>
     <div class="row">
@@ -41,7 +44,7 @@
         {% for business in businesses %}
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="{% if business.business_image %}{{ business.business_image.url }}{% else %}{% static 'images/default_business_image.png' %}{% endif %}"
+                <img src="{% if business.business_image %}{{ business.business_image.url }}{% else %}{% static 'images/default_business_image.jpg' %}{% endif %}"
                     class="card-img-top" alt="{{ business.business_name }}" style="height: 200px; object-fit: cover;">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ business.business_name }}</h5>
