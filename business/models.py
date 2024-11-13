@@ -35,6 +35,8 @@ class Business(models.Model):
     business_description = models.TextField(blank=True, null=True)
     business_image = CloudinaryField(
         'image', blank=True, null=True, default='static/default_business_image.jpg')
+    alt_text = models.CharField(
+        max_length=255, blank=True, default="Business image")
 
     # Owner/Adder Info
     business_owner = models.ForeignKey(
