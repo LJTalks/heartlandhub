@@ -12,7 +12,7 @@ class BusinessAdmin(SummernoteModelAdmin):
     actions = ['approve_businesses']
     prepopulated_fields = {'slug': ('business_name',)}
     # Enable Summernote for the description field
-    summernote_fields = ('description',)
+    summernote_fields = ('business_description',)
 
     fieldsets = (
         (None, {

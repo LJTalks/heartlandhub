@@ -1,31 +1,31 @@
 /* Color Variables */
 :root {
-    --bg-color-main: #fafafa;
-    /* Light beige, for a soft, natural background */
+    --bg-color-main: #F0F5F0;
+    /* Light mint green for a fresh, airy background */
     --bg-color-light: #FFFFFF;
     /* Pure white for contrast where needed */
-    --bg-color-dark: #3B3A30;
-    /* Deep brown, earthy and strong */
-    --brand-color: #556B2F;
-    /* Olive Green, for a grounded and organic feel */
-    --accent-color: #E07A5F;
-    /* Terracotta, a warm and earthy accent color */
+    --bg-color-dark: #2F4F4F;
+    /* Dark slate gray for depth and readability */
+    --brand-color: #4CAF50;
+    /* Medium sea green for a vibrant, eco-friendly feel */
+    --accent-color: #8BC34A;
+    /* Light green for subtle highlights */
     --accent-color-text: #FFFFFF;
-    /* White, to ensure readability on accent color */
-    --accent-hover-shadow: rgba(224, 122, 95, 0.7);
-    /* Terracotta with transparency */
-    --secondary-color: #556b2f;
-    /* Sienna Brown, a muted natural shade */
+    /* White to ensure readability on accent color */
+    --accent-hover-shadow: rgba(139, 195, 74, 0.7);
+    /* Light green with transparency */
+    --secondary-color: #388E3C;
+    /* Dark green for secondary elements */
     --secondary-text: #FFFFFF;
-    /* White, for readability on darker secondary color */
-    --secondary-hover-shadow: rgba(85, 107, 47, 0.7);
-    /* Brown with transparency for hover effect */
-    --link-hover-color: #6B8E23;
-    /* Olive Drab, for a soft green hover effect */
-    --text-muted-color: #A9A89E;
-    /* Muted gray-beige, softer on the eyes */
-    --approval-color: #9E7E61;
-    /* Warm brown-gray, suitable for approval notifications */
+    /* White for readability on darker secondary color */
+    --secondary-hover-shadow: rgba(56, 142, 60, 0.7);
+    /* Dark green with transparency for hover effect */
+    --link-hover-color: #66BB6A;
+    /* Light green for a soft hover effect on links */
+    --text-muted-color: #A9A9A9;
+    /* Dark gray for muted text, softer on the eyes */
+    --approval-color: #6B8E23;
+    /* Olive drab green, suitable for approval notifications */
 }
 
 /* for summernote */

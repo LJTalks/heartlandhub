@@ -70,7 +70,7 @@
         <div class="col-12 card mb-4 mt-3">
             <div class="card-body card-text">
                 <h2>About {{ business.business_name }}</h2>
-                <p>{{ business.business_description }}</p>
+                <p>{{ business.business_description | safe }}</p>
                 <hr>
                 <h4>Contact Information</h4>
                 <p>Email: {% if business.contact_email %}
