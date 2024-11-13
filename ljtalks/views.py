@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from datetime import date
 from blog.models import Post
 from .forms import ContactForm
@@ -7,19 +7,19 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 import requests
 from ljtalks.models import ContactSubmission
+from django.contrib.sites.models import Site
+from .models import LegalDocument
+
+current_site = Site.objects.get_current()
+
+# About Us View
 
 
-# How Many Days I've been Coding count
 def about_us_view(request):
-    start_date = date(2024, 6, 24)
-    current_date = date.today()
-    days_coding = (current_date - start_date).days
-
     latest_post = Post.objects.filter(status=1).latest(
         'publish_date')
 
     return render(request, 'about_us.html', {
-        'days_coding': days_coding,
         'latest_post': latest_post
     })
 
@@ -27,24 +27,6 @@ def about_us_view(request):
 # General contact form (for anyone)
 def contact_submit(request):
     if request.method == 'POST':
-        # Get reCAPTCHA token from the POST data
-        recaptcha_response = request.POST.get('g-recaptcha-response')
-
-        # Verify the reCAPTCHA token with Google
-        data = {
-            'secret': settings.RECAPTCHA_PRIVATE_KEY,
-            'response': recaptcha_response
-        }
-        # Send the request to Google for verification
-        r = requests.post(
-            'https://www.google.com/recaptcha/api/siteverify', data=data)
-        result = r.json()
-
-        # If reCAPTCHA is not successful, return an error
-        if not result['success']:
-            messages.error(request, 'Invalid reCAPTCHA. Please try again.')
-            return redirect('contact')
-
         form = ContactForm(request.POST)
 
         if form.is_valid():
@@ -71,7 +53,7 @@ def contact_submit(request):
                 )
 
                 # Prepare and send the email
-                subject = f"Hearland Hub Contact Form from {name}"
+                subject = f"{current_site.name} Contact Form from {name}"
                 content = (
                     f"New Message from: {name}\nEmail: {email}\n\n{message}\n")
                 # Send the email
@@ -104,45 +86,21 @@ def contact_submit(request):
     return render(request, 'contact.html', {'form': form})
 
 
+# Legal docs in admin
+def legal_document_view(request, slug):
+    document = get_object_or_404(LegalDocument, slug=slug)
+    return render(request, 'legal_document.html', {'document': document})
+
+
 # View to showcase previous projects
 def projects(request):
     projects = [
-        {
-            "title": "Love Running",
-            "description": "A Fictional Running/Social club advertising regular meets. Responsive HTML & CSS. A Code Institute Tutorial, for a social/running club. Hosted on GitHub Pages.",
-            "link": "https://ljtalks.github.io/love-running/",
-            "image": "images/projects_love-running.png",
-        },
-        {
-            "title": "Whiskey Store",
-            "description": "A Fictional Online Whiskey Subscription site. Responsive HTML, CSS and JavaScript. A Code Institute tutorial. Hosted on Github Pages.",
-            "link": "https://ljtalks.github.io/whiskey-store/",
-            "image": "images/projects_whiskey-drop.png",
-        },
-        {
-            "title": "Love Rosie; A Resume/CV site",
-            "description": "A Fictional Online Resume/CV. Responsive HTML, CSS, JavaScript, Bootstrap 4. A Code Institute tutorial. Hosted on Github Pages.",
-            "link": "https://ljtalks.github.io/UCD-Resume/",
-            "image": "images/projects_love-rosie.png",
-        },
-        {
-            "title": "Inspire Me Journal; My first JavaScript Project",
-            "description": "JavaScript web application. Responsive HTML, CSS, JavaScript. Personal project. Hosted on Github pages.",
-            "link": "https://ljtalks.github.io/my-new-journal/",
-            "image": "images/inspire_me_journal.png",
-        },
         {
             "title": "Codestar Blog; A Full Stack Web App",
             "description":
                 "Full stack web application using Django, PostgreSQL, Python, Responsive HTML, CSS, JavaScript, Bootstrap 4. A Code Institute tutorial. Hosted on Heroku.",
             "link": "https://ljtalks-django-blog-5fbe7cf2584e.herokuapp.com/",
             "image": "images/projects_love-rosie.png",
-        },
-        {
-            "title": "The Fallen; A Simple (free) Landing Page",
-            "description": "Simple one page landing page to promote a young author's new book.",
-            "link": "https://ltjones.carrd.co/",
-            "image": "images/projects_thefallen.png",
         },
     ]
 

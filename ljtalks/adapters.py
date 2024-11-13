@@ -15,7 +15,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             'https://www.google.com/recaptcha/api/siteverify', data=data)
         result = r.json()
         if not result['success']:
-            raise forms.ValidationError("Invalid reCAPTCHA. Please try again.")
+            raise forms.ValidationError(
+                "Invalid reCAPTCHA response. Please try again.")
         return super().login(request, *args, **kwargs)
 
     def get_email_confirmation_subject(self, confirmation):

@@ -175,6 +175,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # base nav to show additional options to different groups
                 'ljtalks.context_processors.add_is_tester',
+                'ljtalks.context_processors.legal_documents',
                 'ljtalks.context_processors.recaptcha_site_key',
                 # 'ljtalks.context_processors.database_context',
                 'ljtalks.context_processors.support_email'
@@ -247,8 +248,8 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "Heartland Hub "  # Customize the prefix
 
 # Set up email configurations for dev and prod
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.privateemail.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True

@@ -1,5 +1,13 @@
 from django.contrib.auth.models import Group
 from django.conf import settings
+from .models import LegalDocument
+
+
+# context_processor to pass legal docs to base footer
+def legal_documents(request):
+    return {
+        'legal_documents': LegalDocument.objects.all()
+    }
 
 
 def add_is_tester(request):

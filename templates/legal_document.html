@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ document.title }} - Heartland Hub {% endblock title %}
+{% block robots %}
+<meta name="robots" content="index, follow">
+{% endblock robots %}
+
+{% block meta_description %}
+<meta name="description"
+    content="Explore the latest stories and insights on local, sustainable, and traditional businesses at Heartland Hub. Discover artisans, makers, and community-focused businesses near you.">
+{% endblock meta_description %}
+
+{% block seo_tags %}
+<meta name="keywords" content="local businesses, community blog, sustainable crafts, traditional trades, Heartland Hub">
+<meta property="og:title" content="Latest Blog Posts - Heartland Hub">
+<meta property="og:description"
+    content="Join Heartland Hub and explore our latest posts on supporting local craftsmanship, community, and sustainability. Discover businesses committed to authentic and traditional practices.">
+
+<meta property="og:url" content="{{ request.build_absolute_uri|slice:':-1' }}{% url 'home' %}">
+<meta property="og:image" content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/heartland_hub.png' %}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Latest Blog Posts - Heartland Hub">
+<meta name="twitter:description"
+    content="Explore our blog at Heartland Hub, dedicated to supporting local and sustainable businesses. Join the community and find inspiration.">
+<meta name="twitter:image"
+    content="{{ request.build_absolute_uri|slice:':-1' }}{% static 'images/heartland_hub.png' %}">
+{% endblock seo_tags %}
+
+{% block content %}
+<div class="container-fluid my-3 col-12">
+    <h2 class="text-center">{{ document.title }}</h2>
+    <div class="row">
+        <p>Last updated: {{ document.last_updated|date:"F j, Y" }}</p>
+        <p>By using this site and its services, you agree to these policies. Please read them carefully.
+        </p>
+        <div>
+            {{ document.content|safe|linebreaks }}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
