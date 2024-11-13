@@ -6,48 +6,60 @@
 {% block content %}
 {% load static %}
 
-<div class="container">
+<div class="container mt-5">
+    <h1 class="text-center">Join Our Mailing List</h1>
+    <p class="text-center">Stay updated with our latest news and updates. You can unsubscribe at any time.</p>
+
     <div class="row justify-content-center">
-        <div class="col-md-6 mt-5">
-            <div class="card p-4 shadow-sm">
+        <!-- Adjusted column width to match contact form size -->
+        <div class="col-md-8">
+            <div class="card p-5 shadow-sm">
+                <!-- Adjusted padding to make it more spacious -->
                 <form method="POST" action="{% url 'email_signup' %}?next={{ request.GET.next|default_if_none:'' }}">
                     {% csrf_token %}
 
+                    {{ form.non_field_errors }}
+
                     <!-- Email field prefilled if user is authenticated -->
-                    <div class="form-group mb-3">
+                    <div class="mb-4">
+                        <!-- Adjusted spacing between elements -->
                         {% if request.user.is_authenticated %}
-                            <p>Email: <strong>{{ form.email.value }}</strong></p>  <!-- Email as plain text for logged-in users -->
+                        <p>Email: <strong>{{ form.email.value }}</strong></p>
                         {% else %}
-                            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                            {{ form.email }}<br>  <!-- Allow unregistered users to edit their email -->
+                        <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        <!-- Allow unregistered users to edit their email -->
                         {% endif %}
                     </div>
 
                     <!-- List Type checkboxes -->
-                    <div class="form-group mb-3">
-                        <label for="{{ form.list_type.id_for_label }}">{{ form.list_type.label }}</label><br>
+                    <div class="mb-4">
+                        <label for="{{ form.list_type.id_for_label }}"
+                            class="form-label">{{ form.list_type.label }}</label>
                         {{ form.list_type }}
                     </div>
 
                     <!-- Ensure the "Unsubscribed" option is hidden but remains functional -->
                     <input type="checkbox" name="list_type" value="3" id="unsubscribedCheckbox" style="display: none;">
 
-                    <p>We won't share your data, and you can unsubscribe at any time.</p>
-
                     <!-- reCAPTCHA -->
-                     <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_SITE_KEY }}"></div>
+                    <div class="mb-4">
+                        <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_SITE_KEY }}"></div>
+                    </div>
 
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-warning w-100">
-                        {% if request.user.is_authenticated %}
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning">
+                            {% if request.user.is_authenticated %}
                             Update Preferences
-                        {% else %}
+                            {% else %}
                             Join Mailing List
-                        {% endif %}
-                    </button>
+                            {% endif %}
+                        </button>
+                    </div>
                 </form>
                 <!-- Load the reCAPTCHA script -->
-                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             </div>
         </div>
     </div>

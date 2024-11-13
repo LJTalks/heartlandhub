@@ -7,6 +7,7 @@ from .models import (
 )
 from django_summernote.admin import SummernoteModelAdmin
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 @admin.register(EmailListSubscriber)
@@ -14,12 +15,19 @@ class EmailListSubscriberAdmin(admin.ModelAdmin):
     list_display = ('user_email', 'get_list_types', 'date_joined', 'source')
     list_filter = ('list_type', 'date_joined')  # Optional filtering options
     search_fields = ('user__email', 'list_email')
-    
+
+    def save_model(self, request, obj, form, change):
+        list_types = form.cleaned_data.get('list_type', [])
+        if any(lt.name == "Unsubscribe" for lt in list_types) and len(list_types) > 1:
+            raise ValidationError(
+                "Cannot subscribe and unsubscribe at the same time.")
+        super().save_model(request, obj, form, change)
+
     # Show user email if the user exists
     def user_email(self, obj):
         return obj.user.email if obj.user else obj.list_email
     user_email.short_description = 'User Email'
-    
+
     def get_list_types(self, obj):
         return ", ".join([lt.name for lt in obj.list_type.all()])
     get_list_types.short_description = "Subscribed List Types"

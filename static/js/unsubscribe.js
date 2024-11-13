@@ -4,16 +4,39 @@ document.addEventListener("DOMContentLoaded", function () {
     const listTypeCheckboxes = document.querySelectorAll("input[name='list_type']");
     const unsubscribeModal = new bootstrap.Modal(document.getElementById("unsubscribeModal"));
     const confirmUnsubscribeButton = document.getElementById("confirmUnsubscribe");
-    const unsubscribedCheckbox = document.getElementById("unsubscribedCheckbox");  // Unsubscribed hidden checkbox
+    const unsubscribedCheckbox = document.getElementById("unsubscribedCheckbox"); // Unsubscribed hidden checkbox
     const form = document.querySelector("form");
-    let isUnsubscribing = false;  // To track whether user confirmed unsubscribing
+    let isUnsubscribing = false; // To track whether user confirmed unsubscribing
 
     /**
-     * Function to check if all checkboxes are unchecked
+     * Function to check if all checkboxes are unchecked except "Unsubscribe"
      */
     function checkAllUnchecked() {
-        return Array.from(listTypeCheckboxes).every(checkbox => !checkbox.checked);
+        return Array.from(listTypeCheckboxes).every(checkbox => checkbox === unsubscribedCheckbox || !checkbox.checked);
     }
+
+    /**
+     * Function to handle "Unsubscribe" checkbox selection
+     */
+    function toggleOtherCheckboxes() {
+        if (unsubscribedCheckbox.checked) {
+            listTypeCheckboxes.forEach(checkbox => {
+                if (checkbox !== unsubscribedCheckbox) checkbox.disabled = true;
+            });
+        } else {
+            listTypeCheckboxes.forEach(checkbox => checkbox.disabled = false);
+        }
+    }
+
+    // Initial check on page load
+    toggleOtherCheckboxes();
+
+    /**
+     * Event listener for each checkbox
+     */
+    listTypeCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", toggleOtherCheckboxes);
+    });
 
     /**
      * Event listener for the form submit event
@@ -21,8 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
      */
     form.addEventListener("submit", function (e) {
         if (checkAllUnchecked() && !isUnsubscribing) {
-            e.preventDefault();  // Prevent form submission
-            unsubscribeModal.show();  // Show the confirmation modal
+            e.preventDefault(); // Prevent form submission
+            unsubscribeModal.show(); // Show the confirmation modal
         }
     });
 
@@ -32,16 +55,12 @@ document.addEventListener("DOMContentLoaded", function () {
      */
     confirmUnsubscribeButton.addEventListener("click", function () {
         isUnsubscribing = true;
-        console.log("Form submit triggered!");
 
         if (checkAllUnchecked()) {
-            console.log("No list selected. Adding 'Unsubscribed'.");
-            unsubscribedCheckbox.checked = true;  // Check the hidden Unsubscribed box
+            unsubscribedCheckbox.checked = true; // Check the hidden Unsubscribed box
         }
 
-        console.log("Unsubscribing: submitting form...");
-        unsubscribeModal.hide();  // Hide the modal
-        form.submit();  // Submit the form
-        console.log("Form submit completed!");
+        unsubscribeModal.hide(); // Hide the modal
+        form.submit(); // Submit the form
     });
 });
