@@ -318,7 +318,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic
 # This works with ljmedia...
 
 # STATICFILES_STORAGE = (
-# 'whitenoise.storage.CompressedManifestStaticFilesStorage')
+#     'whitenoise.storage.CompressedManifestStaticFilesStorage')
 
 # for Django 4.2+
 
