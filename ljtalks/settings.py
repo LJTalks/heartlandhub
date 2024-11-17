@@ -331,7 +331,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic
 
 # Media file handling (Images and uploads) - Why is this commented out?
 # MEDIA_URL = '/media/'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Recaptcha and other API keys (default to Dev if available)
 # RECAPTCHA_PRIVATE_KEY = os.getenv(
