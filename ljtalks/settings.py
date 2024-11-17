@@ -18,8 +18,8 @@ import dj_database_url
 # Load environment variables in Gitpod
 if os.path.isfile('env.py'):
     import env
-#     DEBUG = True  # Thank you MB!
-# from dotenv import load_dotenv
+#     DEBUG = True
+# # from dotenv import load_dotenv
 # import cloudinary
 # import cloudinary.uploader
 # import cloudinary.api
