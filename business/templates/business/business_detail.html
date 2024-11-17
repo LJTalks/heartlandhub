@@ -11,13 +11,13 @@
 {% endblock robots %}
 
 {% block meta_description %}
-<meta name="description" content="{{ business.business_description|truncatechars:160 }}">
+<meta name="description" content="{{ business.business_description|truncatechars_html:160|safe }}">
 {% endblock meta_description %}
 
 {% block seo_tags %}
 <meta name="keywords" content="local business, {{ business.business_name }}, community directory">
 <meta property="og:title" content="{{ business.business_name | safe }}">
-<meta property="og:description" content="{{ business.business_description|striptags|truncatechars:160 }}">
+<meta property="og:description" content="{{ business.business_description|striptags|truncatechars_html:160|safe }}">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
 {% if business.business_image %}
 <meta property="og:image" content="{{ business.business_image.url }}">
@@ -26,7 +26,7 @@
 {% endif %}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ business.business_name | safe }}">
-<meta name="twitter:description" content="{{ business.business_description|striptags|truncatechars:160 }}">
+<meta name="twitter:description" content="{{ business.business_description|striptags|truncatechars_html:160|safe }}">
 {% if business.business_image %}
 <meta name="twitter:image" content="{{ business.business_image.url }}">
 {% else %}

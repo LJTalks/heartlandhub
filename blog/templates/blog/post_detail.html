@@ -8,7 +8,7 @@
 {% endblock robots %}
 
 {% block meta_description %}
-<meta name="description" content="{{ post.meta_description|default:post.content|truncatechars:160 }}">
+<meta name="description" content="{{ post.meta_description|default:post.content|truncatechars_html:160|safe }}">
 {% endblock meta_description %}
 
 {% block seo_tags %}
@@ -16,14 +16,14 @@
 <meta name="keywords" content="{{ post.seo_tags|default:"local businesses, sustainable practices, community blog" }}">
 <meta property="og:title" content="{{ post.title | safe }}">
 <meta property="og:description"
-    content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}">
+    content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars_html:160|safe }}">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
 <meta property="og:image"
     content="{{ request.build_absolute_uri|slice:':-1' }}{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default_image.png' %}{% endif %}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ post.title | safe }}">
 <meta name="twitter:description"
-    content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars:160 }}">
+    content="{{ post.meta_description|default:post.excerpt|default:post.content|striptags|truncatechars_html:160|safe }}">
 <meta name="twitter:image"
     content="{{ request.build_absolute_uri|slice:':-1' }}{% if post.image %}{{ post.image.url }}{% else %}{% static 'images/default_image.png' %}{% endif %}">
 {% endblock seo_tags %}

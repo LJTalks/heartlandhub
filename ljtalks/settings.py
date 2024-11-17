@@ -329,6 +329,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic
 #     },
 # }
 
+# Media file handling (Images and uploads) - Why is this commented out?
+# MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # Recaptcha and other API keys (default to Dev if available)
 # RECAPTCHA_PRIVATE_KEY = os.getenv(
 #     "DEV_RECAPTCHA_PRIVATE_KEY", os.getenv(
@@ -350,10 +354,6 @@ SUMMERNOTE_CONFIG = {
         'fontNamesIgnoreCheck': ['Lato', 'Roboto'],
     },
 }
-
-# Media file handling (Images and uploads) - Why is this commented out?
-MEDIA_URL = '/media/'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
