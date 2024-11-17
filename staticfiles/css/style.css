@@ -41,7 +41,6 @@
     max-width: 100% !important;
     overflow-wrap: break-word;
     box-sizing: border-box;
-
 }
 
 
@@ -160,12 +159,6 @@ main {
     align-self: center;
     max-width: 95%;
 }
-
-/* .footer .mt-auto .py-3 {
-    background-color: var(--bg-color-dark) !important;  /*This doesn't work */
-/* color: #F9FAFC;  just in case it does! */
-/* } */
-*/
 
 /* Cards */
 .card {
