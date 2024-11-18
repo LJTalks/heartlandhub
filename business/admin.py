@@ -28,6 +28,9 @@ class BusinessAdmin(SummernoteModelAdmin):
                 'business_description',  # Include description field
                 'is_approved',
                 'is_claimed',
+                'contact_email',
+                'contact_phone',
+                'website',
             )
         }),
     )
