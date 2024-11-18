@@ -31,6 +31,7 @@ class BusinessAdmin(SummernoteModelAdmin):
                 'contact_email',
                 'contact_phone',
                 'website',
+                'status',
             )
         }),
     )

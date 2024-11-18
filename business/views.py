@@ -9,10 +9,10 @@ from django.db.models import Q  # allows for complex queries
 # Main business detail view
 def business_detail(request, slug):
     # Include drafts in development
-    if os.path.exists('env.py'):
-        queryset = Business.objects.filter(Q(status=1) | Q(status=0))
-    else:
-        queryset = Business.objects.filter(status=1)
+    # if os.path.exists('env.py'):
+    #     queryset = Business.objects.filter(Q(status=1) | Q(status=0))
+    # else:
+    queryset = Business.objects.filter(status=1)
     business = get_object_or_404(queryset, slug=slug)
 
     return render(
@@ -42,4 +42,5 @@ def directory(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'business/directory.html', {'businesses': businesses})
+    return render(
+        request, 'business/directory.html', {'businesses': businesses})

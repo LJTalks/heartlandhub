@@ -49,7 +49,8 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ business.business_name }}</h5>
                     <p class="card-text">{{ business.business_description|truncatechars_html:150|safe }}</p>
-                    <a href="{% url 'business_detail' business.slug %}" class="btn visit-site-button">View Details</a>
+                    <a href="{% url 'business_detail' business.slug %}" class="btn visit-site-button">View
+                        Details</a>
                 </div>
             </div>
         </div>
