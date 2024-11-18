@@ -309,7 +309,8 @@ main {
     border-radius: 4px;
 }
 
-/* Yellow Buttons */
+/* Secondary Buttons */
+.btn-email,
 .btn-latest,
 .btn-clear-search,
 .btn-journey,
@@ -327,6 +328,7 @@ main {
     transition: all 0.3s ease-in-out !important;
 }
 
+.btn-email:hover,
 .btn-latest:hover,
 .btn-clear-search:hover,
 .btn-journey:hover,
