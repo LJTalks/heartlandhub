@@ -307,7 +307,9 @@ DATETIME_FORMAT = 'd/m/Y H:i'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 # Is this the line that broke it?
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic
 # This is previous. It didn't help yet so this may need reverting.
