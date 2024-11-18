@@ -74,18 +74,18 @@
                 <hr>
                 <h4>Contact Information</h4>
                 <p>Email: {% if business.contact_email %}
-                    <a href="mailto:{{ business.contact_email }}">{{ business.contact_email }}</a>
+                    <a href="mailto:{{ business.contact_email }}" class="btn-email btn-sm">Email</a>
+                    {% else %}
+                    Not available
+                    {% endif %}
+                </p>
+                <p>Website: {% if business.website %}
+                    <a href="{{ business.website }}" target="_blank" rel="noopener" class="btn-email btn-sm">Website</a>
                     {% else %}
                     Not available
                     {% endif %}
                 </p>
                 <p>Phone: {{ business.contact_phone|default:"Not available" }}</p>
-                <p>Website: {% if business.website %}
-                    <a href="{{ business.website }}" target="_blank">{{ business.website }}</a>
-                    {% else %}
-                    Not available
-                    {% endif %}
-                </p>
                 <hr>
                 <h4>Location</h4>
                 <p>{{ business.location }}
