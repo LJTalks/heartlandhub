@@ -9,6 +9,7 @@ from member.views import (
     beta_contact_view,
     beta_features_view
 )
+from business.views import directory
 
 
 # Function to render the maintenance view (if needed)
@@ -27,6 +28,7 @@ urlpatterns = [
     path('beta-contact/', beta_contact_view,
          name='beta_contact'),  # Beta Contact URL
     path('beta_features/', beta_features_view, name='beta_features'),
+    path("blog/", include("blog.urls"), name="blog-urls"),
     # path('booking/', include('booking.urls')),
     # General Contact URL (for all)
     path('contact/', views.contact_submit, name='contact'),  # form
@@ -47,6 +49,6 @@ urlpatterns = [
     path('youtube/', include('ytapi.urls')),
     # path('info/', views.youtube_info_view, name='youtube-data-checker'),
     path('summernote/', include('django_summernote.urls')),
-    path("", include("blog.urls"), name="blog-urls"),
+    path("", directory, name="home"),
     # path('youtube/', include('ytapi.urls'), name="youtube-data-checker")
 ]

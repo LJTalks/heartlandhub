@@ -9,7 +9,7 @@ urlpatterns = [
     # It's a view in blogs, move to Profile when it exists
     path('unsubscribe/<int:user_id>/', views.unsubscribe, name='unsubscribe'),
     # Individual Blog posts with slug address
-    path("", views.PostList.as_view(), name="home"),
+    path("blog/", views.PostList.as_view(), name="blog"),
     path("<slug:slug>/", views.post_detail, name="post_detail"),
     path(
         "<slug:slug>/edit_blog_comment/<int:blog_comment_id>",
