@@ -310,7 +310,7 @@ main {
 }
 
 /* Secondary Buttons */
-.btn-email,
+.btn-bus-cont,
 .btn-latest,
 .btn-clear-search,
 .btn-journey,
@@ -328,7 +328,7 @@ main {
     transition: all 0.3s ease-in-out !important;
 }
 
-.btn-email:hover,
+.btn-bus-cont:hover,
 .btn-latest:hover,
 .btn-clear-search:hover,
 .btn-journey:hover,
