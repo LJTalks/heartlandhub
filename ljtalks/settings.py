@@ -122,7 +122,6 @@ INSTALLED_APPS = [
     'emails',
     'ljtalks',
     'member.apps.MemberConfig',
-    'ytapi',
     # 'services',
     # 'booking',
 ]

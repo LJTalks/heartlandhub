@@ -46,9 +46,6 @@ urlpatterns = [
     # path('services/', include('services.urls')),
     path('terms/', TemplateView.as_view(
         template_name="ljtalks/terms.html"), name='terms_conditions'),
-    path('youtube/', include('ytapi.urls')),
-    # path('info/', views.youtube_info_view, name='youtube-data-checker'),
     path('summernote/', include('django_summernote.urls')),
     path("", directory, name="home"),
-    # path('youtube/', include('ytapi.urls'), name="youtube-data-checker")
 ]
