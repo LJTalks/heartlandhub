@@ -29,10 +29,6 @@ The blog app is the main hub of the site so far. Admin can log in and create blo
 **Search function**
 Users can search through blog posts. TODO can we record searches made by users and/or registered users for future ideas?
 
-# booking
-
-This is currently not wired in. Future uses will be to book discovery calls, book spaces on online masterclasses/lessons/events
-
 # emails
 
 This app is for managing communication with members. It will incorporate features for managing email lists, welcome emails, and tracking:
@@ -108,11 +104,3 @@ This app looks after our user profiles. There will be an option to create a prof
 members can be assigned to groups for newsletter preferences and special access.
 
 Members could have access to contact form emails they have submitted (and maybe our response)
-
-# Services
-
-This is currentlynot wired in. Defining services became difficult. It was intended for mentoring and coaching services. Abandoned for now.
-
-# ytapi YouTube Channel Checker
-
-This requires special access as it is attached to my google YouTube api key. I should limit this to one or two searches then invite people to add their own api key for personal use. It is accessed by the testers group. Requires a manua application.

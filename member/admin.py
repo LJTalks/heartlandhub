@@ -30,7 +30,6 @@ class CustomUserAdmin(UserAdmin):
         'last_login',
         'previous_last_login',
         'date_joined',
-        'is_tester',
         'is_staff',         # Added field for staff status
         'is_superuser',      # Added field for superuser status
         'is_email_subscriber'
@@ -53,17 +52,6 @@ class CustomUserAdmin(UserAdmin):
             return 'Never logged in'
 
     previous_last_login.short_description = 'Previous Login'
-
-    # Display is tester
-    def is_tester(self, obj):
-        return obj.groups.filter(name='testers').exists()
-
-    # Add bolean indicator tothe admin list
-    is_tester.boolean = True
-    is_tester.short_description = "Tester Group"
-
-    # # Add is tester to list
-    # list_display = UserAdmin.list_display + ("is_tester",)
 
     # Method to check if user is subscribed to the email list
     def is_email_subscriber(self, obj):
