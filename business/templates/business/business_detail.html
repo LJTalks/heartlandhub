@@ -91,13 +91,14 @@
                     {% endif %}
                 </div>
                 <hr>
-                <h4>Location</h4>
-                <p>{{ business.location }}
-                    {% if business.custom_location %} - {{ business.custom_location }}
-                    {% endif %}
-                </p>
-                <h4>Service Area</h4>
-                <p>{{ business.service_area }}</p>
+                <h4>Service Area / Geographical Availability</h4>
+                {% if business.service_area == "Remote" %}
+                <p>This business operates remotely and is available online or for delivery nationwide.</p>
+                {% elif business.service_area == "Various" %}
+                <p>This business serves various locations, including markets or events.</p>
+                {% else %}
+                <p>This business serves the following areas: {{ business.service_area }}.</p>
+                {% endif %}
             </div>
         </div>
     </div>
