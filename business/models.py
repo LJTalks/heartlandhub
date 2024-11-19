@@ -15,6 +15,18 @@ class BusinessCategory(models.Model):
         verbose_name_plural = "Business Categories"
 
 
+# To determine the area/s the business operates within, admin can update
+class ServiceArea(models.Model):
+    """
+    This model stores all possible service areas.
+    Admins can add or update service areas via the admin panel.
+    """
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 # Location Model
 class Location(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -24,12 +36,14 @@ class Location(models.Model):
 
 
 # Business Details
-
 STATUS = ((0, "Draft"), (1, "Published"))
 
 
 class Business(models.Model):
-    # Business Details
+    """
+    This model represents a business listing.
+    Each business can choose a pre-defined service area or add a custom one.
+    """
     business_name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     business_description = models.TextField(blank=True, null=True)
@@ -55,8 +69,18 @@ class Business(models.Model):
     custom_location = models.CharField(
         max_length=255, blank=True, null=True, help_text="If 'Other' selected, specify here.")
 
-    # Service area and contact information
-    service_area = models.CharField(max_length=255, blank=True, null=True)
+    service_area = models.ForeignKey(
+        ServiceArea,
+        on_delete=models.SET_NULL,
+        blank=True, null=True,
+        help_text="Select a service area or specify 'Other'.",
+    )
+
+    custom_service_area = models.CharField(
+        max_length=255, blank=True, null=True,
+        help_text="Specify custom service area if not listed."
+    )
+
     contact_email = models.EmailField(blank=True, null=True)
     contact_phone = models.CharField(max_length=20, blank=True, null=True)
     website = models.URLField(blank=True, null=True)
