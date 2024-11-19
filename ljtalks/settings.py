@@ -122,8 +122,6 @@ INSTALLED_APPS = [
     'emails',
     'ljtalks',
     'member.apps.MemberConfig',
-    # 'services',
-    # 'booking',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'

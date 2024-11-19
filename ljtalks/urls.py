@@ -21,12 +21,10 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
     path("blog/", include("blog.urls"), name="blog-urls"),
-    # path('booking/', include('booking.urls')),
     # General Contact URL (for all)
     path('contact/', views.contact_submit, name='contact'),  # form
     # Updated to point to business app
     path('directory/', include('business.urls')),
-    # Include the URLs from the services app
     path('disclaimer/', TemplateView.as_view(
         template_name="ljtalks/disclaimer.html"), name='disclaimer'),
     path('emails/', include('emails.urls')),
@@ -35,7 +33,6 @@ urlpatterns = [
     path('privacy/', TemplateView.as_view(
         template_name="ljtalks/privacy.html"), name='privacy_policy'),
     path('projects/', views.projects, name='projects'),
-    # path('services/', include('services.urls')),
     path('terms/', TemplateView.as_view(
         template_name="ljtalks/terms.html"), name='terms_conditions'),
     path('summernote/', include('django_summernote.urls')),

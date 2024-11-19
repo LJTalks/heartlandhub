@@ -57,11 +57,6 @@ class Post(models.Model):
         else:
             # Fallback: strip html tags and truncate post content 160 chars
             return strip_tags(self.content)[:160]
-    # Foreign key to link blog posts directly to services offered
-    # (Commented out until service model is added)
-    # service = models.ForeignKey(
-    #     'services.Service', on_delete=models.SET_NULL, null=True, blank=True,
-    #     related_name="posts")
 
     class Meta:
         ordering = ["-publish_date"]
