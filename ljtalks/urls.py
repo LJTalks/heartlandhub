@@ -5,9 +5,6 @@ from django.views.generic import TemplateView
 from . import views
 from member.views import (
     CustomLoginView,
-    apply_for_beta_access,
-    beta_contact_view,
-    beta_features_view
 )
 from business.views import directory
 
@@ -23,11 +20,6 @@ urlpatterns = [
     path('accounts/login/', CustomLoginView.as_view(), name='account_login'),
     # Admin
     path('admin/', admin.site.urls),
-    path('apply_for_beta_access/', apply_for_beta_access,
-         name='apply_for_beta_access'),
-    path('beta-contact/', beta_contact_view,
-         name='beta_contact'),  # Beta Contact URL
-    path('beta_features/', beta_features_view, name='beta_features'),
     path("blog/", include("blog.urls"), name="blog-urls"),
     # path('booking/', include('booking.urls')),
     # General Contact URL (for all)

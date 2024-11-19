@@ -173,7 +173,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # base nav to show additional options to different groups
-                'ljtalks.context_processors.add_is_tester',
                 'ljtalks.context_processors.legal_documents',
                 'ljtalks.context_processors.recaptcha_site_key',
                 # 'ljtalks.context_processors.database_context',

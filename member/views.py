@@ -9,7 +9,6 @@ from .models import UserProfile
 from django.conf import settings
 import logging
 from django.contrib.auth.forms import PasswordChangeForm
-# from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator
 from allauth.account.views import LoginView
@@ -109,101 +108,3 @@ def password_reset(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'account/change_password.html', {'form': form})
-
-
-# View to handle the "Tester/Beta Access" Form
-
-logger = logging.getLogger(__name__)
-# We include is_tester validation but after authentication is checked
-# to avoid errors for non logged in users
-# renamed from "contact"
-
-
-@login_required
-def beta_contact_view(request):
-    is_tester = is_in_group(
-        request.user, 'testers')
-    return render(request, 'beta_contact.html', {'is_tester': is_tester})
-
-
-# Apply for beta access form (view)
-@login_required
-def apply_for_beta_access(request):
-    is_tester = is_in_group(request.user, 'testers')
-
-    if request.method == 'POST':
-        # Process form submission (email me and store response in db)
-        reason = request.POST.get('why')
-
-        # Send an email to notify the admin of the application
-        subject = f"{request.user} applied for Beta Access",
-        content = (
-            f"User {request.user.username} applied for beta access.Reason:\n\n{reason}")
-
-        send_mail(
-            subject,
-            content,
-            settings.DEFAULT_FROM_EMAIL,
-            [settings.DEFAULT_FROM_EMAIL]  # Admin email
-        )
-
-        # Thank the user and redirect
-        messages.success(
-            request, 'Thank you for applying for Beta Access. You will be notified when your application is reviewed.')
-        return HttpResponseRedirect(reverse('beta_features'))
-
-        # Redirect to beta features page after form submission
-        # For now, we'll assume manual approval through the admin panel
-        # Redirect after applying
-        return HttpResponseRedirect(reverse('beta_features'))
-
-    # Render the beta access form
-    return render(request, 'apply_for_beta_access.html', {
-        'is_tester': is_tester})
-
-
-# Helper function to check if the user is in the testers group
-def is_in_group(user, group_name):
-    # Debugging
-    print(f"User: {user}")
-    print(f"Groups: {user.groups.all()}")
-
-    # Check if user is in the group
-    in_group = user.groups.filter(name=group_name).exists()
-    print(f"Is user in group '{group_name}': {in_group}")
-
-    return in_group
-    # return user.groups.filter(name=group_name).exists()
-
-
-# This is the Beta Features View
-@login_required
-def beta_features_view(request):
-    logger.info("Beta Features View Called")
-
-    # Debug Check view is called
-    # print("Beta Features View called")
-    # Check if user is in the testers group
-    is_tester = is_in_group(request.user, 'testers')
-    logger.info(f"User {request.user} in in group testers: {is_tester}")
-    # Display a list of apps the user has access to
-    return render(request, 'beta_features.html', {'is_tester': is_tester})
-
-
-# Beta Access YouTube Data Checker View
-@login_required
-@never_cache
-def youtube_checker_view(request):
-    if not request.user.is_authenticated:
-        return redirect('account_login')
-
-    # Check if user is in the testers group
-    is_tester = is_in_group(request.user, 'testers')
-    if not is_tester:
-        # Redirect to safe page if user is not authorised TODO they
-        # could get the permission form is they are registered
-        # or home page (or back to where they were) if not
-        messages.error(request, "You don't have access to this feature.")
-        return redirect('home')
-
-    return render(request, 'youtube_checker.html', {'is_tester': is_tester})
