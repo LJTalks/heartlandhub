@@ -72,20 +72,24 @@
                 <h2>About {{ business.business_name }}</h2>
                 <p>{{ business.business_description | safe }}</p>
                 <hr>
+
                 <h4>Contact Information</h4>
-                <p>Email: {% if business.contact_email %}
-                    <a href="mailto:{{ business.contact_email }}" class="btn-email btn-sm">Email</a>
-                    {% else %}
-                    Not available
+                <div class="d-flex justify-content-center align-items-end gap-3 mt-3 mb-3" style="height: 100px;">
+                    {% if obfuscated_email %}
+                    <a href=" mailto:{{ obfuscated_email }}" class="btn-bus-cont btn-email btn-sm mt-5">
+                        Email
+                    </a>
                     {% endif %}
-                </p>
-                <p>Website: {% if business.website %}
-                    <a href="{{ business.website }}" target="_blank" rel="noopener" class="btn-email btn-sm">Website</a>
-                    {% else %}
-                    Not available
+                    {% if business.website %}
+                    <a href="{{ business.website }}" target="_blank" rel="noopener"
+                        class="btn-bus-cont btn-email btn-sm mt-5">Website</a>
                     {% endif %}
-                </p>
-                <p>Phone: {{ business.contact_phone|default:"Not available" }}</p>
+                    {% if obfuscated_phone %}
+                    <a href="tel:{{ obfuscated_phone }}" class="btn-bus-cont btn btn-phone btn-sm mt-5">
+                        Call Now
+                    </a>
+                    {% endif %}
+                </div>
                 <hr>
                 <h4>Location</h4>
                 <p>{{ business.location }}

@@ -4,6 +4,7 @@ from .forms import BusinessSubmissionForm
 from .models import Business
 import os
 from django.db.models import Q  # allows for complex queries
+from .utils import obfuscate_email, obfuscate_phone
 
 
 # Main business detail view
@@ -15,8 +16,17 @@ def business_detail(request, slug):
     queryset = Business.objects.filter(status=1)
     business = get_object_or_404(queryset, slug=slug)
 
+    obfuscated_email = obfuscate_email(business.contact_email)
+    obfuscated_phone = obfuscate_phone(business.contact_phone)
+
     return render(
-        request, 'business/business_detail.html', {'business': business})
+        request, 'business/business_detail.html',
+        {
+            'business': business,
+            'obfuscated_email': obfuscated_email,
+            'obfuscated_phone': obfuscated_phone
+        }
+    )
 
 
 # For initial business submission form, to be automated later
