@@ -9,12 +9,62 @@ import requests
 from ljtalks.models import ContactSubmission
 from django.contrib.sites.models import Site
 from .models import LegalDocument
+import stripe
+from django.http import JsonResponse
+
 
 current_site = Site.objects.get_current()
 
+
+# Donate View
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+def donation_page(request):
+    if request.method == "POST":
+        try:
+            # Get the donation amount from the form in pounds
+            amount = request.POST.get('amount', None)
+
+            if not amount or float(amount) < 0.5:
+                return JsonResponse({
+                    'error': "The minimum donation amount is 50p. Please increase your amount."
+                })
+
+            # Convert the amount to pence
+            amount_in_pence = int(float(amount) * 100)
+
+            # Create a Stripe Checkout Session
+            session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=[{
+                    'price_data': {
+                        'currency': 'gbp',
+                        'product_data': {
+                            'name': 'Heartland Hub Donation',
+                        },
+                        'unit_amount': amount_in_pence,
+                    },
+                    'quantity': 1,
+                }],
+                mode='payment',
+                success_url='https://yourdomain.com/success/',
+                cancel_url='https://yourdomain.com/cancel/',
+            )
+
+            # Return the session ID to the frontend
+            return JsonResponse({'id': session.id})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
+
+    return render(
+        request, "donation.html", {
+            "stripe_public_key": settings.STRIPE_PUBLIC_KEY
+        }
+    )
+
+
 # About Us View
-
-
 def about_us_view(request):
     latest_post = Post.objects.filter(status=1).latest(
         'publish_date')

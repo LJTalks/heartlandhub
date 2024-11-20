@@ -3,6 +3,15 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
+# Stripe Donation
+class Donation(models.Model):
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Donation of {self.amount} at {self.timestamp}"
+
+
 # Main contact form
 class ContactSubmission(models.Model):
     user = models.ForeignKey(

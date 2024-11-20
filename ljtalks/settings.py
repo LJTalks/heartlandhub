@@ -82,11 +82,10 @@ CSRF_TRUSTED_ORIGINS = [
     'https://www.heartlandhub.co.uk',
     "https://heartlandhub-5c6540d63b23.herokuapp.com",
     "https://*.codeinstitute-ide.net",
+    "https://*.stripe.com",
 ]
 
-# # Database configuration (development v production)
-# This is for deliberate switch to Production DB,
-# Amend Database Name and Recaptcha too
+# # # Database configuration (development v production)
 DATABASES = {
     'default': dj_database_url.parse(
         os.getenv(
@@ -192,6 +191,7 @@ WSGI_APPLICATION = 'ljtalks.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+# print("Using database engine:", DATABASES['default']['ENGINE'])
 
 
 # Password validation
@@ -345,6 +345,9 @@ RECAPTCHA_PRIVATE_KEY = os.getenv(
     "RECAPTCHA_PRIVATE_KEY")
 RECAPTCHA_SITE_KEY = os.environ.get(
     "RECAPTCHA_SITE_KEY")
+
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
 SUMMERNOTE_CONFIG = {
     'summernote': {
