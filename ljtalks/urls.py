@@ -27,6 +27,7 @@ urlpatterns = [
     path('directory/', include('business.urls')),
     path('disclaimer/', TemplateView.as_view(
         template_name="ljtalks/disclaimer.html"), name='disclaimer'),
+    path("donate/", views.donation_page, name="donate"),
     path('emails/', include('emails.urls')),
     path('legal/<slug:slug>/', views.legal_document_view, name='legal_document'),
     path('member/', include('member.urls')),

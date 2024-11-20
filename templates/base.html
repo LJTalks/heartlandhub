@@ -82,52 +82,65 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <a class="navbar-brand logo" href="{% url 'home' %}" aria-label="Go to home page"><span class="h1">Heartland
-                    Hub</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- Brand Logo -->
+            <a class="navbar-brand logo" href="{% url 'home' %}" aria-label="Go to home page">
+                <span class="h1">Heartland Hub</span>
+            </a>
+            <!-- Hamburger Menu for Smaller Screens -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- Collapsed menu -->
-            <div class="collapse navbar-collapse" id="navbarText">
+
+            <!-- Collapsed Menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!-- <li class="nav-item">
-                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" aria-current="page"
-                            href="{% url 'home' %}">Home</a>
-                    </li> -->
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == 'about_us_url' %}active{% endif %}" aria-current="page"
-                            href="{% url 'about_us' %}">About Us</a>
+                        <a class="nav-link {% if request.path == about_us_url %}active{% endif %}"
+                            href="{% url 'about_us' %}">
+                            About Us
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/blog/' %}active{% endif %}" aria-current="page"
-                            href="{% url 'blog' %}">Blog</a>
+                        <a class="nav-link {% if request.path == blog_url %}active{% endif %}" href="{% url 'blog' %}">
+                            Blog
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == contact_url %}active{% endif %}" aria-current="page"
-                            href="{% url 'contact' %}?next={{ request.path }}">Contact Us</a>
+                        <a class="nav-link {% if request.path == contact_url %}active{% endif %}"
+                            href="{% url 'contact' %}">
+                            Contact Us
+                        </a>
                     </li>
-                    <!-- Behind password login -->
+                    <!-- Show Logout for Logged-in Users -->
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page"
-                            href="{% url 'account_logout' %}?next={{ request.path }}">Logout</a>
+                        <a class="nav-link {% if request.path == logout_url %}active{% endif %}"
+                            href="{% url 'account_logout' %}">
+                            Logout
+                        </a>
                     </li>
                     {% else %}
-                    <!-- User not logged in, show register and login links -->
+                    <!-- Register and Login Links for Guests -->
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page"
-                            href="{% url 'account_signup' %}?next={{ request.path }}">Register</a>
+                        <a class="nav-link {% if request.path == signup_url %}active{% endif %}"
+                            href="{% url 'account_signup' %}">
+                            Register
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page"
-                            href="{% url 'account_login' %}?next={{ request.path }}">Login</a>
+                        <a class="nav-link {% if request.path == login_url %}active{% endif %}"
+                            href="{% url 'account_login' %}">
+                            Login
+                        </a>
                     </li>
                     {% endif %}
                 </ul>
-                <div class="navbar-text nav-link">
-                    <a href="{% url 'email_signup' %}?next={{ request.path }}">
-                        <span class="lead">Local Craft, Tradition & Community</span></a>
+                <!-- Donate Button -->
+                <div class="navbar-text">
+                    <a href="{% url 'donate' %}" class="btn btn-primary ms-lg-3">
+                        Donate
+                    </a>
                 </div>
             </div>
         </div>
@@ -167,47 +180,21 @@
             {% endif %}
         </div>
     </main>
-    <!-- Footer -->
     <footer class="footer bg-secondary mt-auto py-3 text-center">
-        <p class="m-0 text-center text-white">2024 Heartland Hub | All rights reserved | Created by <a
-                href="https://ljtalks.com" target="_blank" class="text-white">LJ Talks</a></p>
+        <p class="m-0 text-center text-white">
+            2024 Heartland Hub | All rights reserved | Created by
+            <a href="https://ljtalks.com" target="_blank" class="text-white">LJ Talks</a>
+        </p>
         <a class="text-white" href="{% url 'contact' %}?next={{ request.path }}">Get in Touch</a>
 
-        <!-- Social Icons -->
-        <!-- <div class="social-icons d-flex justify-content-center">
-            <a class="text-white mx-4 d-md-block" href="https://www.linkedin.com/in/laurajread/" target="_blank"
-                aria-label="LinkedIn - Laura J Read">
-                <i class="fa-brands fa-linkedin ms-3"></i>
-                <span class="sr-only">LinkedIn</span>
+        <!-- Donate Button -->
+        <div class="mt-3">
+            <a href="{% url 'donate' %}" class="btn btn-warning btn-sm" title="Click to support us with a donation">
+                ❤️ Support Us
             </a>
-            <a class="social-icons text-white mx-4" href="https://www.facebook.com/profile.php?id=100072008119981"
-                target="_blank" aria-label="Facebook - Laura J Read">
-                <i class="fab fa-facebook-square ms-3" aria-hidden="true"></i>
-                <span class="sr-only">Facebook</span>
-            </a>
-            <a class="social-icons text-white mx-4" href="https://x.com/1aurarara" target="_blank"
-                aria-label="Twitter - Laura J Read">
-                <i class="fab fa-twitter-square ms-3" aria-hidden="true"></i>
-                <span class="sr-only">Twitter</span>
-            </a>
-            <a class="social-icons text-white mx-4" href="https://www.instagram.com/mtb.laura" target="_blank"
-                aria-label="Instagram - Laura J Read">
-                <i class="fab fa-instagram-square ms-3" aria-hidden="true"></i>
-                <span class="sr-only">Instagram</span>
-            </a>
-            <a class="social-icons text-white mx-4" href="https://www.youtube.com/mtblaura" target="_blank"
-                aria-label="YouTube - Laura J Read">
-                <i class="fab fa-youtube-square ms-3" aria-hidden="true"></i>
-                <span class="sr-only">YouTube</span>
-            </a>
-            <a class="social-icons text-white mx-4" href="https://github.com/LJTalks" target="_blank"
-                aria-label="GitHub - Laura J Read">
-                <i class="fab fa-github-square ms-3" aria-hidden="true"></i>
-                <span class="sr-only">GitHub</span>
-            </a> -->
-        <!-- </div> -->
+        </div>
 
-        <!-- Legal links -->
+        <!-- Legal Links -->
         <div class="mt-3 legal-links">
             <ul class="list-inline text-white small">
                 {% for document in legal_documents %}
@@ -218,15 +205,6 @@
                 {% endfor %}
             </ul>
         </div>
-        <!-- Legal menu for smaller screens -->
-        <!-- <div class="legal-menu">
-                <select onchange="window.location.href=this.value">
-                    <option value="">Legal Info</option>
-                    <option value="{% url 'privacy_policy' %}">Privacy Policy</option>
-                    <option value="{% url 'terms_conditions' %}">Terms and Conditions</option>
-                    <option value="{% url 'disclaimer' %}">Disclaimer</option>
-                </select>
-            </div> -->
     </footer>
 
 
