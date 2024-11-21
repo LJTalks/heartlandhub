@@ -4,6 +4,8 @@
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
+{% url 'email_signup' as email_signup_url %}
+{% url 'donate' as donate_url %}
 
 <!DOCTYPE html>
 <html class="h-100" lang="en">
@@ -95,46 +97,81 @@
             <!-- Collapsed Menu -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == about_us_url %}active{% endif %}"
-                            href="{% url 'about_us' %}">
-                            About Us
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="communityDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Community
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="communityDropdown">
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == about_us_url %}active{% endif %}"
+                                    href="{% url 'about_us' %}">
+                                    About Us
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == contact_url %}active{% endif %}"
+                                    href="{% url 'contact' %}">
+                                    Contact Us
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == email_signup_url %}active{% endif %}"
+                                    href="{% url 'email_signup' %}?next={{ request.path }}">
+                                    Join Mailing List
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == donate_url %}active{% endif %}"
+                                    href="{% url 'donate' %}?next={{ request.path }}">
+                                    Support Us ❤️
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == home %}active{% endif %}"
+                                    href="{% url 'home' %}?next={{ request.path }}">
+                                    Directory
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == blog_url %}active{% endif %}" href="{% url 'blog' %}">
                             Blog
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == contact_url %}active{% endif %}"
-                            href="{% url 'contact' %}">
-                            Contact Us
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            User
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <!-- Show Logout for Logged-in Users -->
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == logout_url %}active{% endif %}"
+                                    href="{% url 'account_logout' %}">
+                                    Logout
+                                </a>
+                            </li>
+                            {% else %}
+                            <!-- Register and Login Links for Guests -->
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == signup_url %}active{% endif %}"
+                                    href="{% url 'account_signup' %}">
+                                    Register
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == login_url %}active{% endif %}"
+                                    href="{% url 'account_login' %}">
+                                    Login
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
                     </li>
-                    <!-- Show Logout for Logged-in Users -->
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == logout_url %}active{% endif %}"
-                            href="{% url 'account_logout' %}">
-                            Logout
-                        </a>
-                    </li>
-                    {% else %}
-                    <!-- Register and Login Links for Guests -->
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == signup_url %}active{% endif %}"
-                            href="{% url 'account_signup' %}">
-                            Register
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == login_url %}active{% endif %}"
-                            href="{% url 'account_login' %}">
-                            Login
-                        </a>
-                    </li>
-                    {% endif %}
                 </ul>
                 <!-- Donate Button -->
                 <div class="navbar-text nav-link">
