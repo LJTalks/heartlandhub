@@ -35,19 +35,17 @@
 {% endblock seo_tags %}
 
 {% block content %}
-<div class="container masthead my-3 col-12">
-    <div class="row g-0">
-        <!-- Business name and category -->
-        <div class="col-md-6">
-            <h1 class="business-title">Submit a Business</h1>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
+{% if user.is_authenticated %}
+<h1>Submit a New Business</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% else %}
+<p>You must be logged in to submit a business. <a href="{% url 'account_login' %}">Log in</a> or <a
+        href="{% url 'account_signup' %}">Sign up</a>.</p>
+{% endif %}
 
 {% endblock content %}
 {% block extras %}

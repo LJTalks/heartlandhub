@@ -36,7 +36,12 @@ class Location(models.Model):
 
 
 # Business Details
-STATUS = ((0, "Draft"), (1, "Published"))
+STATUS = (
+    (0, "Draft"),
+    (1, "Published"),
+    (2, "Declined"),
+    (3, "Opted Out")
+)
 
 
 class Business(models.Model):
@@ -64,6 +69,13 @@ class Business(models.Model):
     added_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True,
         related_name="added_businesses")
+    business_owner = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name="owned_businesses",
+        help_text="The verified owner of the business, if claimed.")
+    is_claimed = models.BooleanField(
+        default=False,
+        help_text="Indicates if the business is claimed by its owner.")
     is_approved = models.BooleanField(default=False)
     status = models.IntegerField(choices=STATUS, default=0)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -82,6 +94,9 @@ class Business(models.Model):
 
     def __str__(self):
         return self.business_name
+
+    class Meta:
+        verbose_name_plural = "Businesses"
 
 
 class BusinessUpdate(models.Model):
@@ -104,4 +119,4 @@ class BusinessUpdate(models.Model):
         return f"Update for {self.business.business_name}"
 
     class Meta:
-        verbose_name_plural = "Businesses"
+        verbose_name_plural = "Business Updates"
