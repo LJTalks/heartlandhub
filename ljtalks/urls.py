@@ -21,6 +21,7 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
     path("blog/", include("blog.urls"), name="blog-urls"),
+    path("cancel/", views.donation_cancel, name="donation_cancel"),
     # General Contact URL (for all)
     path('contact/', views.contact_submit, name='contact'),  # form
     # Updated to point to business app
@@ -34,8 +35,10 @@ urlpatterns = [
     path('privacy/', TemplateView.as_view(
         template_name="ljtalks/privacy.html"), name='privacy_policy'),
     path('projects/', views.projects, name='projects'),
+    path("success/", views.donation_success, name="success"),
     path('terms/', TemplateView.as_view(
         template_name="ljtalks/terms.html"), name='terms_conditions'),
+    path("test-template/", views.test_template, name="test_template"),
     path('summernote/', include('django_summernote.urls')),
     path("", directory, name="home"),
 ]

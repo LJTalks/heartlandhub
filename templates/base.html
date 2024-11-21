@@ -137,9 +137,9 @@
                     {% endif %}
                 </ul>
                 <!-- Donate Button -->
-                <div class="navbar-text">
-                    <a href="{% url 'donate' %}" class="btn btn-primary ms-lg-3">
-                        Donate
+                <div class="navbar-text nav-link">
+                    <a href="{% url 'email_signup' %}?next={{ request.path }}">
+                        <span class="lead">Local Craft, Tradition, Community</span>
                     </a>
                 </div>
             </div>
@@ -172,7 +172,7 @@
         {% block content %}
         {% endblock content %}
 
-        <div class="subscribe-section text-center mt-4 p-4 bg-light">
+        <div class="subscribe-section text-center mt-4 p-4">
             {% if not request.path == '/emails/signup/' %}
             <h4>Want to stay updated?</h4>
             <p>Subscribe to receive email updates as this site and the community evolves and grows.</p>
