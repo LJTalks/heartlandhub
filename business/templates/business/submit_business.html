@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Submit a Business - Heartland Hub{% endblock title %}
+
+<!-- Meta tags -->
+
+{% block robots %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock robots %}
+
+{% block meta_description %}
+<meta name="description" content="{{ business.business_description|truncatechars_html:160|safe }}">
+{% endblock meta_description %}
+
+{% block seo_tags %}
+<meta name="keywords" content="local business, {{ business.business_name }}, community directory">
+<meta property="og:title" content="{{ business.business_name | safe }}">
+<meta property="og:description" content="{{ business.business_description|striptags|truncatechars_html:160|safe }}">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% if business.business_image %}
+<meta property="og:image" content="{{ business.business_image.url }}">
+{% else %}
+<meta property="og:image" content="{% static 'images/default_business_image.jpg' %}">
+{% endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ business.business_name | safe }}">
+<meta name="twitter:description" content="{{ business.business_description|striptags|truncatechars_html:160|safe }}">
+{% if business.business_image %}
+<meta name="twitter:image" content="{{ business.business_image.url }}">
+{% else %}
+<meta name="twitter:image" content="{% static 'images/default_business_image.jpg' %}">
+{% endif %}
+{% endblock seo_tags %}
+
+{% block content %}
+<div class="container masthead my-3 col-12">
+    <div class="row g-0">
+        <!-- Business name and category -->
+        <div class="col-md-6">
+            <h1 class="business-title">Submit a Business</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block extras %}
+{% endblock extras %}

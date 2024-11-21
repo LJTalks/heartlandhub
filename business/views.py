@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
-from .forms import BusinessSubmissionForm
-from .models import Business
+from .forms import BusinessSubmissionForm, BusinessUpdateForm
+from .models import BusinessUpdate, Business
 import os
 from django.db.models import Q  # allows for complex queries
 from .utils import obfuscate_email, obfuscate_phone
@@ -29,18 +29,38 @@ def business_detail(request, slug):
     )
 
 
-# For initial business submission form, to be automated later
 def submit_business(request):
     if request.method == 'POST':
         form = BusinessSubmissionForm(request.POST, request.FILES)
         if form.is_valid():
             business = form.save(commit=False)
             business.is_approved = False
+            business.added_by = request.user
             business.save()
-            return redirect('thank_you')  # Replace with your thank you page
+            return redirect('thank_you')  # Thank you page after submission
     else:
         form = BusinessSubmissionForm()
-    return render(request, 'submit_business.html', {'form': form})
+    return render(request, 'business/submit_business.html', {'form': form})
+
+
+def update_business(request, slug):
+    business = get_object_or_404(Business, slug=slug)
+    if request.method == 'POST':
+        form = BusinessUpdateForm(
+            request.POST, request.FILES, instance=business)
+        if form.is_valid():
+            update_data = form.cleaned_data
+            BusinessUpdate.objects.create(
+                business=business,
+                updated_by=request.user,
+                updated_data=update_data,
+                is_reviewed=False,
+            )
+            return redirect('thank_you')  # Thank you page for updates
+    else:
+        form = BusinessUpdateForm(instance=business)
+    return render(request, 'business/update_business.html', {
+        'form': form, 'business': business})
 
 
 # Business results page

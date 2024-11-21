@@ -76,10 +76,6 @@ def donation_page(request):
     )
 
 
-def test_template(request):
-    return render(request, "donation_success.html")
-
-
 def donation_success(request):
     return render(request, "donation_success.html", {
         "message": "Thank you for your generous donation!",
@@ -174,6 +170,7 @@ def legal_document_view(request, slug):
     return render(request, 'legal_document.html', {'document': document})
 
 
+# Check thjis isn't affecting latest post in about me. then delete
 # View to showcase previous projects
 def projects(request):
     projects = [
