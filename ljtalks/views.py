@@ -11,27 +11,35 @@ from django.contrib.sites.models import Site
 from .models import LegalDocument
 import stripe
 from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 current_site = Site.objects.get_current()
 
 
-# Donate View
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+# Donate View
+# Temporarily disable CSRF for testing; ensure CSRF tokens are sent in production.
 
+
+@csrf_exempt
 def donation_page(request):
     if request.method == "POST":
         try:
-            # Get the donation amount from the form in pounds
-            amount = request.POST.get('amount', None)
+            # Parse JSON data from the request body
+            data = json.loads(request.body)
+            amount = data.get('amount', None)
 
+            # Validate the amount
             if not amount or float(amount) < 0.5:
                 return JsonResponse({
                     'error': "The minimum donation amount is 50p. Please increase your amount."
                 })
 
-            # Convert the amount to pence
+            # Convert the amount to pence for Stripe
             amount_in_pence = int(float(amount) * 100)
 
             # Create a Stripe Checkout Session
@@ -48,20 +56,44 @@ def donation_page(request):
                     'quantity': 1,
                 }],
                 mode='payment',
-                success_url='https://yourdomain.com/success/',
-                cancel_url='https://yourdomain.com/cancel/',
+                # Replace with your actual success/cancel URLs
+                success_url=request.build_absolute_uri('/success/'),
+                cancel_url=request.build_absolute_uri('/cancel/')
             )
 
-            # Return the session ID to the frontend
+            # Return the session ID for the frontend to redirect
             return JsonResponse({'id': session.id})
+
         except Exception as e:
+            # Handle exceptions gracefully
             return JsonResponse({'error': str(e)})
 
+    # Render the donation page template
     return render(
         request, "donation.html", {
             "stripe_public_key": settings.STRIPE_PUBLIC_KEY
         }
     )
+
+
+def test_template(request):
+    return render(request, "donation_success.html")
+
+
+def donation_success(request):
+    return render(request, "donation_success.html", {
+        "message": "Thank you for your generous donation!",
+        "link": "/",
+        "link_text": "Back to Home"
+    })
+
+
+def donation_cancel(request):
+    return render(request, "donation_cancel.html", {
+        "message": "Your donation was cancelled. If this was a mistake, please try again.",
+        "link": "/donate/",
+        "link_text": "Try Again"
+    })
 
 
 # About Us View
