@@ -36,19 +36,20 @@ class Location(models.Model):
 
 
 # Business Details
-STATUS = (
-    (0, "Draft"),
-    (1, "Published"),
-    (2, "Declined"),
-    (3, "Opted Out")
-)
-
-
 class Business(models.Model):
     """
     This model represents a business listing.
     Each business can choose a pre-defined service area or add a custom one.
     """
+    STATUS = (
+        (0, "Draft"),
+        (1, "Published"),
+        (2, "Declined"),
+        (3, "Opted Out")
+    )
+
+    status = models.IntegerField(choices=STATUS, default=0)
+
     business_name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     business_description = models.TextField(blank=True, null=True)
@@ -65,7 +66,7 @@ class Business(models.Model):
     location = models.CharField(
         max_length=255, blank=True, null=True)  # Free text
     service_area = models.CharField(
-        max_length=255, blank=True, null=True)  # Free text
+        max_length=255, blank=True, null=True, help_text="Specify the areas this business serves (e.g., towns, cities, or regions).")
     added_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True,
         related_name="added_businesses")
@@ -76,10 +77,12 @@ class Business(models.Model):
     is_claimed = models.BooleanField(
         default=False,
         help_text="Indicates if the business is claimed by its owner.")
-    is_approved = models.BooleanField(default=False)
-    status = models.IntegerField(choices=STATUS, default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
+
+    def get_status_display(self):
+        """Return the human-readable text for the status."""
+        return dict(self.STATUS).get(self.status, "Unknown")
 
     def save(self, *args, **kwargs):
         if not self.slug:

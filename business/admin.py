@@ -6,8 +6,8 @@ from .models import (Business, BusinessCategory, Location,
 
 class BusinessAdmin(SummernoteModelAdmin):
     list_display = ('business_name', 'added_by', 'business_owner',
-                    'service_area', 'is_approved', 'is_claimed', 'date_added')
-    list_filter = ('is_approved', 'is_claimed', 'business_category')
+                    'service_area', 'status', 'is_claimed', 'date_added')
+    list_filter = ('status', 'is_claimed', 'business_category')
     search_fields = (
         'business_name', 'business_owner__username', 'added_by__username')
     actions = ['approve_businesses', 'mark_as_claimed']
@@ -27,14 +27,15 @@ class BusinessAdmin(SummernoteModelAdmin):
             'fields': ('contact_email', 'contact_phone', 'website')
         }),
         ('Other Information', {
-            'fields': ('is_approved', 'status', 'business_category',
+            'fields': ('status', 'business_category',
                        'added_by', 'is_claimed', 'business_owner')
         }),
     )
 
+    # TODO need to set this to status 1
     def approve_businesses(self, request, queryset):
-        queryset.update(is_approved=True)
-    approve_businesses.short_description = "Approve selected businesses"
+        queryset.update(status=1)
+    approve_businesses.short_description = "Publish selected businesses"
 
     def mark_as_claimed(self, request, queryset):
         queryset.update(is_claimed=True)

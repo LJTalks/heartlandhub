@@ -34,22 +34,42 @@
 {% block content %}
 
 
+<!-- Add Business Button for Logged-In Users -->
+{% if user.is_authenticated %}
+<div class="mb-3">
+    <a href="{% url 'business:submit_business' %}" class="btn btn-success">
+        Add a Business
+    </a>
+</div>
+{% endif %}
+
 <!-- Listings -->
 <div class="container-fluid my-3 col-12">
     <h2 class="text-center">Business Directory</h2>
     <div class="row">
         <p>Welcome to our community-driven business directory. Discover local businesses, artisans, and skilled
             practitioners in your area.</p>
+    </div>
+    <div class="row">
         <!-- Business Card Template -->
         {% for business in businesses %}
         <div class="col-md-4 mb-4">
-            <div class="card">
+            <div class="card h-100">
                 <img src="{% if business.business_image %}{{ business.business_image.url }}{% else %}{% static 'images/default_business_image.jpg' %}{% endif %}"
                     class="card-img-top" alt="{{ business.business_name }}" style="height: 200px; object-fit: cover;">
+                {% if edit_mode %}
+                <!-- Show status for edit mode -->
+                <p>
+                    {% if business.status != 1 %}
+                    Status:
+                    <span class="badge bg-warning text-dark">{{ business.get_status_display }}</span>
+                    {% endif %}
+                </p>
+                {% endif %}
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ business.business_name }}</h5>
                     <p class="card-text">{{ business.business_description|truncatechars_html:150|safe }}</p>
-                    <a href="{% url 'business_detail' business.slug %}" class="btn visit-site-button">View
+                    <a href="{% url 'business:business_detail' business.slug %}" class="btn visit-site-button">View
                         Details</a>
                 </div>
             </div>

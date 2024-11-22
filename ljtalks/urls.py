@@ -19,11 +19,14 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
     path("blog/", include("blog.urls"), name="blog-urls"),
+    path('business/', include(
+        ('business.urls', 'business'), namespace='business')),
     path("cancel/", views.donation_cancel, name="donation_cancel"),
     # General Contact URL (for all)
     path('contact/', views.contact_submit, name='contact'),  # form
     # Updated to point to business app
-    path('directory/', include('business.urls')),
+    # path('directory/', include(
+    #     ('business.urls', 'directory'), namespace='directory')),
     # path('disclaimer/', TemplateView.as_view(
     #     template_name="ljtalks/disclaimer.html"), name='disclaimer'),
     path("donate/", views.donation_page, name="donate"),

@@ -93,11 +93,26 @@
                 <hr>
                 <h4>Service Area / Geographical Availability</h4>
                 {% if business.service_area == "Remote" %}
-                <p>This business operates remotely and is available online or for delivery nationwide.</p>
+                    <p>This business operates remotely and is available online or for delivery nationwide.</p>
                 {% elif business.service_area == "Various" %}
-                <p>This business serves various locations, including markets or events.</p>
+                    <p>This business serves various locations, including markets or events.</p>
                 {% else %}
-                <p>This business serves the following areas: {{ business.service_area }}.</p>
+                    <p>This business serves the following areas: {{ business.service_area }}.</p>
+                {% endif %}
+            </div>
+            <div>
+                {% if user.is_authenticated %}
+                    {% if business.added_by == user %}
+                        <a href="{% url 'business:update_business' business.slug %}" class="btn btn-primary">
+                            Update Listing
+                        </a>
+                    {% elif business.is_claimed %}
+                        {% if business.business_owner == user %}
+                            <a href="{% url 'business:update_business' business.slug %}" class="btn btn-primary">
+                                Update Listing
+                            </a>
+                        {% endif %}
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

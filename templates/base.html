@@ -147,8 +147,21 @@
                             User
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <!-- Show Logout for Logged-in Users -->
+                            <!-- Show conditionals for Logged-in Users -->
                             {% if request.user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'business:submit_business' %}">
+                                    Add a Business
+                                </a>
+                            </li>
+                            {% if request.user.added_businesses.exists or request.user.owned_businesses.exists %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == edit_listings_url %}active{% endif %}"
+                                    href="{% url 'business:edit_listings' %}">
+                                    Edit Your Listings
+                                </a>
+                            </li>
+                            {% endif %}
                             <li class="nav-item">
                                 <a class="nav-link {% if request.path == logout_url %}active{% endif %}"
                                     href="{% url 'account_logout' %}">
@@ -173,7 +186,6 @@
                         </ul>
                     </li>
                 </ul>
-                <!-- Donate Button -->
                 <div class="navbar-text nav-link">
                     <a href="{% url 'email_signup' %}?next={{ request.path }}">
                         <span class="lead">Local Craft, Tradition, Community</span>
