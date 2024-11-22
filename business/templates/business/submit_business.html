@@ -11,11 +11,11 @@
 {% endblock robots %}
 
 {% block meta_description %}
-<meta name="description" content="{{ business.business_description|truncatechars_html:160|safe }}">
+<meta name="description" content="Submit your business to the Heartland Hub directory.">
 {% endblock meta_description %}
 
 {% block seo_tags %}
-<meta name="keywords" content="local business, {{ business.business_name }}, community directory">
+<meta name="keywords" content="submit business, add business, local business, community directory">
 <meta property="og:title" content="{{ business.business_name | safe }}">
 <meta property="og:description" content="{{ business.business_description|striptags|truncatechars_html:160|safe }}">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
@@ -36,10 +36,11 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1>Submit a New Business</h1>
+<h1>Submit a Business</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% else %}
