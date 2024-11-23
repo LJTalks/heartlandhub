@@ -1,5 +1,6 @@
 from django import forms
 from .models import Business, BusinessUpdate, BusinessCategory
+from django.utils.html import strip_tags
 
 
 class BusinessSubmissionForm(forms.ModelForm):
@@ -61,7 +62,8 @@ class BusinessUpdateForm(forms.ModelForm):
 
         widgets = {
             'business_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'business_description': forms.Textarea(attrs={'class': 'form-control'}),
+            # Fixed syntax error
+            'business_description': forms.Textarea(attrs={'rows': 5, 'cols': 40, 'class': 'form-control'}),
             'business_image': forms.FileInput(attrs={'class': 'form-control'}),
             'alt_text': forms.TextInput(attrs={'class': 'form-control'}),
             'contact_email': forms.EmailInput(attrs={'class': 'form-control'}),
