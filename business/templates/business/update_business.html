@@ -40,9 +40,17 @@
 {% if user.is_authenticated %}
 <h1>Update Your Business</h1>
 <p>Make changes to your business information below:</p>
+
+<!-- Show current description -->
+<h3>Current Business Description:</h3>
+<p>{{ business.business_description|safe }}</p>
+
+<!-- editable form -->
+<h3>Update Business Description:</h3>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+    <p><small>Your updates will be reviewed before publication.</small></p>
 
     <button type="submit" class="btn btn-primary">Submit Updates</button>
 </form>
