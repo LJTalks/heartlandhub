@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from django.utils.text import slugify
+from django.utils.html import strip_tags
 
 
 # Business category type (update in admin field)
@@ -113,6 +114,8 @@ class BusinessUpdate(models.Model):
 
     def apply_update(self):
         for field, value in self.updated_data.items():
+            if field == 'business_description':
+                value = strip_tags(value)
             setattr(self.business, field, value)
         self.business.save()
         self.is_reviewed = True

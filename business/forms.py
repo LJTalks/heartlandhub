@@ -63,7 +63,9 @@ class BusinessUpdateForm(forms.ModelForm):
         widgets = {
             'business_name': forms.TextInput(attrs={'class': 'form-control'}),
             # Fixed syntax error
-            'business_description': forms.Textarea(attrs={'rows': 5, 'cols': 40, 'class': 'form-control'}),
+            'business_description': forms.Textarea(
+                attrs={'rows': 5, 'cols': 40, 'class': 'form-control'}
+            ),
             'business_image': forms.FileInput(attrs={'class': 'form-control'}),
             'alt_text': forms.TextInput(attrs={'class': 'form-control'}),
             'contact_email': forms.EmailInput(attrs={'class': 'form-control'}),
@@ -76,3 +78,16 @@ class BusinessUpdateForm(forms.ModelForm):
         help_texts = {
             'service_area': 'Specify the areas this business serves (e.g., towns, cities, or regions).',
         }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            # Strip HTML tags from the initial value of business_description
+            if self.instance and self.instance.business_description:
+                self.fields['business_description'].initial = strip_tags(
+                    self.instance.business_description
+                )
+
+        def clean_business_description(self):
+            # Ensure user input is sanitized
+            description = self.cleaned_data.get('business_description', '')
+            return strip_tags(description)
