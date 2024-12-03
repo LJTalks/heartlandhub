@@ -81,13 +81,13 @@ class BusinessUpdateForm(forms.ModelForm):
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
-            # Strip HTML tags from the initial value of business_description
+            # Explicitly set plain text as initial value for 'business_description'
             if self.instance and self.instance.business_description:
                 self.fields['business_description'].initial = strip_tags(
                     self.instance.business_description
                 )
 
-        def clean_business_description(self):
-            # Ensure user input is sanitized
-            description = self.cleaned_data.get('business_description', '')
-            return strip_tags(description)
+    def clean_business_description(self):
+        # Ensure user edits are sanitized before saving
+        description = self.cleaned_data.get('business_description', '')
+        return strip_tags(description)
