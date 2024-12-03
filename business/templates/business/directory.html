@@ -40,6 +40,10 @@
     <a href="{% url 'business:submit_business' %}" class="btn btn-success">
         Add a Business
     </a>
+    {% else %}
+    <a href="{% url 'account_login' %}?next={% url 'business:submit_business' %}" class="btn btn-success">
+        Add a Business
+    </a>
 </div>
 {% endif %}
 

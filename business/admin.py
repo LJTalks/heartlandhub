@@ -11,6 +11,15 @@ class BusinessAdmin(SummernoteModelAdmin):
     search_fields = (
         'business_name', 'business_owner__username', 'added_by__username')
     actions = ['approve_businesses', 'mark_as_claimed']
+
+    def approve_businesses(self, request, queryset):
+        queryset.update(status=1)
+    approve_businesses.short_description = 'Publish selected businesses'
+
+    def mark_as_claimed(self, request, queryset):
+        queryset.update(is_claimed=True)
+    mark_as_claimed.short_description = "Mark selected businesses as claimed"
+
     prepopulated_fields = {'slug': ('business_name',)}
 #     # Enable Summernote for the description field
     summernote_fields = ('business_description',)
