@@ -26,7 +26,7 @@ def business_detail(request, slug):
         )
     else:
         # Only show approved businesses for unauthenticated users
-        queryset = Business.objects.fileter(status=1)
+        queryset = Business.objects.filter(status=1)
 
     business = get_object_or_404(queryset, slug=slug)
 
