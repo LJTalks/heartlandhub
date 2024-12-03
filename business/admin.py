@@ -59,7 +59,8 @@ class ServiceAreaAdmin(admin.ModelAdmin):
 
 # Business Update Admin
 class BusinessUpdateAdmin(admin.ModelAdmin):
-    list_display = ('business', 'updated_by', 'is_reviewed', 'date_submitted')
+    list_display = ('business', 'updated_by',
+                    'is_reviewed', 'date_submitted', )
     list_filter = ('is_reviewed',)
     search_fields = ('business__business_name', 'updated_by__username')
 
