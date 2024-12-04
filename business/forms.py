@@ -23,7 +23,10 @@ class BusinessSubmissionForm(forms.ModelForm):
         ]
 
         widgets = {
-            'website': forms.URLInput(attrs={'class': 'form-control'}),
+            'website': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'https://www.example.com'
+            }),
             'business_category': forms.Select(attrs={'class': 'form-control'}),
             'business_name': forms.TextInput(attrs={'class': 'form-control'}),
             'business_description': forms.Textarea(attrs={'class': 'form-control'}),
@@ -32,23 +35,29 @@ class BusinessSubmissionForm(forms.ModelForm):
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'service_area': forms.TextInput(attrs={'class': 'form-control'}),
         }
-
         help_texts = {
+            'website': 'Please enter a full URL, including "http://" or "https://".',
             'service_area': 'Specify the areas this business serves (e.g., towns, cities, or regions).',
         }
 
-        def clean(self):
-            cleaned_data = super().clean()
-            new_category = cleaned_data.get('new_business_category')
-            business_category = cleaned_data.get('business_category')
+    def clean_website(self):
+        website = self.cleaned_data.get('website')
+        if website and not website.startswith(('http://', 'https://')):
+            website = 'http://' + website
+        return website
 
-            # If the user provided a new category, add it to the database
-            if new_category and not business_category:
-                category, created = BusinessCategory.objects.get_or_create(
-                    name=new_category)
-                cleaned_data['business_category'] = category
+    def clean(self):
+        cleaned_data = super().clean()
+        new_category = cleaned_data.get('new_business_category')
+        business_category = cleaned_data.get('business_category')
 
-            return cleaned_data
+        # If the user provided a new category, add it to the database
+        if new_category and not business_category:
+            category, created = BusinessCategory.objects.get_or_create(
+                name=new_category)
+            cleaned_data['business_category'] = category
+
+        return cleaned_data
 
 
 class BusinessUpdateForm(forms.ModelForm):
