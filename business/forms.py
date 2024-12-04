@@ -42,8 +42,19 @@ class BusinessSubmissionForm(forms.ModelForm):
 
     def clean_website(self):
         website = self.cleaned_data.get('website')
-        if website and not website.startswith(('http://', 'https://')):
-            website = 'http://' + website
+        if website:
+            # If the website doesn't start with 'http://' or 'https://', add 'http://'
+            if not website.startswith(('http://', 'https://')):
+                website = 'http://' + website
+            # Validate the URL format to ensure it's valid
+            from django.core.validators import URLValidator
+            from django.core.exceptions import ValidationError
+
+            validate = URLValidator()
+            try:
+                validate(website)
+            except ValidationError:
+                raise forms.ValidationError("Please enter a valid URL.")
         return website
 
     def clean(self):
