@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from cloudinary import CloudinaryResource
+from django.utils.html import strip_tags
 
 
 # Main business detail view
@@ -110,9 +111,14 @@ def update_business(request, slug):
         # Pre-fill the form with the current business data
         form = BusinessUpdateForm(instance=business)
 
+    # Sanitize current description before rendering
+    current_description = strip_tags(business.business_description)
+
     return render(request, 'business/update_business.html', {
         'form': form,
         'business': business,
+        # Pass sanitized description
+        'current_description': current_description,
     })
 
 

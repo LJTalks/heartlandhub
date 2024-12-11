@@ -18,7 +18,7 @@
 <meta name="keywords" content="update business, edit business, local business, community directory">
 {% if business %}
 <meta property="og:title" content="Update Business: {{ business.business_name | safe }}">
-<meta property="og:description" content="{{ business.business_description|striptags|truncatechars_html:160|safe }}">
+<meta property="og:description" content="{{ business.business_description|striptags|truncatechars_html:160 }}">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
 {% if business.business_image %}
 <meta property="og:image" content="{{ business.business_image.url }}">
@@ -41,15 +41,40 @@
 <h1>Update Your Business</h1>
 <p>Make changes to your business information below:</p>
 
-<!-- Show current description -->
+<!-- Non-editable current description -->
 <h3>Current Business Description:</h3>
-<p>{{ business.business_description|safe }}</p>
+<div class="current-description-preview">
+    <p>{{ current_description }}</p> <!-- Sanitized description -->
+</div>
 
 <!-- editable form -->
 <h3>Update Business Description:</h3>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div class="form-group">
+        <label for="id_business_name">Business name:</label>
+        {{ form.business_name }}
+    </div>
+    <div class="form-group">
+        <label for="id_business_description">Update business description:</label>
+        {{ form.business_description }}
+    </div>
+    <div class="form-group">
+        <label for="id_business_image">Image:</label>
+        {{ form.business_image }}
+    </div>
+    <div class="form-group">
+        <label for="id_alt_text">Alt text:</label>
+        {{ form.alt_text }}
+    </div>
+    <div class="form-group">
+        <label for="id_contact_email">Contact email:</label>
+        {{ form.contact_email }}
+    </div>
+    <div class="form-group">
+        <label for="id_contact_phone">Contact phone:</label>
+        {{ form.contact_phone }}
+    </div>
     <p><small>Your updates will be reviewed before publication.</small></p>
 
     <button type="submit" class="btn btn-primary">Submit Updates</button>
