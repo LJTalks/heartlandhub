@@ -104,8 +104,7 @@ class BusinessUpdateForm(forms.ModelForm):
             # Explicitly set plain text as initial value for 'business_description'
             if self.instance and self.instance.business_description:
                 self.fields['business_description'].initial = strip_tags(
-                    self.instance.business_description
-                )
+                    self.instance.business_description)
 
     def clean_business_description(self):
         # Ensure user edits are sanitized before saving
