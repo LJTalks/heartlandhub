@@ -20,4 +20,4 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         return super().login(request, *args, **kwargs)
 
     def get_email_confirmation_subject(self, confirmation):
-        return "LJ Talks: Please Confirm Your Email Address"
+        return "Heartland Hub: Please Confirm Your Email Address"

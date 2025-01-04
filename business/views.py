@@ -138,9 +138,9 @@ def edit_listings(request):
 
 # Business results page
 def directory(request):
-    # Get all approved businesses
+    # Get all approved businesses ordered by oldest first
     businesses = Business.objects.filter(
-        status=1).order_by('-date_added')
+        status=1).order_by('date_added')
     paginator = Paginator(businesses, 6)  # Show 6 businesses per page
     page_number = request.GET.get('page')
     # TODO seems like a dupe, check what happens when we have more than 6 listings
